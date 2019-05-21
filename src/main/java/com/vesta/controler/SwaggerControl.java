@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class SwaggerControl {
 
-    @RequestMapping("/")
+    @RequestMapping("/api/v1")
     public @ResponseBody
     String greeting() {
         return "Some text";
