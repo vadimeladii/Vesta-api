@@ -1,25 +1,25 @@
-drop table vesta_schema.user;
-drop table vesta_schema.user_role;
-drop table vesta_schema.role;
+DROP TABLE vesta_schema.user;
+DROP TABLE vesta_schema.user_role;
+DROP TABLE vesta_schema.role;
 
-create table vesta_schema.user(
-    id serial primary key,
-    name varchar (50) UNIQUE not null ,
-    lastname varchar (50) unique  not null ,
-    password varchar (50) not null,
-    email varchar (100) unique not null,
-    created_on timestamp not null,
-    last_login timestamp
+CREATE TABLE vesta_schema.user(
+    id serial PRIMARY KEY,
+    first_name VARCHAR (50) NOT NULL ,
+    last_name VARCHAR (50) NOT NULL ,
+    password VARCHAR (50) NOT NULL,
+    email VARCHAR (100) UNIQUE NOT NULL,
+    created_on TIMESTAMP NOT NULL,
+    last_login TIMESTAMP
     );
 
-create table vesta_schema.role(
-    id serial primary key,
-    name varchar (100) unique not null
+CREATE TABLE vesta_schema.role(
+    id serial PRIMARY KEY,
+    name VARCHAR (100) UNIQUE NOT NULL
 );
 
-create table user_role(
-    user_id integer NOT NULL,
-    role_id integer NOT NULL,
+CREATE TABLE user_role(
+    user_id INTEGER NOT NULL,
+    role_id INTEGER NOT NULL,
     PRIMARY KEY (user_id, role_id),
     CONSTRAINT user_role_role_id_fkey FOREIGN KEY (role_id)
         REFERENCES role (id) MATCH SIMPLE
