@@ -21,10 +21,10 @@ public class SwaggerConfig {
                 .paths(PathSelectors.any())
                 .build();
     }
-//    private ApiInfo apiEndPointsInfo() {
-//
-//        return new ApiInfoBuilder().title("Spring Boot REST API")
-//                .description("Office Management Tool REST API")
-//                .build();
-//    }
+    private ApiInfo apiEndPointsInfo() {
+
+        return new ApiInfoBuilder().title("Spring Boot REST API")
+                .description("Office Management Tool REST API")
+                .build();
+    }
 }
