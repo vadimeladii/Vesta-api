@@ -1,16 +1,15 @@
 package com.vesta.controler;
 
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
+@RequestMapping("/api/v1")
 public class SwaggerControl {
 
-    @RequestMapping("/api/v1")
-    public @ResponseBody
-    String greeting() {
+    @GetMapping
+    public String greeting() {
         return "Some text";
     }
-
 }
