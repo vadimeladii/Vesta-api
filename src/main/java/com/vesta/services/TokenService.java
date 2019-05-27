@@ -1,14 +1,12 @@
 package com.vesta.services;
 
 import com.vesta.controller.view.Token;
-import com.vesta.repositry.AccountCredentials;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 
 import static com.vesta.config.security.SecurityConstants.*;
