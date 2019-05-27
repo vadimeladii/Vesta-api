@@ -1,0 +1,2 @@
+INSERT INTO users(id, first_name, last_name, password, email, created_on, last_login) VALUES(1, 'admin', 'admin', 'root', 'admin@gmail.com', now(), now());
+INSERT INTO users(id, first_name, last_name, password, email, created_on, last_login) VALUES(2, 'test', 'test', 'test', 'test@gmail.com', now(), now());
