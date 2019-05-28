@@ -17,6 +17,6 @@ public class UserService {
     private UserConverter userConverter;
 
     public UserDto getById(Long id) {
-        return userConverter.converter(userRepository.findById(id).orElseThrow(null));
+        return userConverter.converter(userRepository.findById(id).orElse(null));
     }
 }
