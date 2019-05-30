@@ -1,6 +1,12 @@
 package com.vesta.config.security;
 
-import antlr.StringUtils;
+import com.vesta.service.TokenService;
+import com.vesta.service.UserService;
+import com.vesta.service.converter.UserConverter;
+import com.vesta.service.dto.AuthentificationCredential;
+import com.vesta.service.dto.UserDto;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.*;
@@ -10,17 +16,36 @@ import java.io.IOException;
 @Component
 public class JWTFilter extends GenericFilter {
 
+    @Autowired
+    private TokenService tokenService;
+
+    @Autowired
+    private UserService userService;
+
+    public JWTFilter(TokenService tokenService) {
+
+        this.tokenService = tokenService;
+    }
+
     @Override
-    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        try {
-            HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
-            if (StringUtils.stripBack())
+    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
+            throws IOException, ServletException {
 
-            filterChain.doFilter(servletRequest, servletResponse);
+        String subject = tokenService.getSubject((HttpServletRequest) servletRequest);
+        UserDto userDto = userService.getByUsername(subject);
 
-        } catch (Exception e) {
-            e.printStackTrace();
+
+        SecurityContextHolder
+                .getContext()
+                .setAuthentication(converter(userDto));
+
+        filterChain.doFilter(servletRequest, servletResponse);
+    }
+
+    private AuthentificationCredential converter(UserDto userDto) {
+        if (userDto == null) {
+            return null;
         }
-
+        return new AuthentificationCredential(userDto, true, userDto.getUsername());
     }
 }

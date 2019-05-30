@@ -1,9 +1,9 @@
-package com.vesta.services;
+package com.vesta.service;
 
 import com.vesta.controller.view.Token;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,23 +20,18 @@ public class TokenService {
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .signWith(SignatureAlgorithm.HS512, JWT_SECRET)
                 .compact();
-        return new Token(JWT);
+        return new Token(TOKEN_PREFIX + JWT);
     }
 
-    public Authentication getAuthentication(HttpServletRequest request) {
+    public String getSubject(HttpServletRequest request) {
         String token = request.getHeader(TOKEN_HEADER);
 
         if (token != null) {
-            String username = Jwts.parser()
+            return Jwts.parser()
                     .setSigningKey(JWT_SECRET)
-                    .parseClaimsJws(token)
+                    .parseClaimsJws(token.replace(TOKEN_PREFIX, ""))
                     .getBody()
                     .getSubject();
-
-            if (username != null) // we managed to retrieve a user
-            {
-                return null; //new AuthenticatedUser(username);
-            }
         }
         return null;
     }
