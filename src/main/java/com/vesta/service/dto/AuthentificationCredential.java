@@ -20,7 +20,7 @@ public class AuthentificationCredential implements Authentication {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return userDto.getRoles()
                 .stream()
-                .map(role -> new SimpleGrantedAuthority(role))
+                .map(role -> new SimpleGrantedAuthority("ROLE_".concat(role)))
                 .collect(Collectors.toList());
     }
 
