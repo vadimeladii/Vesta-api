@@ -26,8 +26,8 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasRole('ROLE_user')")
-    public UserView getById(@PathVariable Long id){
+    @PreAuthorize("hasRole('ROLE_admin')")
+    public UserView getById(@PathVariable Long id) {
         SecurityContextHolder.getContext().getAuthentication();
         return userViewConverter.convert(userService.getById(id));
     }

@@ -2,7 +2,6 @@ package com.vesta.config.security;
 
 import com.vesta.service.TokenService;
 import com.vesta.service.UserService;
-import com.vesta.service.converter.UserConverter;
 import com.vesta.service.dto.AuthentificationCredential;
 import com.vesta.service.dto.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,11 +20,6 @@ public class JWTFilter extends GenericFilter {
 
     @Autowired
     private UserService userService;
-
-    public JWTFilter(TokenService tokenService) {
-
-        this.tokenService = tokenService;
-    }
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)

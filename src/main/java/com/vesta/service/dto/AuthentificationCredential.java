@@ -1,6 +1,5 @@
 package com.vesta.service.dto;
 
-import com.vesta.service.converter.UserConverter;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
