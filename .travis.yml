@@ -1,0 +1,37 @@
+sudo:
+  required
+
+services:
+  - docker
+
+language: java
+
+jdk:
+  - oraclejdk11
+
+install: ./mvnw clean install
+
+os:
+  - linux
+
+env:
+  global:
+    - COMMIT=${TRAVIS_COMMIT::7}
+
+branches:
+  only:
+    - master
+
+after_success:
+
+   #LOGIN
+  - docker login -u $D_USER -p $D_PASS
+
+   #TAG
+  - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
+
+   #VESTA-API
+  - export VESTA_API=vadimeladii7/vesta-api
+  - docker build -t $VESTA_API:$COMMIT ./
+  - docker tag $VESTA_API:$COMMIT $VESTA_API:$TAG
+  - docker push $VESTA_API
