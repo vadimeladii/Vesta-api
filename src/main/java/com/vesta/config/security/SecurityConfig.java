@@ -11,9 +11,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
 @EnableWebSecurity
@@ -24,6 +21,15 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
+    private static final String[] AUTH_WHITELIST = {
+            "/swagger-resources/",
+            "/swagger-ui.html",
+            "/v2/api-docs",
+            "/webjars/",
+            "/api/swagger.json"
+    };
+
+    @Autowired
     private JWTFilter jwtFilter;
 
     @Override
@@ -31,12 +37,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/user/login").permitAll()
-                .antMatchers("/v2/api-docs").permitAll()
-                .antMatchers("/swagger-resources/**").permitAll()
-                .antMatchers("/swagger-ui.html").permitAll()
-                .antMatchers("/configuration/**").permitAll()
-                .antMatchers("/webjars/**").permitAll()
-                .antMatchers("/public").permitAll()
+                .antMatchers(AUTH_WHITELIST).permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .cors().and()
@@ -48,14 +49,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
-
-    @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
-        final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
-
-        return source;
-    }
 }
 
 

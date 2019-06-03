@@ -2,8 +2,8 @@ package com.vesta.service;
 
 import com.vesta.controller.view.Token;
 import com.vesta.repository.UserRepository;
-import com.vesta.service.dto.AccountCredential;
 import com.vesta.service.converter.UserConverter;
+import com.vesta.service.dto.AccountCredential;
 import com.vesta.service.dto.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,7 +29,10 @@ public class UserService {
     }
 
     public Token login(AccountCredential accountCredential) {
-        if (userRepository.existsByUsernameAndPassword(accountCredential.getUsername(), accountCredential.getPassword()))
+        if (userRepository.existsByUsernameOrEmailAndPassword(
+                accountCredential.getUsername(),
+                accountCredential.getEmail(),
+                accountCredential.getPassword()))
             return tokenService.generatedToken(accountCredential.getUsername());
 
 

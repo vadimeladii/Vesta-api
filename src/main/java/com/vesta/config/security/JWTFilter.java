@@ -28,7 +28,6 @@ public class JWTFilter extends GenericFilter {
         String subject = tokenService.getSubject((HttpServletRequest) servletRequest);
         UserDto userDto = userService.getByUsername(subject);
 
-
         SecurityContextHolder
                 .getContext()
                 .setAuthentication(converter(userDto));
@@ -40,6 +39,6 @@ public class JWTFilter extends GenericFilter {
         if (userDto == null) {
             return null;
         }
-        return new AuthentificationCredential(userDto, true, userDto.getUsername());
+        return new AuthentificationCredential(userDto, true);
     }
 }

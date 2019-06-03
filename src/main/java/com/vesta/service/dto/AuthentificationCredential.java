@@ -13,7 +13,6 @@ public class AuthentificationCredential implements Authentication {
 
     private UserDto userDto;
     private boolean isAuthenticated;
-    private String name;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -50,6 +49,6 @@ public class AuthentificationCredential implements Authentication {
 
     @Override
     public String getName() {
-        return this.name;
+        return this.userDto.getUsername();
     }
 }
