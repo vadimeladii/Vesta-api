@@ -20,7 +20,7 @@ env:
 
 branches:
   only:
-    - master
+    - test
 
 after_success:
 
@@ -28,7 +28,7 @@ after_success:
   - docker login -u $D_USER -p $D_PASS
 
    #TAG
-  - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
+  - export TAG=`if [ "$TRAVIS_BRANCH" == "test" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
 
    #VESTA-API
   - export VESTA_API=vadimeladii7/vesta-api
