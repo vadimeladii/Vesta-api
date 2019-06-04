@@ -11,5 +11,6 @@ public class SecurityConstants {
     public static final String ACCESS_DESCRIPTION = "accessEverything";
     public static final String SWAGGER_HEADER_AS = "Header";
     public static final String GLOBAL_SCOPE = "global";
+    public static final String PATTERNS_PATH = "/**";
 }
 

@@ -60,9 +60,7 @@ public class SwaggerConfig {
     List<SecurityReference> defaultAuth() {
         AuthorizationScope authorizationScope
                 = new AuthorizationScope(GLOBAL_SCOPE, ACCESS_DESCRIPTION);
-        AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
-        authorizationScopes[0] = authorizationScope;
         return Collections.singletonList(
-                new SecurityReference(API_KEY_NAME, authorizationScopes));
+                new SecurityReference(API_KEY_NAME, new AuthorizationScope[]{authorizationScope}));
     }
 }
