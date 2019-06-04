@@ -12,16 +12,13 @@ import springfox.documentation.service.SecurityReference;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger.web.ApiKeyVehicle;
-import springfox.documentation.swagger.web.SecurityConfiguration;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import static com.vesta.config.security.SecurityConstants.TOKEN_HEADER;
+import static com.vesta.config.security.SecurityConstants.*;
 
 @Configuration
 @EnableSwagger2
@@ -33,7 +30,7 @@ public class SwaggerConfig {
                 .select()
                 .apis(RequestHandlerSelectors
                         .basePackage("com.vesta.controller"))
-                .paths(PathSelectors.regex("/.*"))
+                .paths(PathSelectors.regex(REGEX_PATH))
                 .build()
                 .apiInfo(apiEndPointsInfo())
                 .useDefaultResponseMessages(false)
@@ -50,22 +47,22 @@ public class SwaggerConfig {
     }
 
     private ApiKey apiKey() {
-        return new ApiKey("JWT", TOKEN_HEADER, "header");
+        return new ApiKey(API_KEY_NAME, TOKEN_HEADER, SWAGGER_HEADER_AS);
     }
 
     private SecurityContext securityContext() {
         return SecurityContext.builder()
                 .securityReferences(defaultAuth())
-                .forPaths(PathSelectors.regex("/.*"))
+                .forPaths(PathSelectors.regex(REGEX_PATH))
                 .build();
     }
 
     List<SecurityReference> defaultAuth() {
         AuthorizationScope authorizationScope
-                = new AuthorizationScope("global", "accessEverything");
+                = new AuthorizationScope(GLOBAL_SCOPE, ACCESS_DESCRIPTION);
         AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
         authorizationScopes[0] = authorizationScope;
         return Collections.singletonList(
-                new SecurityReference("JWT", authorizationScopes));
+                new SecurityReference(API_KEY_NAME, authorizationScopes));
     }
 }
