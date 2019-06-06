@@ -1,22 +1,63 @@
 
-package com.vesta.service;
+package com.vesta.service.impl;
 
+import com.vesta.controler.view.UserView;
 import com.vesta.repository.UserRepository;
+import com.vesta.repository.entity.UserEntity;
+import com.vesta.service.UserService;
 import com.vesta.service.converter.UserConverter;
 import com.vesta.service.dto.UserDto;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
-public class UserServiceImpl {
+@RequiredArgsConstructor
+public class UserServiceImpl implements UserService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    @Autowired
-    private UserConverter userConverter;
+    private final UserConverter userConverter;
 
+    @Override
     public UserDto getById(Long id) {
-        return userConverter.converter(userRepository.findById(id).orElse(null));
+        return userConverter.convert(userRepository.findById(id).orElse(null));
     }
+
+    @Override
+    public List<UserDto> findAll() {
+        return userRepository.findAll()
+                .stream()
+                .map(userConverter::convert)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public void create(UserDto userDto) {
+        userRepository.save(userConverter.deconvert(userDto));
+    }
+
+    @Override
+    public UserDto update(Long id, UserDto userDto) {
+        UserEntity userEntity = userRepository.findById(id).orElse(null);
+        if(userEntity == null){
+            return null;
+        }
+
+        UserEntity userUpdated = userConverter.deconvert(userDto);
+        userEntity.setFirstName(userUpdated.getFirstName());
+        userEntity.setLastName(userUpdated.getLastName());
+        userEntity.setPassword(userUpdated.getPassword());
+        userEntity.setUsername(userUpdated.getUsername());
+        userEntity.setEmail(userUpdated.getEmail());
+        return userConverter.convert(userRepository.save(userEntity));
+    }
+
+    @Override
+    public void delete(Long id) {
+        userRepository.deleteById(id);
+    }
+
 }

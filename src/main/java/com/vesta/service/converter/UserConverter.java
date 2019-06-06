@@ -2,19 +2,35 @@ package com.vesta.service.converter;
 
 import com.vesta.repository.entity.UserEntity;
 import com.vesta.service.dto.UserDto;
+import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
 @Component
-public class UserConverter {
+public class UserConverter implements Converter<UserEntity, UserDto> {
 
-    public UserDto converter(UserEntity entity) {
-        if(entity == null) return null;
+    @Override
+    public UserDto convert(UserEntity entity) {
+        if (entity == null) return null;
         UserDto dto = new UserDto();
+        dto.setFirstName(entity.getFirstName());
+        dto.setLastName(entity.getLastName());
         dto.setId(entity.getId());
         dto.setUsername(entity.getUsername());
         dto.setEmail(entity.getEmail());
         dto.setPassword(entity.getPassword());
 
         return dto;
+    }
+
+    public UserEntity deconvert(UserDto userDto) {
+        if (userDto == null) return null;
+        UserEntity userEntity = new UserEntity();
+        userEntity.setFirstName(userDto.getFirstName());
+        userEntity.setLastName(userDto.getLastName());
+        userEntity.setUsername(userDto.getUsername());
+        userEntity.setPassword(userDto.getPassword());
+        userEntity.setEmail(userDto.getEmail());
+
+        return userEntity;
     }
 }
