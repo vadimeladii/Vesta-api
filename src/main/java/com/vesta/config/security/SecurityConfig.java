@@ -3,7 +3,6 @@ package com.vesta.config.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -11,6 +10,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import static com.vesta.config.security.SecurityConstants.PATTERNS_PATH;
 
 @Configuration
 @EnableWebSecurity
@@ -20,14 +21,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    private static final String[] AUTH_WHITELIST = {
-            "/swagger-resources/",
-            "/swagger-ui.html",
-            "/v2/api-docs",
-            "/webjars/",
-            "/api/swagger.json"
-    };
 
     @Autowired
     private JWTFilter jwtFilter;
@@ -36,19 +29,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/user/login").permitAll()
-                .antMatchers(AUTH_WHITELIST).permitAll()
+                .antMatchers(PATTERNS_PATH).permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .cors().and()
                 .csrf().disable()
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
     }
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
 }
-
-
