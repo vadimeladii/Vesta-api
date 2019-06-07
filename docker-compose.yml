@@ -10,7 +10,7 @@ services:
     spring_boot:
         image: vadimeladii7/vesta-api:latest
         ports:
-            - "8080:8080"
+            - "8081:8080"
         links:
             - db
         depends_on:
