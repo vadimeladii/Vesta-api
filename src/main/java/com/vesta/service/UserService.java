@@ -35,7 +35,6 @@ public class UserService {
                 accountCredential.getPassword()))
             return tokenService.generatedToken(accountCredential.getUsername());
 
-
         return null;
     }
 }

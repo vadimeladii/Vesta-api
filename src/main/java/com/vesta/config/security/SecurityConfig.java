@@ -19,9 +19,7 @@ import static com.vesta.config.security.SecurityConstants.PATTERNS_PATH;
 @EnableGlobalMethodSecurity(
         prePostEnabled = true
 )
-
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-
 
     @Autowired
     private JWTFilter jwtFilter;
