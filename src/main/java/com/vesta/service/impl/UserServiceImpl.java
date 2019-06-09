@@ -1,11 +1,12 @@
 
 package com.vesta.service.impl;
 
-import com.vesta.controler.view.UserView;
+import com.vesta.controller.view.Token;
 import com.vesta.repository.UserRepository;
 import com.vesta.repository.entity.UserEntity;
 import com.vesta.service.UserService;
 import com.vesta.service.converter.UserConverter;
+import com.vesta.service.dto.AccountCredential;
 import com.vesta.service.dto.UserDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,8 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
 
     private final UserConverter userConverter;
+
+    private final TokenServiceImpl tokenService;
 
     @Override
     public UserDto getById(Long id) {
@@ -58,6 +61,20 @@ public class UserServiceImpl implements UserService {
     @Override
     public void delete(Long id) {
         userRepository.deleteById(id);
+    }
+
+    public UserDto getByUsername(String username) {
+        return userConverter.convert(userRepository.findByUsername(username).orElse(null));
+    }
+
+    public Token login(AccountCredential accountCredential) {
+        if (userRepository.existsByUsernameOrEmailAndPassword(
+                accountCredential.getUsername(),
+                accountCredential.getEmail(),
+                accountCredential.getPassword()))
+            return tokenService.generatedToken(accountCredential.getUsername());
+
+        return null;
     }
 
 }
