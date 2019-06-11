@@ -12,10 +12,25 @@ public class UserViewConverter implements Converter<UserDto, UserView> {
     public UserView convert(UserDto dto) {
         if (dto == null) return null;
         UserView view = new UserView();
+        view.setId(dto.getId());
+        view.setFirstName(dto.getFirstName());
+        view.setLastName(dto.getLastName());
         view.setUsername(dto.getUsername());
         view.setEmail(dto.getEmail());
         view.setPassword(dto.getPassword());
-        view.setRoles(dto.getRoles());
+
         return view;
+    }
+
+    public UserDto deconvert(UserView view){
+        if (view == null) return null;
+        UserDto dto = new UserDto();
+        dto.setFirstName(view.getFirstName());
+        dto.setLastName(view.getLastName());
+        dto.setUsername(view.getUsername());
+        dto.setPassword(view.getPassword());
+        dto.setEmail(view.getEmail());
+
+        return dto;
     }
 }

@@ -9,7 +9,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@EnableAutoConfiguration(exclude= FlywayAutoConfiguration.class)
+@EnableAutoConfiguration(exclude = FlywayAutoConfiguration.class)
 public class VestaApiApplicationTests {
 
     @Test
