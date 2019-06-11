@@ -1,5 +1,6 @@
 package com.vesta.config.swagger;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -24,9 +25,13 @@ import static com.vesta.config.security.SecurityConstants.*;
 @EnableSwagger2
 public class SwaggerConfig {
 
+    @Value("${swagger.host}")
+    private String host;
+
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
+                .host(host)
                 .select()
                 .apis(RequestHandlerSelectors
                         .basePackage("com.vesta.controller"))
