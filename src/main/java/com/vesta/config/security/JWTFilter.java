@@ -1,6 +1,6 @@
 package com.vesta.config.security;
 
-import com.vesta.service.TokenService;
+import com.vesta.service.impl.TokenServiceImpl;
 import com.vesta.service.UserService;
 import com.vesta.service.dto.AuthentificationCredential;
 import com.vesta.service.dto.UserDto;
@@ -16,7 +16,7 @@ import java.io.IOException;
 public class JWTFilter extends GenericFilter {
 
     @Autowired
-    private TokenService tokenService;
+    private TokenServiceImpl tokenService;
 
     @Autowired
     private UserService userService;

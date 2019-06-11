@@ -7,6 +7,8 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
+import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface UserRepository extends JpaRepository<UserEntity, Long> {
@@ -18,4 +20,10 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
     boolean existsByUsernameOrEmailAndPassword(@Param("username") String username,
                                                @Param("email") String email,
                                                @Param("password") String password);
+    Optional<UserEntity> findById(Long id);
+
+    List<UserEntity> findAll();
+
+    void deleteById(Long id);
+
 }

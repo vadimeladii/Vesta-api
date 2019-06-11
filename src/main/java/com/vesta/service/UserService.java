@@ -1,40 +1,24 @@
 package com.vesta.service;
 
 import com.vesta.controller.view.Token;
-import com.vesta.repository.UserRepository;
-import com.vesta.service.converter.UserConverter;
 import com.vesta.service.dto.AccountCredential;
 import com.vesta.service.dto.UserDto;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
-@Service
-public class UserService {
+import java.util.List;
 
-    @Autowired
-    private UserRepository userRepository;
+public interface UserService {
 
-    @Autowired
-    private UserConverter userConverter;
+    UserDto getById(Long id);
 
-    @Autowired
-    private TokenService tokenService;
+    List<UserDto> findAll();
 
-    public UserDto getById(Long id) {
-        return userConverter.convert(userRepository.findById(id).orElse(null));
-    }
+    void create(UserDto userDto);
 
-    public UserDto getByUsername(String username) {
-        return userConverter.convert(userRepository.findByUsername(username).orElse(null));
-    }
+    UserDto update(Long id, UserDto userDto);
 
-    public Token login(AccountCredential accountCredential) {
-        if (userRepository.existsByUsernameOrEmailAndPassword(
-                accountCredential.getUsername(),
-                accountCredential.getEmail(),
-                accountCredential.getPassword()))
-            return tokenService.generatedToken(accountCredential.getUsername());
+    void delete (Long id);
 
-        return null;
-    }
+    UserDto getByUsername(String username);
+
+    Token login(AccountCredential accountCredential);
 }

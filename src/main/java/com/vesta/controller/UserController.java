@@ -1,32 +1,32 @@
 package com.vesta.controller;
 
-import com.vesta.controller.convertor.UserViewConverter;
 import com.vesta.controller.view.Token;
 import com.vesta.controller.view.UserView;
-import com.vesta.service.UserService;
 import com.vesta.service.dto.AccountCredential;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-@RestController()
+import java.util.List;
+
 @RequestMapping("/user")
-public class UserController {
-
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private UserViewConverter userViewConverter;
+public interface UserController {
 
     @PostMapping("/login")
-    public Token login(@RequestBody AccountCredential accountCredential) {
-        return userService.login(accountCredential);
-    }
+    Token login(@RequestBody AccountCredential accountCredential);
 
     @GetMapping("/{id}")
-    public UserView getById(@PathVariable Long id) {
-        SecurityContextHolder.getContext().getAuthentication();
-        return userViewConverter.convert(userService.getById(id));
-    }
+    UserView getById(@PathVariable Long id);
+
+    @GetMapping
+    List<UserView> findAll();
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    void create(@RequestBody UserView userView);
+
+    @PutMapping("/{id}")
+    UserView update(@PathVariable("id") Long id, @RequestBody UserView userView);
+
+    @DeleteMapping("/{id}")
+    void delete(@PathVariable Long id);
 }
