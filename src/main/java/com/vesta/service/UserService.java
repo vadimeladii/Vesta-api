@@ -5,6 +5,7 @@ import com.vesta.service.dto.AccountCredential;
 import com.vesta.service.dto.UserDto;
 
 import java.util.List;
+import java.util.Map;
 
 public interface UserService {
 
@@ -20,5 +21,5 @@ public interface UserService {
 
     UserDto getByUsername(String username);
 
-    Token login(AccountCredential accountCredential);
+    Map<String,Token> login(AccountCredential accountCredential);
 }

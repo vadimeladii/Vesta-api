@@ -23,6 +23,15 @@ public class TokenServiceImpl implements TokenService {
         return new Token(TOKEN_PREFIX + JWT);
     }
 
+    public Token generatedRefreshToken(String username) {
+        String JWT = Jwts.builder()
+                .setSubject(username)
+                .setExpiration(new Date(System.currentTimeMillis() + REFRESH_EXPIRATION))
+                .signWith(SignatureAlgorithm.HS512, REFRESH_SECRET)
+                .compact();
+        return new Token(TOKEN_PREFIX + JWT);
+    }
+
     public String getSubject(HttpServletRequest request) {
         String token = request.getHeader(TOKEN_HEADER);
 
