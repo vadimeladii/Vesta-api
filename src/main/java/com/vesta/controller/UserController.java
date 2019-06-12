@@ -20,7 +20,7 @@ public interface UserController {
     @GetMapping
     List<UserView> findAll();
 
-    @PostMapping
+    @PostMapping("/registration")
     @ResponseStatus(HttpStatus.CREATED)
     void create(@RequestBody UserView userView);
 
