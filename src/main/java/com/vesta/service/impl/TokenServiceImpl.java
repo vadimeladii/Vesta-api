@@ -14,34 +14,42 @@ import static com.vesta.config.security.SecurityConstants.*;
 @Service
 public class TokenServiceImpl implements TokenService {
 
-    public Token generatedToken(String username) {
-        String JWT = Jwts.builder()
-                .setSubject(username)
-                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
-                .signWith(SignatureAlgorithm.HS512, JWT_SECRET)
-                .compact();
-        return new Token(TOKEN_PREFIX + JWT);
+
+    public Token generatedAccessToken(String username) {
+        return buildToken(username, EXPIRATION_TIME, JWT_SECRET);
     }
 
     public Token generatedRefreshToken(String username) {
-        String JWT = Jwts.builder()
-                .setSubject(username)
-                .setExpiration(new Date(System.currentTimeMillis() + REFRESH_EXPIRATION))
-                .signWith(SignatureAlgorithm.HS512, REFRESH_SECRET)
-                .compact();
-        return new Token(TOKEN_PREFIX + JWT);
+        return buildToken(username, REFRESH_EXPIRATION, REFRESH_SECRET);
     }
 
     public String getSubject(HttpServletRequest request) {
         String token = request.getHeader(TOKEN_HEADER);
 
+        return buildSubject(token, JWT_SECRET);
+    }
+
+    public String getRefreshSubject(String token) {
+        return buildSubject(token, REFRESH_SECRET);
+    }
+
+    private String buildSubject(String token, String secret) {
         if (token != null) {
             return Jwts.parser()
-                    .setSigningKey(JWT_SECRET)
+                    .setSigningKey(secret)
                     .parseClaimsJws(token.replace(TOKEN_PREFIX, ""))
                     .getBody()
                     .getSubject();
         }
         return null;
+    }
+
+    private Token buildToken(String username, Long expirationTime, String secret) {
+        String JWT = Jwts.builder()
+                .setSubject(username)
+                .setExpiration(new Date(System.currentTimeMillis() + expirationTime))
+                .signWith(SignatureAlgorithm.HS512, secret)
+                .compact();
+        return new Token(TOKEN_PREFIX + JWT);
     }
 }

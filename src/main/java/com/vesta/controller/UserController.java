@@ -7,12 +7,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RequestMapping("/user")
 public interface UserController {
 
     @PostMapping("/login")
-    Token login(@RequestBody AccountCredential accountCredential);
+    Map<String, Token> login(@RequestBody AccountCredential accountCredential);
 
     @GetMapping("/{id}")
     UserView getById(@PathVariable Long id);
@@ -29,4 +30,7 @@ public interface UserController {
 
     @DeleteMapping("/{id}")
     void delete(@PathVariable Long id);
+
+    @PostMapping("/refresh")
+    Token refreshToken(String refreshToken);
 }

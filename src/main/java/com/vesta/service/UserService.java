@@ -17,9 +17,11 @@ public interface UserService {
 
     UserDto update(Long id, UserDto userDto);
 
-    void delete (Long id);
+    void delete(Long id);
 
     UserDto getByUsername(String username);
 
-    Map<String,Token> login(AccountCredential accountCredential);
+    Map<String, Token> login(AccountCredential accountCredential);
+
+    Token refreshToken(String refreshToken);
 }

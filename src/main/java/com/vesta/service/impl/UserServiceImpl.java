@@ -1,4 +1,3 @@
-
 package com.vesta.service.impl;
 
 import com.vesta.controller.view.Token;
@@ -47,7 +46,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto update(Long id, UserDto userDto) {
         UserEntity userEntity = userRepository.findById(id).orElse(null);
-        if(userEntity == null){
+        if (userEntity == null) {
             return null;
         }
 
@@ -69,17 +68,21 @@ public class UserServiceImpl implements UserService {
         return userConverter.convert(userRepository.findByUsername(username).orElse(null));
     }
 
-    public Map<String,Token> login(AccountCredential accountCredential) {
+    public Map<String, Token> login(AccountCredential accountCredential) {
         if (userRepository.existsByUsernameOrEmailAndPassword(
                 accountCredential.getUsername(),
                 accountCredential.getEmail(),
                 accountCredential.getPassword())) {
             Map<String, Token> tokens = new HashMap<>();
-            tokens.put("accessToken", tokenService.generatedToken(accountCredential.getUsername()));
+            tokens.put("accessToken", tokenService.generatedAccessToken(accountCredential.getUsername()));
             tokens.put("refreshToken", tokenService.generatedRefreshToken(accountCredential.getUsername()));
             return tokens;
         }
         return null;
     }
 
+    @Override
+    public Token refreshToken(String refreshToken) {
+        return tokenService.generatedAccessToken(tokenService.getRefreshSubject(refreshToken));
+    }
 }
