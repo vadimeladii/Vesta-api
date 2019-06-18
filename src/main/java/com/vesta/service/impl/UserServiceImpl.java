@@ -1,6 +1,6 @@
-
 package com.vesta.service.impl;
 
+import com.vesta.config.security.SecurityConfig;
 import com.vesta.controller.view.Token;
 import com.vesta.repository.UserRepository;
 import com.vesta.repository.entity.UserEntity;
@@ -9,6 +9,7 @@ import com.vesta.service.converter.UserConverter;
 import com.vesta.service.dto.AccountCredential;
 import com.vesta.service.dto.UserDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,6 +24,8 @@ public class UserServiceImpl implements UserService {
     private final UserConverter userConverter;
 
     private final TokenServiceImpl tokenService;
+
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public UserDto getById(Long id) {
@@ -39,20 +42,22 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void create(UserDto userDto) {
-        userRepository.save(userConverter.deconvert(userDto));
+        UserEntity entity = userConverter.deconvert(userDto);
+        entity.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        userRepository.save(entity);
     }
 
     @Override
     public UserDto update(Long id, UserDto userDto) {
         UserEntity userEntity = userRepository.findById(id).orElse(null);
-        if(userEntity == null){
+        if (userEntity == null) {
             return null;
         }
 
         UserEntity userUpdated = userConverter.deconvert(userDto);
         userEntity.setFirstName(userUpdated.getFirstName());
         userEntity.setLastName(userUpdated.getLastName());
-        userEntity.setPassword(userUpdated.getPassword());
+        userEntity.setPassword(passwordEncoder.encode(userUpdated.getPassword()));
         userEntity.setUsername(userUpdated.getUsername());
         userEntity.setEmail(userUpdated.getEmail());
         return userConverter.convert(userRepository.save(userEntity));
@@ -71,7 +76,7 @@ public class UserServiceImpl implements UserService {
         if (userRepository.existsByUsernameOrEmailAndPassword(
                 accountCredential.getUsername(),
                 accountCredential.getEmail(),
-                accountCredential.getPassword()))
+                passwordEncoder.encode(accountCredential.getPassword())))
             return tokenService.generatedToken(accountCredential.getUsername());
 
         return null;
