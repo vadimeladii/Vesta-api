@@ -1,7 +1,7 @@
-
 package com.vesta.service.impl;
 
 import com.vesta.controller.view.Token;
+import com.vesta.exception.NotFoundException;
 import com.vesta.repository.UserRepository;
 import com.vesta.repository.entity.UserEntity;
 import com.vesta.service.UserService;
@@ -10,7 +10,6 @@ import com.vesta.service.dto.AccountCredential;
 import com.vesta.service.dto.UserDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,7 +25,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto getById(Long id) {
-        return userConverter.convert(userRepository.findById(id).orElse(null));
+        UserEntity userEntity = userRepository.findById(id).orElse(null);
+        if (userEntity == null) {
+            throw new NotFoundException("The user doesn't exist");
+        }
+        return userConverter.convert(userEntity);
     }
 
     @Override
@@ -45,7 +48,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto update(Long id, UserDto userDto) {
         UserEntity userEntity = userRepository.findById(id).orElse(null);
-        if(userEntity == null){
+        if (userEntity == null) {
             return null;
         }
 
@@ -63,6 +66,7 @@ public class UserServiceImpl implements UserService {
         userRepository.deleteById(id);
     }
 
+    @Override
     public UserDto getByUsername(String username) {
         return userConverter.convert(userRepository.findByUsername(username).orElse(null));
     }
