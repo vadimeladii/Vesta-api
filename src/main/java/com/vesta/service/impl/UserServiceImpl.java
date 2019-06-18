@@ -1,7 +1,8 @@
 package com.vesta.service.impl;
 
-import com.vesta.config.security.SecurityConfig;
 import com.vesta.controller.view.Token;
+import com.vesta.exception.BadRequestException;
+import com.vesta.exception.NotFoundException;
 import com.vesta.repository.UserRepository;
 import com.vesta.repository.entity.UserEntity;
 import com.vesta.service.UserService;
@@ -12,7 +13,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -29,7 +32,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto getById(Long id) {
-        return userConverter.convert(userRepository.findById(id).orElse(null));
+        UserEntity userEntity = userRepository.findById(id).orElseThrow(() -> new NotFoundException("The user doesn't exist"));
+        return userConverter.convert(userEntity);
     }
 
     @Override
@@ -68,18 +72,30 @@ public class UserServiceImpl implements UserService {
         userRepository.deleteById(id);
     }
 
+    @Override
     public UserDto getByUsername(String username) {
         return userConverter.convert(userRepository.findByUsername(username).orElse(null));
     }
 
-    public Token login(AccountCredential accountCredential) {
-        if (userRepository.existsByUsernameOrEmailAndPassword(
-                accountCredential.getUsername(),
-                accountCredential.getEmail(),
-                passwordEncoder.encode(accountCredential.getPassword())))
-            return tokenService.generatedToken(accountCredential.getUsername());
+    @Override
+    public Map<String, Token> login(AccountCredential accountCredential) {
 
-        return null;
+        UserEntity userEntity = userRepository
+                .findByUsernameOrEmail(accountCredential.getUsername(), accountCredential.getEmail())
+                .orElseThrow(() -> new NotFoundException("The username or email doesn't exist"));
+
+        if (!passwordEncoder.matches(accountCredential.getPassword(), userEntity.getPassword())) {
+            throw  new BadRequestException("The password does not correct");
+        }
+
+        Map<String, Token> tokens = new HashMap<>();
+        tokens.put("accessToken", tokenService.generatedAccessToken(accountCredential.getUsername()));
+        tokens.put("refreshToken", tokenService.generatedRefreshToken(accountCredential.getUsername()));
+        return tokens;
     }
 
+    @Override
+    public Token refreshToken(String refreshToken) {
+        return tokenService.generatedAccessToken(tokenService.getRefreshSubject(refreshToken));
+    }
 }

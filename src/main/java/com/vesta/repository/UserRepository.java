@@ -8,22 +8,18 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 import java.util.List;
-import java.util.Optional;
+
 
 @Repository
 public interface UserRepository extends JpaRepository<UserEntity, Long> {
 
     Optional<UserEntity> findByUsername(String username);
 
-    @Query("select case when count(u)> 0 then true else false end from UserEntity u where u.password=:password " +
-            "and (u.email=:email or u.username=:username)")
-    boolean existsByUsernameOrEmailAndPassword(@Param("username") String username,
-                                               @Param("email") String email,
-                                               @Param("password") String password);
     Optional<UserEntity> findById(Long id);
+
+    Optional<UserEntity> findByUsernameOrEmail(String username, String email);
 
     List<UserEntity> findAll();
 
     void deleteById(Long id);
-
 }

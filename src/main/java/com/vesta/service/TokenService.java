@@ -6,7 +6,9 @@ import javax.servlet.http.HttpServletRequest;
 
 public interface TokenService {
 
-    Token generatedToken(String username);
+    Token generatedAccessToken(String username);
 
     String getSubject(HttpServletRequest request);
+
+    Token generatedRefreshToken(String username);
 }

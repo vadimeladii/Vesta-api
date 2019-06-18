@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -20,7 +21,7 @@ public class UserControllerImpl implements UserController {
 
     private final UserViewConverter userViewConverter;
 
-    public Token login(AccountCredential accountCredential) {
+    public Map<String, Token> login(AccountCredential accountCredential) {
         return userService.login(accountCredential);
     }
 
@@ -45,5 +46,10 @@ public class UserControllerImpl implements UserController {
 
     public void delete(Long id) {
         userService.delete(id);
+    }
+
+    @Override
+    public Token refreshToken(String refreshToken) {
+        return userService.refreshToken(refreshToken);
     }
 }
