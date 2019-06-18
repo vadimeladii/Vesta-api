@@ -10,7 +10,10 @@ import com.vesta.service.dto.AccountCredential;
 import com.vesta.service.dto.UserDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -68,14 +71,21 @@ public class UserServiceImpl implements UserService {
         return userConverter.convert(userRepository.findByUsername(username).orElse(null));
     }
 
-    public Token login(AccountCredential accountCredential) {
+    public Map<String, Token> login(AccountCredential accountCredential) {
         if (userRepository.existsByUsernameOrEmailAndPassword(
                 accountCredential.getUsername(),
                 accountCredential.getEmail(),
-                accountCredential.getPassword()))
-            return tokenService.generatedToken(accountCredential.getUsername());
-
+                accountCredential.getPassword())) {
+            Map<String, Token> tokens = new HashMap<>();
+            tokens.put("accessToken", tokenService.generatedAccessToken(accountCredential.getUsername()));
+            tokens.put("refreshToken", tokenService.generatedRefreshToken(accountCredential.getUsername()));
+            return tokens;
+        }
         return null;
     }
 
+    @Override
+    public Token refreshToken(String refreshToken) {
+        return tokenService.generatedAccessToken(tokenService.getRefreshSubject(refreshToken));
+    }
 }
