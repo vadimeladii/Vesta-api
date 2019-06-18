@@ -13,4 +13,9 @@ public class    GlobalExceptionHandlerController {
     public void handleCustomException(HttpServletResponse res, NotFoundException ex) throws IOException {
         res.sendError(ex.getHttpStatus().value(), ex.getMessage());
     }
+
+    @ExceptionHandler(InternalServerErrorException.class)
+    public void handleException(HttpServletResponse res, InternalServerErrorException ex) throws IOException {
+        res.sendError(ex.getHttpStatus().value(), ex.getMessage());
+    }
 }

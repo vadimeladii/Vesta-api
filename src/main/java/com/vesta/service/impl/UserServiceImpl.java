@@ -25,10 +25,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto getById(Long id) {
-        UserEntity userEntity = userRepository.findById(id).orElse(null);
-        if (userEntity == null) {
-            throw new NotFoundException("The user doesn't exist");
-        }
+        UserEntity userEntity = userRepository.findById(id).orElseThrow(() -> new NotFoundException("The user doesn't exist"));
         return userConverter.convert(userEntity);
     }
 
