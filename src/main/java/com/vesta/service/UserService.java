@@ -19,9 +19,9 @@ public interface UserService {
 
     void delete(Long id);
 
-    UserDto getByUsername(String username);
+    UserDto getByUsername(String username) throws Exception;
 
-    Map<String, Token> login(AccountCredential accountCredential);
+    Map<String, Token> login(AccountCredential accountCredential) throws Exception;
 
     Token refreshToken(String refreshToken);
 }

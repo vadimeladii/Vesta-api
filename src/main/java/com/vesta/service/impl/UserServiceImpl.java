@@ -75,17 +75,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto getByUsername(String username) {
-        return userConverter.convert(userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("The username not found")));
+    public UserDto getByUsername(String username) throws Exception {
+        return userConverter.convert(getUserEntityByUsername(username,
+                new UsernameNotFoundException("The username not found")));
     }
 
     @Override
-    public Map<String, Token> login(AccountCredential accountCredential) {
+    public Map<String, Token> login(AccountCredential accountCredential) throws Exception {
 
-        UserEntity userEntity = userRepository
-                .findByUsername(accountCredential.getUsername())
-                .orElseThrow(() -> new NotFoundException("The username or email doesn't exist"));
+        UserEntity userEntity = getUserEntityByUsername(accountCredential.getUsername(),
+                new NotFoundException("The username or email doesn't exist"));
 
         if (!passwordEncoder.matches(accountCredential.getPassword(), userEntity.getPassword())) {
             throw new BadRequestException("The password does not correct");
@@ -100,5 +99,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public Token refreshToken(String refreshToken) {
         return tokenService.generatedAccessToken(tokenService.getRefreshSubject(refreshToken));
+    }
+
+    private UserEntity getUserEntityByUsername(String username, Exception exception) throws Exception {
+        return userRepository
+                .findByUsername(username)
+                .orElseThrow(() -> exception);
     }
 }
