@@ -21,7 +21,7 @@ public class UserControllerImpl implements UserController {
     private final UserService userService;
 
     private final UserViewConverter userViewConverter;
-
+  
     @ResponseBody
     public Map<String, Token> login(AccountCredential accountCredential) {
         return userService.login(accountCredential);
