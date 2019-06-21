@@ -4,7 +4,6 @@ import com.vesta.repository.entity.RoleEntity;
 import com.vesta.repository.entity.UserEntity;
 import com.vesta.service.dto.UserDto;
 import org.springframework.core.convert.converter.Converter;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.stream.Collectors;

@@ -5,11 +5,13 @@ import com.vesta.exception.BadRequestException;
 import com.vesta.exception.NotFoundException;
 import com.vesta.repository.UserRepository;
 import com.vesta.repository.entity.UserEntity;
+import com.vesta.service.TokenService;
 import com.vesta.service.UserService;
 import com.vesta.service.converter.UserConverter;
 import com.vesta.service.dto.AccountCredential;
 import com.vesta.service.dto.UserDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +28,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserConverter userConverter;
 
-    private final TokenServiceImpl tokenService;
+    private final TokenService tokenService;
 
     private final PasswordEncoder passwordEncoder;
 
@@ -74,18 +76,19 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto getByUsername(String username) {
-        return userConverter.convert(userRepository.findByUsername(username).orElse(null));
+        return userConverter.convert(userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("The username not found")));
     }
 
     @Override
     public Map<String, Token> login(AccountCredential accountCredential) {
 
         UserEntity userEntity = userRepository
-                .findByUsernameOrEmail(accountCredential.getUsername(), accountCredential.getEmail())
+                .findByUsername(accountCredential.getUsername())
                 .orElseThrow(() -> new NotFoundException("The username or email doesn't exist"));
 
         if (!passwordEncoder.matches(accountCredential.getPassword(), userEntity.getPassword())) {
-            throw  new BadRequestException("The password does not correct");
+            throw new BadRequestException("The password does not correct");
         }
 
         Map<String, Token> tokens = new HashMap<>();

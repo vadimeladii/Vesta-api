@@ -4,6 +4,8 @@ import com.vesta.service.UserService;
 import com.vesta.service.dto.AuthentificationCredential;
 import com.vesta.service.dto.UserDto;
 import com.vesta.service.impl.TokenServiceImpl;
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -26,11 +28,14 @@ public class JWTFilter extends GenericFilter {
             throws IOException, ServletException {
 
         String subject = tokenService.getSubject((HttpServletRequest) servletRequest);
-        UserDto userDto = userService.getByUsername(subject);
 
-        SecurityContextHolder
-                .getContext()
-                .setAuthentication(converter(userDto));
+        if (subject != null) {
+            UserDto userDto = userService.getByUsername(subject);
+
+            SecurityContextHolder
+                    .getContext()
+                    .setAuthentication(converter(userDto));
+        }
 
         filterChain.doFilter(servletRequest, servletResponse);
     }
