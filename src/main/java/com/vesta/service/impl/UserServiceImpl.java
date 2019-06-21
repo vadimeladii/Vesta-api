@@ -1,7 +1,6 @@
 package com.vesta.service.impl;
 
 import com.vesta.controller.view.Token;
-
 import com.vesta.exception.BadRequestException;
 import com.vesta.exception.NotFoundException;
 import com.vesta.repository.UserRepository;
@@ -35,7 +34,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto getById(Long id) {
-        UserEntity userEntity = userRepository.findById(id).orElseThrow(() -> new NotFoundException("The user doesn't exist"));
+        UserEntity userEntity = userRepository.findById(id).orElseThrow(() ->
+                new NotFoundException("The user doesn't exist"));
         return userConverter.convert(userEntity);
     }
 

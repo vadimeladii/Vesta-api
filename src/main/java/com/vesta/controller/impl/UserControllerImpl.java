@@ -23,7 +23,7 @@ public class UserControllerImpl implements UserController {
     private final UserViewConverter userViewConverter;
   
     @ResponseBody
-    public Map<String, Token> login(AccountCredential accountCredential) {
+    public Map<String, Token> login(AccountCredential accountCredential) throws Exception {
         return userService.login(accountCredential);
     }
 
