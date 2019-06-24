@@ -3,6 +3,10 @@ package com.vesta.controller;
 import com.vesta.controller.view.Token;
 import com.vesta.controller.view.UserView;
 import com.vesta.service.dto.AccountCredential;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,13 +14,16 @@ import java.util.List;
 import java.util.Map;
 
 @RequestMapping("/user")
+@Api(value = "User Controller REST Endpoint", description = "Shows the user info")
 public interface UserController {
 
     @PostMapping("/login")
-    Map<String, Token> login(@RequestBody AccountCredential accountCredential);
+    Map<String, Token> login(@RequestBody AccountCredential accountCredential) throws Exception;
+
 
     @GetMapping("/{id}")
     UserView getById(@PathVariable Long id);
+
 
     @GetMapping
     List<UserView> findAll();
