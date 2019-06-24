@@ -18,7 +18,7 @@ import java.util.Map;
 public interface UserController {
 
     @PostMapping("/login")
-    Map<String, Token> login(@RequestBody AccountCredential accountCredential);
+    Map<String, Token> login(@RequestBody AccountCredential accountCredential) throws Exception;
 
 
     @GetMapping("/{id}")
