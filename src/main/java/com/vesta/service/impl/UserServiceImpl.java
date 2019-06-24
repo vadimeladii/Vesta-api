@@ -3,6 +3,7 @@ package com.vesta.service.impl;
 import com.vesta.controller.view.Token;
 import com.vesta.exception.BadRequestException;
 import com.vesta.exception.NotFoundException;
+import com.vesta.exception.VestaException;
 import com.vesta.repository.UserRepository;
 import com.vesta.repository.entity.UserEntity;
 import com.vesta.service.TokenService;
@@ -11,7 +12,6 @@ import com.vesta.service.converter.UserConverter;
 import com.vesta.service.dto.AccountCredential;
 import com.vesta.service.dto.UserDto;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -56,10 +56,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto update(Long id, UserDto userDto) {
-        UserEntity userEntity = userRepository.findById(id).orElse(null);
-        if (userEntity == null) {
-            return null;
-        }
+        UserEntity userEntity = userRepository.findById(id).orElseThrow(() ->
+                new NotFoundException("The user doesn't exist"));
 
         UserEntity userUpdated = userConverter.deconvert(userDto);
         userEntity.setFirstName(userUpdated.getFirstName());
@@ -76,13 +74,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto getByUsername(String username) throws Exception {
+    public UserDto getByUsername(String username) {
         return userConverter.convert(getUserEntityByUsername(username,
-                new UsernameNotFoundException("The username not found")));
+                new NotFoundException("The username not found")));
     }
 
     @Override
-    public Map<String, Token> login(AccountCredential accountCredential) throws Exception {
+    public Map<String, Token> login(AccountCredential accountCredential) {
 
         UserEntity userEntity = getUserEntityByUsername(accountCredential.getUsername(),
                 new NotFoundException("The username or email doesn't exist"));
@@ -102,7 +100,7 @@ public class UserServiceImpl implements UserService {
         return tokenService.generatedAccessToken(tokenService.getRefreshSubject(refreshToken));
     }
 
-    private UserEntity getUserEntityByUsername(String username, Exception exception) throws Exception {
+    private UserEntity getUserEntityByUsername(String username, VestaException exception) {
         return userRepository
                 .findByUsername(username)
                 .orElseThrow(() -> exception);
