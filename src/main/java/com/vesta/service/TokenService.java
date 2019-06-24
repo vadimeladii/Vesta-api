@@ -11,4 +11,7 @@ public interface TokenService {
     String getSubject(HttpServletRequest request);
 
     Token generatedRefreshToken(String username);
+
+    String getRefreshSubject(String token);
+  
 }

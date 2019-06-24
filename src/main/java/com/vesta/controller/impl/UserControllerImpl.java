@@ -7,6 +7,7 @@ import com.vesta.controller.view.UserView;
 import com.vesta.service.UserService;
 import com.vesta.service.dto.AccountCredential;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -20,8 +21,9 @@ public class UserControllerImpl implements UserController {
     private final UserService userService;
 
     private final UserViewConverter userViewConverter;
-
-    public Map<String, Token> login(AccountCredential accountCredential) {
+  
+    @ResponseBody
+    public Map<String, Token> login(AccountCredential accountCredential) throws Exception {
         return userService.login(accountCredential);
     }
 
