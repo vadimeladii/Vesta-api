@@ -17,6 +17,7 @@ import com.vesta.service.dto.UserDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
@@ -34,6 +35,8 @@ public class UserServiceImpl implements UserService {
     private final TokenService tokenService;
 
     private final PasswordEncoder passwordEncoder;
+
+    private final RolesService rolesService;
 
     private final RoleConvertor roleConvertor;
 
@@ -56,7 +59,7 @@ public class UserServiceImpl implements UserService {
     public void create(UserDto userDto) {
         UserEntity entity = userConverter.deconvert(userDto);
         entity.setPassword(passwordEncoder.encode(userDto.getPassword()));
-        entity.setRoles(List.of(roleConvertor.findByName(Roles.USER.name())));
+        entity.setRoles(List.of(roleConvertor.deconvert(rolesService.findByName(Roles.USER.name()))));
         userRepository.save(entity);
     }
 
