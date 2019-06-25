@@ -4,12 +4,10 @@ import com.vesta.controller.view.Token;
 import com.vesta.controller.view.UserView;
 import com.vesta.service.dto.AccountCredential;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
 
@@ -30,7 +28,7 @@ public interface UserController {
 
     @PostMapping("/registration")
     @ResponseStatus(HttpStatus.CREATED)
-    void create(@RequestBody UserView userView);
+    void create(@Valid @RequestBody UserView userView);
 
     @PutMapping("/{id}")
     UserView update(@PathVariable("id") Long id, @RequestBody UserView userView);
