@@ -1,8 +1,8 @@
 package com.vesta.service;
 
-import com.vesta.service.dto.RoleDto;
+import com.vesta.repository.entity.RoleEntity;
 
 public interface RolesService {
 
-    RoleDto findByName (String name);
+    RoleEntity findByName (String name);
 }

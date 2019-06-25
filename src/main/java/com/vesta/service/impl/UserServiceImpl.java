@@ -9,7 +9,6 @@ import com.vesta.repository.entity.UserEntity;
 import com.vesta.service.RolesService;
 import com.vesta.service.TokenService;
 import com.vesta.service.UserService;
-import com.vesta.service.converter.RoleConvertor;
 import com.vesta.service.converter.UserConverter;
 import com.vesta.service.dto.AccountCredential;
 import com.vesta.service.dto.Roles;
@@ -17,7 +16,6 @@ import com.vesta.service.dto.UserDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
@@ -38,8 +36,6 @@ public class UserServiceImpl implements UserService {
 
     private final RolesService rolesService;
 
-    private final RoleConvertor roleConvertor;
-
     @Override
     public UserDto getById(Long id) {
         UserEntity userEntity = userRepository.findById(id).orElseThrow(() ->
@@ -59,7 +55,7 @@ public class UserServiceImpl implements UserService {
     public void create(UserDto userDto) {
         UserEntity entity = userConverter.deconvert(userDto);
         entity.setPassword(passwordEncoder.encode(userDto.getPassword()));
-        entity.setRoles(List.of(roleConvertor.deconvert(rolesService.findByName(Roles.USER.name()))));
+        entity.setRoles(List.of(rolesService.findByName(Roles.USER.name())));
         userRepository.save(entity);
     }
 
@@ -89,7 +85,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Map<String, Token> login(AccountCredential accountCredential) {
+    public Map<String, String> login(AccountCredential accountCredential) {
 
         UserEntity userEntity = getUserEntityByUsername(accountCredential.getUsername(),
                 new NotFoundException("The username or email doesn't exist"));
@@ -98,9 +94,9 @@ public class UserServiceImpl implements UserService {
             throw new BadRequestException("The password does not correct");
         }
 
-        Map<String, Token> tokens = new HashMap<>();
-        tokens.put("accessToken", tokenService.generatedAccessToken(accountCredential.getUsername()));
-        tokens.put("refreshToken", tokenService.generatedRefreshToken(accountCredential.getUsername()));
+        Map<String, String> tokens = new HashMap<>();
+        tokens.put("accessToken", tokenService.generatedAccessToken(accountCredential.getUsername()).getToken());
+        tokens.put("refreshToken", tokenService.generatedRefreshToken(accountCredential.getUsername()).getToken());
         return tokens;
     }
 

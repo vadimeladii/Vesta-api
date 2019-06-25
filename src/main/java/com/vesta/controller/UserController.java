@@ -11,11 +11,11 @@ import java.util.List;
 import java.util.Map;
 
 @RequestMapping("/user")
-@Api(value = "User Controller REST Endpoint", description = "Shows the user info")
+@Api(value = "User Controller REST Endpoint")
 public interface UserController {
 
     @PostMapping("/login")
-    Map<String, Token> login(@RequestBody AccountCredential accountCredential) throws Exception;
+    Map<String, String> login(@RequestBody AccountCredential accountCredential) throws Exception;
 
 
     @GetMapping("/{id}")

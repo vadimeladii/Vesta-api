@@ -1,5 +1,7 @@
 package com.vesta;
 
+import com.vesta.service.UserService;
+import com.vesta.service.impl.UserServiceImpl;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +19,17 @@ public class VestaApiApplicationTests {
     @Autowired
     PasswordEncoder passwordEncoder;
 
+    @Autowired
+    UserService userService;
+
     @Test
     public void setPasswordEncoder() {
         System.out.println(passwordEncoder.encode("test1"));
 
+    }
+
+    @Test
+    public void testGetById() {
     }
 
     @Test
