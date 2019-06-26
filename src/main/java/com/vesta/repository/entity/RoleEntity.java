@@ -18,4 +18,5 @@ public class RoleEntity {
 
     @Column(name = "name")
     private String name;
+
 }

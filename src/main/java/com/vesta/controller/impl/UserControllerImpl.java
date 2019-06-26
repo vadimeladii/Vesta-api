@@ -29,7 +29,7 @@ public class UserControllerImpl implements UserController {
             @ApiResponse(code = 200, message = "Login was success"),
             @ApiResponse(code = 404, message = "Username, password or email not found")
     })
-    public Map<String, Token> login(AccountCredential accountCredential) {
+    public Map<String, String> login(AccountCredential accountCredential) {
         return userService.login(accountCredential);
     }
 
