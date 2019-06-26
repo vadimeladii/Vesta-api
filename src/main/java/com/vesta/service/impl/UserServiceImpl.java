@@ -6,10 +6,12 @@ import com.vesta.exception.NotFoundException;
 import com.vesta.exception.VestaException;
 import com.vesta.repository.UserRepository;
 import com.vesta.repository.entity.UserEntity;
+import com.vesta.service.RolesService;
 import com.vesta.service.TokenService;
 import com.vesta.service.UserService;
 import com.vesta.service.converter.UserConverter;
 import com.vesta.service.dto.AccountCredential;
+import com.vesta.service.dto.Roles;
 import com.vesta.service.dto.UserDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -33,6 +35,8 @@ public class UserServiceImpl implements UserService {
 
     private final PasswordEncoder passwordEncoder;
 
+    private final RolesService rolesService;
+
     @Override
     public UserDto getById(Long id) {
         UserEntity userEntity = userRepository.findById(id).orElseThrow(() ->
@@ -51,8 +55,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public void create(UserDto userDto) {
         UserEntity entity = userConverter.deconvert(userDto);
+      
         if (!userRepository.existsByUsername(entity.getUsername())) {
             entity.setPassword(passwordEncoder.encode(userDto.getPassword()));
+            entity.setRoles(List.of(rolesService.findByName(Roles.USER.name())));
             userRepository.save(entity);
             throw new VestaException("Username already exists", HttpStatus.CONFLICT);
         }
@@ -84,7 +90,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Map<String, Token> login(AccountCredential accountCredential) {
+    public Map<String, String> login(AccountCredential accountCredential) {
 
         UserEntity userEntity = getUserEntityByUsername(accountCredential.getUsername(),
                 new NotFoundException("The username or email doesn't exist"));
@@ -93,9 +99,9 @@ public class UserServiceImpl implements UserService {
             throw new BadRequestException("The password does not correct");
         }
 
-        Map<String, Token> tokens = new HashMap<>();
-        tokens.put("accessToken", tokenService.generatedAccessToken(accountCredential.getUsername()));
-        tokens.put("refreshToken", tokenService.generatedRefreshToken(accountCredential.getUsername()));
+        Map<String, String> tokens = new HashMap<>();
+        tokens.put("accessToken", tokenService.generatedAccessToken(accountCredential.getUsername()).getToken());
+        tokens.put("refreshToken", tokenService.generatedRefreshToken(accountCredential.getUsername()).getToken());
         return tokens;
     }
 
@@ -109,4 +115,5 @@ public class UserServiceImpl implements UserService {
                 .findByUsername(username)
                 .orElseThrow(() -> exception);
     }
+
 }

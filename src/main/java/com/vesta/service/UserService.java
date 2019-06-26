@@ -21,7 +21,7 @@ public interface UserService {
 
     UserDto getByUsername(String username);
 
-    Map<String, Token> login(AccountCredential accountCredential);
+    Map<String, String> login(AccountCredential accountCredential);
 
     Token refreshToken(String refreshToken);
 }
