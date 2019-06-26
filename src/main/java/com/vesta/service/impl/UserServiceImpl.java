@@ -54,8 +54,7 @@ public class UserServiceImpl implements UserService {
         if (!userRepository.existsByUsername(entity.getUsername())) {
             entity.setPassword(passwordEncoder.encode(userDto.getPassword()));
             userRepository.save(entity);
-        } else {
-            throw new VestaException("Username already exists", HttpStatus.UNPROCESSABLE_ENTITY);
+            throw new VestaException("Username already exists", HttpStatus.CONFLICT);
         }
     }
 
