@@ -14,6 +14,7 @@ import com.vesta.service.dto.AccountCredential;
 import com.vesta.service.dto.Roles;
 import com.vesta.service.dto.UserDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -54,9 +55,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public void create(UserDto userDto) {
         UserEntity entity = userConverter.deconvert(userDto);
-        entity.setPassword(passwordEncoder.encode(userDto.getPassword()));
-        entity.setRoles(List.of(rolesService.findByName(Roles.USER.name())));
-        userRepository.save(entity);
+      
+        if (!userRepository.existsByUsername(entity.getUsername())) {
+            entity.setPassword(passwordEncoder.encode(userDto.getPassword()));
+            entity.setRoles(List.of(rolesService.findByName(Roles.USER.name())));
+            userRepository.save(entity);
+            throw new VestaException("Username already exists", HttpStatus.CONFLICT);
+        }
     }
 
     @Override
