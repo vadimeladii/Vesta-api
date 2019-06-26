@@ -32,6 +32,5 @@ public class UserView {
     @NotEmpty(message = "Password is required")
     @Size(min = 6, max = 32, message = "Password should be more then 6 and less then 32 characters" )
     private String password;
-
-    private List<String> roles;
+  
 }
