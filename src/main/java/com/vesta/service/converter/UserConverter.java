@@ -22,6 +22,7 @@ public class UserConverter implements Converter<UserEntity, UserDto> {
         dto.setEmail(entity.getEmail());
         dto.setPassword(entity.getPassword());
         dto.setRoles(entity.getRoles().stream().map(RoleEntity::getName).collect(Collectors.toList()));
+
         return dto;
     }
 
