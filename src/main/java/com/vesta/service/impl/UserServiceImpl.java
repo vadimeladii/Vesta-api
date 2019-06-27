@@ -66,7 +66,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto update(@Valid Long id, UserDto userDto) {
+    public UserDto update(Long id, UserDto userDto) {
         UserEntity userEntity = userRepository.findById(id).orElseThrow(() ->
                 new NotFoundException("The user doesn't exist"));
 
