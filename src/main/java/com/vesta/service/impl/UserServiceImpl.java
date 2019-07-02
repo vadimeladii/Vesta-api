@@ -56,7 +56,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void create(@Valid UserDto userDto) {
         UserEntity entity = userConverter.deconvert(userDto);
-      
+
         if (!userRepository.existsByUsername(entity.getUsername())) {
             entity.setPassword(passwordEncoder.encode(userDto.getPassword()));
             entity.setRoles(List.of(rolesService.findByName(Roles.USER.name())));
