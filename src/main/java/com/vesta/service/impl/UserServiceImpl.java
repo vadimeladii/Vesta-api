@@ -1,10 +1,7 @@
 package com.vesta.service.impl;
 
 import com.vesta.controller.view.Token;
-import com.vesta.exception.BadRequestException;
-import com.vesta.exception.ConflictException;
-import com.vesta.exception.NotFoundException;
-import com.vesta.exception.VestaException;
+import com.vesta.exception.*;
 import com.vesta.repository.UserRepository;
 import com.vesta.repository.entity.UserEntity;
 import com.vesta.service.RolesService;
@@ -15,6 +12,8 @@ import com.vesta.service.dto.AccountCredential;
 import com.vesta.service.dto.Roles;
 import com.vesta.service.dto.UserDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -54,7 +53,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void create(@Valid UserDto userDto) {
+    public void create(UserDto userDto) {
 
         if (userRepository.existsByUsername(userDto.getUsername()))
             throw new ConflictException("Username already exists");
@@ -73,9 +72,6 @@ public class UserServiceImpl implements UserService {
         UserEntity userUpdated = userConverter.deconvert(userDto);
         userEntity.setFirstName(userUpdated.getFirstName());
         userEntity.setLastName(userUpdated.getLastName());
-        userEntity.setPassword(passwordEncoder.encode(userUpdated.getPassword()));
-        userEntity.setUsername(userUpdated.getUsername());
-        userEntity.setEmail(userUpdated.getEmail());
         return userConverter.convert(userRepository.save(userEntity));
     }
 
@@ -94,10 +90,10 @@ public class UserServiceImpl implements UserService {
     public Map<String, String> login(AccountCredential accountCredential) {
 
         UserEntity userEntity = getUserEntityByUsername(accountCredential.getUsername(),
-                new NotFoundException("The username doesn't exist"));
+                new UnauthorizedException("The username doesn't correct"));
 
         if (!passwordEncoder.matches(accountCredential.getPassword(), userEntity.getPassword())) {
-            throw new BadRequestException("The password doesn't correct");
+            throw new UnauthorizedException("The password doesn't correct");
         }
 
         Map<String, String> tokens = new HashMap<>();
@@ -117,4 +113,8 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> exception);
     }
 
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return null;
+    }
 }

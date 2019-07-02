@@ -11,13 +11,16 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import static com.vesta.config.security.SecurityConstants.PATTERNS_PATH;
 
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(
-        prePostEnabled = true
+        prePostEnabled = true,
+        securedEnabled = true,
+        jsr250Enabled = true
 )
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -28,9 +31,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
+                .antMatchers(HttpMethod.POST,
+                        "/user/login",
+                        "/user/registration",
+                        "/user/forgot-password",
+                        "/user/refresh").permitAll()
                 .antMatchers(PATTERNS_PATH).permitAll()
-                .antMatchers(HttpMethod.POST, "/user/login", "/user/registration").permitAll()
                 .anyRequest().authenticated()
+                .and()
+                .logout()
+                .invalidateHttpSession(true)
+                .clearAuthentication(true)
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                .logoutSuccessUrl("/login?logout")
+                .permitAll()
                 .and()
                 .cors().and()
                 .csrf().disable()
