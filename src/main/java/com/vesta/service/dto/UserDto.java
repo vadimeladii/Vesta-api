@@ -2,8 +2,9 @@ package com.vesta.service.dto;
 
 import lombok.Data;
 
-import com.vesta.config.validations.*;
-import javax.validation.constraints.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 @Data
@@ -28,12 +29,7 @@ public class UserDto {
     private String email;
 
     @NotEmpty(message = "Password is required")
-    @ValidPassword(message = "Password should be more then 8 and less then 32 characters and" +
-            "at least one upper-case character," +
-            "at least one lower-case character," +
-            "at least one digit character" +
-            "at least one symbol (special character)" +
-            "no whitespace")
+    @Size(min = 6, max = 32, message = "Password should be more then 6 and less then 32 characters" )
     private String password;
 
     private List<String> roles;

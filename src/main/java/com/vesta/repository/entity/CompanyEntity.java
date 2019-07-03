@@ -9,7 +9,6 @@ import javax.persistence.*;
 @Table(name = "companies")
 @Setter
 @Getter
-
 public class CompanyEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

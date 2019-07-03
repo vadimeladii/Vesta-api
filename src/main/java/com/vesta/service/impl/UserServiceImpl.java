@@ -1,7 +1,10 @@
 package com.vesta.service.impl;
 
 import com.vesta.controller.view.Token;
-import com.vesta.exception.*;
+import com.vesta.exception.ConflictException;
+import com.vesta.exception.NotFoundException;
+import com.vesta.exception.UnauthorizedException;
+import com.vesta.exception.VestaException;
 import com.vesta.repository.UserRepository;
 import com.vesta.repository.entity.UserEntity;
 import com.vesta.service.RolesService;
@@ -9,19 +12,18 @@ import com.vesta.service.TokenService;
 import com.vesta.service.UserService;
 import com.vesta.service.converter.UserConverter;
 import com.vesta.service.dto.AccountCredential;
-import com.vesta.service.dto.Roles;
+import com.vesta.util.Roles;
 import com.vesta.service.dto.UserDto;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
+import static com.vesta.expression.ExpressionAsserts.verify;
 
 @Service
 @RequiredArgsConstructor
@@ -54,9 +56,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void create(UserDto userDto) {
-
-        if (userRepository.existsByUsername(userDto.getUsername()))
-            throw new ConflictException("Username already exists");
+        verify(userRepository.existsByUsername(userDto.getUsername()), () -> new ConflictException("Username already exists"));
+        verify(userRepository.existsByEmail(userDto.getEmail()), () -> new ConflictException("Email already exists"));
 
         UserEntity entity = userConverter.deconvert(userDto);
         entity.setPassword(passwordEncoder.encode(userDto.getPassword()));
@@ -88,13 +89,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Map<String, String> login(AccountCredential accountCredential) {
-
         UserEntity userEntity = getUserEntityByUsername(accountCredential.getUsername(),
                 new UnauthorizedException("The username doesn't correct"));
 
-        if (!passwordEncoder.matches(accountCredential.getPassword(), userEntity.getPassword())) {
-            throw new UnauthorizedException("The password doesn't correct");
-        }
+        verify(!passwordEncoder.matches(accountCredential.getPassword(), userEntity.getPassword()), () -> new UnauthorizedException("The password doesn't correct"));
 
         Map<String, String> tokens = new HashMap<>();
         tokens.put("accessToken", tokenService.generatedAccessToken(accountCredential.getUsername()).getToken());
@@ -111,10 +109,5 @@ public class UserServiceImpl implements UserService {
         return userRepository
                 .findByUsername(username)
                 .orElseThrow(() -> exception);
-    }
-
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return null;
     }
 }

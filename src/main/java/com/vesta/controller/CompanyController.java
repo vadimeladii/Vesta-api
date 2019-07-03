@@ -13,5 +13,4 @@ public interface CompanyController {
 
     @GetMapping
     List<CompanyView> findAll();
-
 }

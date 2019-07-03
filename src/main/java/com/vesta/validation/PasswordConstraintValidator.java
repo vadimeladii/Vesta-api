@@ -1,5 +1,6 @@
-package com.vesta.config.validations;
+package com.vesta.validation;
 
+import com.vesta.validation.annotation.ValidPassword;
 import org.passay.*;
 
 import javax.validation.ConstraintValidator;

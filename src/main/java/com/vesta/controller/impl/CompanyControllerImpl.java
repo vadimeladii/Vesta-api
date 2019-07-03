@@ -17,7 +17,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class CompanyControllerImpl implements CompanyController {
 
-
     private final CompanyService companyService;
 
     private final CompanyViewConverter companyViewConverter;

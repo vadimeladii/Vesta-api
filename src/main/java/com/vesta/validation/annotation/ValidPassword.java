@@ -1,4 +1,6 @@
-package com.vesta.config.validations;
+package com.vesta.validation.annotation;
+
+import com.vesta.validation.PasswordConstraintValidator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;

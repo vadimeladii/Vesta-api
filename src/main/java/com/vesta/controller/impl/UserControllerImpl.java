@@ -25,10 +25,6 @@ public class UserControllerImpl implements UserController {
 
     private final UserViewConverter userViewConverter;
 
-    public Map<String, String> login(AccountCredential accountCredential) {
-        return userService.login(accountCredential);
-    }
-
     public UserView getById(Long id) {
         return userViewConverter.convert(userService.getById(id));
     }
@@ -40,12 +36,16 @@ public class UserControllerImpl implements UserController {
                 .collect(Collectors.toList());
     }
 
-    public void create(UserCreateView userCreateView) {
-        userService.create(userCreateViewConverter.deconvert(userCreateView));
-    }
-
     public UserCreateView update(Long id, UserCreateView userCreateView) {
         return userCreateViewConverter.convert(userService.update(id, userCreateViewConverter.deconvert(userCreateView)));
+    }
+
+    public Map<String, String> login(AccountCredential accountCredential) {
+        return userService.login(accountCredential);
+    }
+
+    public void create(UserCreateView userCreateView) {
+        userService.create(userCreateViewConverter.deconvert(userCreateView));
     }
 
     public void delete(Long id) {
