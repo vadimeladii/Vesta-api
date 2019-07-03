@@ -1,4 +1,4 @@
-package com.vesta.service.dto;
+package com.vesta.util;
 
 public enum Roles {
     ADMIN,
