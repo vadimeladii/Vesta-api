@@ -78,10 +78,10 @@ public interface UserController {
 
     @ApiOperation(value = "Refresh token")
     @PostMapping("/refresh")
-    Token refreshToken(String refreshToken);
+    Token refreshToken(@RequestBody String refreshToken);
 
     @ApiOperation(value = "Forgot password send email")
     @PostMapping("forgot/password")
-    void forgotPasswordMail(String email) throws MessagingException;
+    void forgotPasswordMail(@RequestBody String email) throws MessagingException;
 
 }

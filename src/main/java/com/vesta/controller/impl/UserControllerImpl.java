@@ -53,12 +53,10 @@ public class UserControllerImpl implements UserController {
         userService.delete(id);
     }
 
-    @Override
     public Token refreshToken(String refreshToken) {
         return userService.refreshToken(refreshToken);
     }
 
-    @Override
     public void forgotPasswordMail(String email) throws MessagingException {
         userService.forgotPasswordMail(email);
 

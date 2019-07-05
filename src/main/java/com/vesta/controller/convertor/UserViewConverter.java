@@ -20,15 +20,4 @@ public class UserViewConverter implements Converter<UserDto, UserView> {
 
         return view;
     }
-
-    public UserDto deconvert(UserView view) {
-        if (view == null) return null;
-        UserDto dto = new UserDto();
-        dto.setFirstName(view.getFirstName());
-        dto.setLastName(view.getLastName());
-        dto.setUsername(view.getUsername());
-        dto.setEmail(view.getEmail());
-
-        return dto;
-    }
 }

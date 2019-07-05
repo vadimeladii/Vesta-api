@@ -9,8 +9,8 @@ import org.springframework.stereotype.Component;
 public class CompanyViewConverter implements Converter<CompanyDto, CompanyView> {
 
     @Override
-    public CompanyView convert(CompanyDto dto){
-        if(dto == null) return null;
+    public CompanyView convert(CompanyDto dto) {
+        if (dto == null) return null;
         CompanyView view = new CompanyView();
         view.setId(dto.getId());
         view.setName(dto.getName());
