@@ -34,7 +34,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST,
                         "/user/login",
                         "/user/registration",
-                        "/user/forgot-password",
+                        "/user/forgot/password",
                         "/user/refresh").permitAll()
                 .antMatchers(PATTERNS_PATH).permitAll()
                 .anyRequest().authenticated()

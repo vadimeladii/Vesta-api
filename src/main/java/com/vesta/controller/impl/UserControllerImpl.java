@@ -11,6 +11,7 @@ import com.vesta.service.dto.AccountCredential;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.mail.MessagingException;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -55,5 +56,11 @@ public class UserControllerImpl implements UserController {
     @Override
     public Token refreshToken(String refreshToken) {
         return userService.refreshToken(refreshToken);
+    }
+
+    @Override
+    public void forgotPasswordMail(String email) throws MessagingException {
+        userService.forgotPasswordMail(email);
+
     }
 }

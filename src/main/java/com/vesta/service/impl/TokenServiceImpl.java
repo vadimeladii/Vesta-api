@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
+import java.util.UUID;
 
 import static com.vesta.config.security.SecurityConstants.*;
 
@@ -23,6 +24,10 @@ public class TokenServiceImpl implements TokenService {
         return buildToken(username, REFRESH_EXPIRATION, REFRESH_SECRET);
     }
 
+    public Token generatedEmailToken(String username) {
+        return buildToken(username, EMAIL_EXPIRATION, EMAIL_SECRET);
+    }
+
     public String getSubject(HttpServletRequest request) {
         String token = request.getHeader(TOKEN_HEADER);
 
@@ -31,6 +36,10 @@ public class TokenServiceImpl implements TokenService {
 
     public String getRefreshSubject(String token) {
         return buildSubject(token, REFRESH_SECRET);
+    }
+
+    public String getEmailTokenSubject(String token){
+        return buildSubject(token, EMAIL_SECRET);
     }
 
     private String buildSubject(String token, String secret) {

@@ -5,6 +5,7 @@ import com.vesta.service.dto.AccountCredential;
 import com.vesta.service.dto.UserDto;
 import org.springframework.validation.annotation.Validated;
 
+import javax.mail.MessagingException;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
@@ -18,7 +19,7 @@ public interface UserService {
 
     void create(@Valid UserDto userDto);
 
-    UserDto update(Long id,@Valid UserDto userDto);
+    UserDto update(Long id, @Valid UserDto userDto);
 
     void delete(Long id);
 
@@ -27,4 +28,6 @@ public interface UserService {
     Map<String, String> login(AccountCredential accountCredential);
 
     Token refreshToken(String refreshToken);
+
+    void forgotPasswordMail(String email) throws MessagingException;
 }
