@@ -3,19 +3,22 @@ package com.vesta.service;
 import com.vesta.controller.view.Token;
 import com.vesta.service.dto.AccountCredential;
 import com.vesta.service.dto.UserDto;
+import org.springframework.validation.annotation.Validated;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
 
+@Validated
 public interface UserService {
 
     UserDto getById(Long id);
 
     List<UserDto> findAll();
 
-    void create(UserDto userDto);
+    void create(@Valid UserDto userDto);
 
-    UserDto update(Long id, UserDto userDto);
+    UserDto update(Long id,@Valid UserDto userDto);
 
     void delete(Long id);
 
