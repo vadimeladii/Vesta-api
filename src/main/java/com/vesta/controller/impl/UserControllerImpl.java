@@ -8,7 +8,9 @@ import com.vesta.controller.view.UserCreateView;
 import com.vesta.controller.view.UserView;
 import com.vesta.service.UserService;
 import com.vesta.service.dto.AccountCredential;
+import com.vesta.service.dto.UserDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -55,5 +57,10 @@ public class UserControllerImpl implements UserController {
     @Override
     public Token refreshToken(String refreshToken) {
         return userService.refreshToken(refreshToken);
+    }
+
+    @Override
+    public UserView currentUserDetails() {
+      return userViewConverter.convert(userService.getByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
     }
 }
