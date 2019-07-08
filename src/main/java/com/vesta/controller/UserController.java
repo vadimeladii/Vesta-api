@@ -82,6 +82,6 @@ public interface UserController {
 
     @ApiOperation(value = "Forgot password send email")
     @PostMapping("forgot/password")
-    void forgotPasswordMail(@RequestBody String email) throws MessagingException;
+    void forgotPasswordMail(String email) throws MessagingException;
 
 }

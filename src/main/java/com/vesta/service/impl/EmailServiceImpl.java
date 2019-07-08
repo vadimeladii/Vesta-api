@@ -3,6 +3,8 @@ package com.vesta.service.impl;
 import com.vesta.service.EmailService;
 import com.vesta.service.TokenService;
 import com.vesta.service.dto.MailDto;
+import org.apache.velocity.Template;
+import org.apache.velocity.app.VelocityEngine;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -42,7 +44,7 @@ public class EmailServiceImpl implements EmailService {
             helper.setFrom(mail.getFrom());
             helper.setTo(mail.getTo());
             helper.setSubject(mail.getSubject());
-            helper.setText("asa");
+            helper.setText(mail.getText(), true);
         } catch (MessagingException e) {
             e.printStackTrace();
         }
@@ -55,8 +57,11 @@ public class EmailServiceImpl implements EmailService {
         MailDto mail = resetPasswordEmailDto(email);
 
         Map<String, Object> model = new HashMap<>();
+
         model.put("base_url", baseUrl);
         model.put("token", tokenService.generatedEmailToken(username).getToken());
+        model.put("title", mail.getSubject());
+        model.put("body", mail.getText());
         mail.setModel(model);
 
         sendEmail(mail);
@@ -64,9 +69,14 @@ public class EmailServiceImpl implements EmailService {
 
     private MailDto resetPasswordEmailDto(String email) {
         MailDto mail = new MailDto();
+
+        VelocityEngine ve = new VelocityEngine();
+        Template text = ve.getTemplate("/home/msarpe/Projects/Vesta-api/src/main/resources/templates/ForogtPasswordTemplate.vm");
+
         mail.setFrom(emailFrom);
         mail.setTo(email);
         mail.setSubject("Password reset request");
+        mail.setText(String.valueOf(text));
 
         return mail;
     }

@@ -19,10 +19,12 @@
         <swagger.version>2.9.2</swagger.version>
         <jwt.version>0.9.1</jwt.version>
         <passay.version>1.5.0</passay.version>
+        <velocity.starter.version>1.4.7.RELEASE</velocity.starter.version>
+        <velocity.version>1.7</velocity.version>
     </properties>
 
     <dependencies>
-<!--        Starter-->
+        <!--        Starter-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -38,13 +40,19 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-velocity</artifactId>
+            <version>${velocity.starter.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.velocity</groupId>
+            <artifactId>velocity</artifactId>
+            <version>${velocity.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-<!--        Database-->
+        <!--        Database-->
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
@@ -55,13 +63,13 @@
             <artifactId>h2</artifactId>
             <scope>test</scope>
         </dependency>
-<!--        UTIL-->
+        <!--        UTIL-->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
-<!--        SWAGGER-->
+        <!--        SWAGGER-->
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
@@ -77,23 +85,23 @@
             <artifactId>springfox-swagger-ui</artifactId>
             <version>${swagger.version}</version>
         </dependency>
-<!--        Spring Security-->
+        <!--        Spring Security-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
-<!--        JWT-->
+        <!--        JWT-->
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt</artifactId>
             <version>${jwt.version}</version>
         </dependency>
-<!--        DB Migration-->
+        <!--        DB Migration-->
         <dependency>
             <groupId>org.flywaydb</groupId>
             <artifactId>flyway-core</artifactId>
         </dependency>
-<!--        Validator-->
+        <!--        Validator-->
         <dependency>
             <groupId>org.passay</groupId>
             <artifactId>passay</artifactId>
