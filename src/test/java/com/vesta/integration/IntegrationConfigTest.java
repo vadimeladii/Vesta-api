@@ -1,6 +1,7 @@
 package com.vesta.integration;
 
 import com.vesta.VestaApiApplication;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -14,9 +15,12 @@ import org.springframework.test.web.servlet.MockMvc;
         webEnvironment = SpringBootTest.WebEnvironment.MOCK,
         classes = VestaApiApplication.class)
 @AutoConfigureMockMvc
-@TestPropertySource(locations="classpath:application-test.properties")
+@TestPropertySource(locations = "classpath:application-test.properties")
 public class IntegrationConfigTest {
 
     @Autowired
     protected MockMvc mvc;
+
+    @Test
+    public void init() {}
 }
