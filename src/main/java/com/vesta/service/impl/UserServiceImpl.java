@@ -13,15 +13,14 @@ import com.vesta.service.TokenService;
 import com.vesta.service.UserService;
 import com.vesta.service.converter.UserConverter;
 import com.vesta.service.dto.AccountCredential;
-import com.vesta.service.dto.MailDto;
 import com.vesta.service.dto.UserDto;
 import com.vesta.util.Roles;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.mail.MessagingException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,6 +28,7 @@ import java.util.stream.Collectors;
 
 import static com.vesta.expression.ExpressionAsserts.verify;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
@@ -80,10 +80,24 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void forgotPasswordMail(String email) {
-        UserEntity userEntity = userRepository.findByEmail(email).orElseThrow(() ->
-                new UnauthorizedException("The email doesn't correct"));
+        userRepository.findByEmail(email).ifPresentOrElse(userEntity
+                -> emailService.sendEmailForgotPassword(userEntity.getUsername(), userEntity.getEmail()),
+                ()-> log.error("Can't sent forgot password mail because user doesn't exist: email - {}", email));
+    }
 
-        emailService.sendEmailForgotPassword(userEntity.getUsername(), userEntity.getEmail());
+    @Override
+    public void resetForgotPassword(String password) {
+
+        UserEntity userEntity = userRepository.findByUsername(SecurityContextHolder
+                .getContext()
+                .getAuthentication().getName())
+                .orElseThrow(() -> new UnauthorizedException("The username not found"));
+
+        verify(passwordEncoder.matches(userEntity.getPassword(), password),
+                () -> new ConflictException("New Password do not must match with Old Password"));
+        userEntity.setPassword(passwordEncoder.encode(password));
+        userRepository.save(userEntity);
+
     }
 
     @Override

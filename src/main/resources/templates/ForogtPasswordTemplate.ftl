@@ -21,14 +21,14 @@
 <table align="center" border="0" cellpadding="0" cellspacing="0" width="600" style="border-collapse: collapse;">
     <tr>
         <td align="center" bgcolor="#78ab46" style="padding: 40px 0 30px 0;">
-            <p>Memorynotfound.com</p>
+            <p>Vesta-Api</p>
         </td>
     </tr>
     <tr>
         <td bgcolor="#eaeaea" style="padding: 40px 30px 40px 30px;">
             <p>
                 You've requested a password reset.
-                <a href="{base_url}/reset/password/{token}">reset your password</a>
+                <a href="${base_url}/reset/password?token=${token}">reset your password</a>
             </p>
             <p>Thanks</p>
         </td>

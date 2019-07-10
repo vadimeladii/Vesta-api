@@ -5,7 +5,6 @@ import com.vesta.service.dto.AccountCredential;
 import com.vesta.service.dto.UserDto;
 import org.springframework.validation.annotation.Validated;
 
-import javax.mail.MessagingException;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
@@ -29,5 +28,7 @@ public interface UserService {
 
     Token refreshToken(String refreshToken);
 
-    void forgotPasswordMail(String email) throws MessagingException;
+    void forgotPasswordMail(String email);
+
+    void resetForgotPassword(String password);
 }

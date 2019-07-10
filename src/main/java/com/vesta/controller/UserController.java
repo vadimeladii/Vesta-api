@@ -2,6 +2,7 @@ package com.vesta.controller;
 
 import com.vesta.controller.view.Token;
 import com.vesta.controller.view.UserCreateView;
+import com.vesta.controller.view.UserResetForgotView;
 import com.vesta.controller.view.UserView;
 import com.vesta.service.dto.AccountCredential;
 import io.swagger.annotations.Api;
@@ -11,7 +12,6 @@ import io.swagger.annotations.ApiResponses;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import javax.mail.MessagingException;
 import java.util.List;
 import java.util.Map;
 
@@ -78,10 +78,25 @@ public interface UserController {
 
     @ApiOperation(value = "Refresh token")
     @PostMapping("/refresh")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Acces Token was generated"),
+            @ApiResponse(code = 401, message = "Life time of refresh token has finished")
+    })
     Token refreshToken(@RequestBody String refreshToken);
 
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Email was sent successfully"),
+            @ApiResponse(code = 401, message = "The email doesn't correct")
+    })
     @ApiOperation(value = "Forgot password send email")
-    @PostMapping("forgot/password")
-    void forgotPasswordMail(String email) throws MessagingException;
+    @PostMapping("forgot/password/email")
+    void forgotPasswordMail(String email);
 
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Passward was reset successfully"),
+            @ApiResponse(code = 401, message = "Life time of token has finished")
+    })
+    @ApiOperation(value = "Reset forgot password")
+    @PostMapping("reset/forgot/password")
+    void resetForgotPassword(@RequestBody UserResetForgotView userResetForgotView);
 }

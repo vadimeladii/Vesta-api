@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
-import java.util.UUID;
 
 import static com.vesta.config.security.SecurityConstants.*;
 
@@ -17,15 +16,15 @@ public class TokenServiceImpl implements TokenService {
 
 
     public Token generatedAccessToken(String username) {
-        return buildToken(username, EXPIRATION_TIME, JWT_SECRET);
+        return buildToken(username, EXPIRATION_TIME, JWT_SECRET, TOKEN_PREFIX);
     }
 
     public Token generatedRefreshToken(String username) {
-        return buildToken(username, REFRESH_EXPIRATION, REFRESH_SECRET);
+        return buildToken(username, REFRESH_EXPIRATION, REFRESH_SECRET, TOKEN_PREFIX);
     }
 
     public Token generatedEmailToken(String username) {
-        return buildToken(username, EMAIL_EXPIRATION, EMAIL_SECRET);
+        return buildToken(username, EMAIL_EXPIRATION, EMAIL_SECRET, "");
     }
 
     public String getSubject(HttpServletRequest request) {
@@ -36,10 +35,6 @@ public class TokenServiceImpl implements TokenService {
 
     public String getRefreshSubject(String token) {
         return buildSubject(token, REFRESH_SECRET);
-    }
-
-    public String getEmailTokenSubject(String token){
-        return buildSubject(token, EMAIL_SECRET);
     }
 
     private String buildSubject(String token, String secret) {
@@ -53,12 +48,12 @@ public class TokenServiceImpl implements TokenService {
         return null;
     }
 
-    private Token buildToken(String username, Long expirationTime, String secret) {
+    private Token buildToken(String username, Long expirationTime, String secret, String prefix) {
         String JWT = Jwts.builder()
                 .setSubject(username)
                 .setExpiration(new Date(System.currentTimeMillis() + expirationTime))
                 .signWith(SignatureAlgorithm.HS512, secret)
                 .compact();
-        return new Token(TOKEN_PREFIX + JWT);
+        return new Token(prefix + JWT);
     }
 }

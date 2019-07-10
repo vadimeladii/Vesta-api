@@ -16,6 +16,4 @@ public interface TokenService {
 
     Token generatedEmailToken(String username);
 
-    String getEmailTokenSubject(String token);
-
 }

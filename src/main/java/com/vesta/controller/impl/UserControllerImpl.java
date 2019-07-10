@@ -5,13 +5,13 @@ import com.vesta.controller.convertor.UserCreateViewConverter;
 import com.vesta.controller.convertor.UserViewConverter;
 import com.vesta.controller.view.Token;
 import com.vesta.controller.view.UserCreateView;
+import com.vesta.controller.view.UserResetForgotView;
 import com.vesta.controller.view.UserView;
 import com.vesta.service.UserService;
 import com.vesta.service.dto.AccountCredential;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.mail.MessagingException;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -57,8 +57,12 @@ public class UserControllerImpl implements UserController {
         return userService.refreshToken(refreshToken);
     }
 
-    public void forgotPasswordMail(String email) throws MessagingException {
+    public void forgotPasswordMail(String email) {
         userService.forgotPasswordMail(email);
 
+    }
+
+    public void resetForgotPassword(UserResetForgotView userResetForgotView) {
+        userService.resetForgotPassword(userResetForgotView.getPassword());
     }
 }
