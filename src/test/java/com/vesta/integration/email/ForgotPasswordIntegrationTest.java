@@ -1,7 +1,5 @@
 package com.vesta.integration.email;
 
-import com.icegreen.greenmail.user.GreenMailUser;
-import com.icegreen.greenmail.util.GreenMail;
 import com.vesta.integration.IntegrationConfigTest;
 import com.vesta.repository.UserRepository;
 import com.vesta.repository.entity.UserEntity;
@@ -14,12 +12,12 @@ import javax.mail.internet.MimeMessage;
 import static org.junit.Assert.assertEquals;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class ForgotPasswordIntegrationTest extends IntegrationConfigTest {
 
     @Rule
-    public SmtpServerRuleTemplateTest smtpServerRule = new SmtpServerRuleTemplateTest(2525);
+    public SmtpServerRuleTemplateTest mailServerRule = new SmtpServerRuleTemplateTest(2525);
 
     @Autowired
     private UserRepository userRepository;
@@ -30,7 +28,7 @@ public class ForgotPasswordIntegrationTest extends IntegrationConfigTest {
         UserEntity userEntity = new UserEntity();
         userEntity.setId(1L);
         userEntity.setUsername("username");
-        userEntity.setEmail("test.mail@gmai.com");
+        userEntity.setEmail("vesta.api@gmail.com");
         userEntity.setPassword("password");
         userEntity.setLastName("ForTest");
         userEntity.setFirstName("ForTest1");
@@ -40,12 +38,10 @@ public class ForgotPasswordIntegrationTest extends IntegrationConfigTest {
         // when
         this.mvc.perform(post("/user/forgot/password/email")
                 .with(csrf())
-                .param("email", "test.mail@gmai.com"))
-                .andExpect(model().hasNoErrors())
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/forgot-password?success"));
+                .param("email", "vesta.api@gmail.com"))
+                .andExpect(status().isOk());
 
-        MimeMessage[] receivedMessages = smtpServerRule.getMessages();
+        MimeMessage[] receivedMessages = mailServerRule.getMessages();
         assertEquals(1, receivedMessages.length);
         MimeMessage current = receivedMessages[0];
         assertEquals("vesta.api@gmail.com", current.getAllRecipients()[0].toString());
