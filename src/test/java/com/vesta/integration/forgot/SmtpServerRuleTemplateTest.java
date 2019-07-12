@@ -1,4 +1,4 @@
-package com.vesta.integration.email;
+package com.vesta.integration.forgot;
 
 import com.icegreen.greenmail.user.GreenMailUser;
 import com.icegreen.greenmail.util.GreenMail;
@@ -9,7 +9,8 @@ import javax.mail.internet.MimeMessage;
 
 
 public class SmtpServerRuleTemplateTest extends ExternalResource {
-    public GreenMail smtpServer;
+
+    public GreenMail mailServer;
     private int port;
 
     public SmtpServerRuleTemplateTest(int port) {
@@ -19,19 +20,19 @@ public class SmtpServerRuleTemplateTest extends ExternalResource {
     @Override
     protected void before() throws Throwable {
         super.before();
-        smtpServer = new GreenMail(new ServerSetup(port, null, "smtp"));
-        smtpServer.start();
-        GreenMailUser user = smtpServer.setUser("wael@localhost.com", "waelc", "soooosecret");
+        mailServer = new GreenMail(new ServerSetup(port, null, "smtp"));
+        mailServer.start();
+        GreenMailUser user = mailServer.setUser("vesta.api@gmail.com", "username", "password");
 
     }
 
     public MimeMessage[] getMessages() {
-        return smtpServer.getReceivedMessages();
+        return mailServer.getReceivedMessages();
     }
 
     @Override
     protected void after() {
         super.after();
-        smtpServer.stop();
+        mailServer.stop();
     }
 }

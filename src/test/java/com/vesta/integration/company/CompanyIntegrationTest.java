@@ -15,6 +15,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.List;
 
+import static com.vesta.integration.common.UtilIntegration.createCompayEntity;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
@@ -24,20 +25,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class CompanyIntegrationTest extends IntegrationConfigTest {
 
     @Autowired
-    private ObjectMapper objectMapper;
-
-    @Autowired
     CompanyRepository companyRepository;
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @WithMockUser
     @Test
     public void getListOfCompanies() throws Exception {
         // given
-        CompanyEntity companyEntity = new CompanyEntity();
-        companyEntity.setId(1L);
-        companyEntity.setName("test");
-        companyEntity.setFloor(1);
-
+        CompanyEntity companyEntity = createCompayEntity();
         companyRepository.save(companyEntity);
 
         // when
@@ -48,7 +44,8 @@ public class CompanyIntegrationTest extends IntegrationConfigTest {
                 .andReturn();
         List<CompanyView> response = objectMapper.readValue(
                 mvcResult.getResponse().getContentAsString(),
-                new TypeReference<List<CompanyView>>() {});
+                new TypeReference<List<CompanyView>>() {
+                });
 
         // then
         assertNotNull(response);
