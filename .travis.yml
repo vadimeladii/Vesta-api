@@ -10,7 +10,7 @@ jdk:
   - openjdk11
 
 script:
-  - mvn clean install sonar:sonar
+  - mvn clean install
 
 cache:
   directories:
