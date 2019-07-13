@@ -9,14 +9,6 @@ language: java
 jdk:
   - openjdk11
 
-script:
-  - mvn clean install
-
-cache:
-  directories:
-    - '$HOME/.m2/repository'
-    - '$HOME/.sonar/cache'
-
 os:
   - linux
 
@@ -34,6 +26,9 @@ addons:
     token:
       secure: 0b5a15b588a28eeff15e5287acbb6afdef3e3c7a
 
+script:
+  - mvn clean install sonar:sonar
+
 after_success:
 
    #LOGIN
@@ -47,3 +42,8 @@ after_success:
   - docker build -t $VESTA_API:$COMMIT ./
   - docker tag $VESTA_API:$COMMIT $VESTA_API:$TAG
   - docker push $VESTA_API
+
+cache:
+  directories:
+    - '$HOME/.m2/repository'
+    - '$HOME/.sonar/cache'
