@@ -7,7 +7,6 @@ import com.vesta.service.RolesService;
 import com.vesta.service.TokenService;
 import com.vesta.service.UserService;
 import com.vesta.service.converter.UserConverter;
-import com.vesta.service.dto.CompanyDto;
 import com.vesta.service.dto.UserDto;
 import com.vesta.service.impl.UserServiceImpl;
 import org.junit.jupiter.api.Assertions;
