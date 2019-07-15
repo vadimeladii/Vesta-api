@@ -24,7 +24,7 @@ addons:
   sonarcloud:
     organization: vadimeladii
     token:
-      secure: 0b5a15b588a28eeff15e5287acbb6afdef3e3c7a
+      secure: 12a04818db8db99128b69c19d63077fac188c2a0
 
 script:
   - mvn clean install sonar:sonar
