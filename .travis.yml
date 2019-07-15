@@ -5,11 +5,10 @@ services:
   - docker
 
 language: java
+dist: trusty
 
 jdk:
   - openjdk11
-
-install: ./mvnw clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dsonar.projectKey=vadimeladii_Vesta-api
 
 os:
   - linux
@@ -26,7 +25,10 @@ addons:
   sonarcloud:
     organization: vadimeladii
     token:
-      secure: 0b5a15b588a28eeff15e5287acbb6afdef3e3c7a
+      secure: Kv9yuiVT2yTfx5YVb5463+tZdqYih/lFi+JQsQHAfyKrsjXctrz64sl+KQeT94b7PtbkHqsdoPmh4beQRid3x3FgAE8BgVeF+lmSl67z7JnFndd4l62RD4LWEO6OOr27KssncE5P6I+oxcAjhTckd9LgWD69Y8ben4CCMZPSsMJh6Hdfu7AI4AlG211L14QEqZmaWe+BsG66qKrjvBPbJFzXHrBLUixFkk8A/wQBqo6MIy2Jwq5OslxeLSt2PZdEXHo+uHER5JLJ4bM5P+9pGr2ABmUcZcJ0eO3/Z4d9A68N2QHoA9vXn0pDgaSYUFFXoKlfMocAWBsXNDH9BZUp/5Jg8+gdOCWqFzIv+S5fU5mNYRnLitF0zQNu9Qoi57eusbri3trzsXC5Z6Io/XoQCAY9LXzkLv1Kb56/QpDajodIOYvyx/On0QolGTN4mDhfR5Yi+/A7nYMD6g1vJ1lCeKrRdS4qYBoJo7ELrdw/KgDScm529DSiBgHUZEVoG2GHGl7eiTizz8HqJrKLbpUEd6BIz+fzTfy3V3hR1wISDoxv+JaQa1B8yyNuzSIS7tF+A8IMHHWigahp/uVp0L0tl+aHZqz5tiXHSs2howk3pvEzwf60R2h4pje9lHDtmPHyaA56CVs6F8W96FVy/u+c5FkMO06nu6DV4rd5Bcvlc8U=
+
+script:
+  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dsonar.projectKey=vadimeladii_Vesta-api
 
 after_success:
 
@@ -41,3 +43,8 @@ after_success:
   - docker build -t $VESTA_API:$COMMIT ./
   - docker tag $VESTA_API:$COMMIT $VESTA_API:$TAG
   - docker push $VESTA_API
+
+cache:
+  directories:
+    - '$HOME/.m2/repository'
+    - '$HOME/.sonar/cache'
