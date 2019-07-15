@@ -1,33 +1,50 @@
-sudo: required
+sudo:
+  required
+
 services:
-- docker
+  - docker
+
 language: java
+dist: trusty
+
 jdk:
-- openjdk11
+  - openjdk11
+
 os:
-- linux
+  - linux
+
 env:
   global:
-  - COMMIT=${TRAVIS_COMMIT::7}
+    - COMMIT=${TRAVIS_COMMIT::7}
+
 branches:
   only:
-  - master
+    - master
+
 addons:
   sonarcloud:
     organization: vadimeladii
     token:
       secure: EI/kqbxnC78DkW31lCG885BDZCgv9LVvunAOfCylN2jQ3LDLzLC0btWWZ0tQIBeXedl65E6RnCyDhU51sLazxQsf3whklcbhC+VejEPxOzDopPcZdJaORiwdeCR6scM8SOE88H3PZMJdycSc9Kf6sW39GjmGQRqYzvzTjbv6Bijn6w/mBxQaAv7i8UvfVvqXMeGbUuM9o/3L3kks/1XRCmMF4djoDK3G1aEa1ta4+3o3T5Dl5QuXUsm+1ImzUqx2TVzbIT+rkCH6d0eXCsDwBTwzumBdxaUcsLDmvyyRifaq1rCXG3KldO6w2EubJBn395zP1x+PNMtDAP0hMmF1OP+7QVw2h9qQCEZTb1WeqeYDfFl7ePnvk3n6sfEizB935L6JEJnXVzxDhiIehe5qXzdNq53r3LR+33h9BEpPQK6zJAr34KoLth3azVKagW8nEZwP3paef0Lktv30blsMnPckDg/YC4FGIWU55Rg2mCg6Q5ci8t8zWeMiJbfbv8b7oY2kGKJb1sAuBcZ6QgHswlPlCYWKxPFS3wK1OPuWZkcofVcWQOppsWYmfEom38T/tpow/qcmELGHjNo0o6eTgRBCs0mRlJI0eD0bnu36hTAIfprN1eI6E0y0+4Hjhk414bMuKsUYJwiuBnrxMqbq1WqhKTxD3XTUTN0lU3x/4WI=
+
 script:
-- mvn clean install sonar:sonar
+  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dsonar.projectKey=vadimeladii_Vesta-api
+
 after_success:
-- docker login -u $D_USER -p $D_PASS
-- export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH
-  ; fi`
-- export VESTA_API=vadimeladii7/vesta-api
-- docker build -t $VESTA_API:$COMMIT ./
-- docker tag $VESTA_API:$COMMIT $VESTA_API:$TAG
-- docker push $VESTA_API
+
+   #LOGIN
+  - docker login -u $D_USER -p $D_PASS
+
+   #TAG
+  - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
+
+   #VESTA-API
+  - export VESTA_API=vadimeladii7/vesta-api
+  - docker build -t $VESTA_API:$COMMIT ./
+  - docker tag $VESTA_API:$COMMIT $VESTA_API:$TAG
+  - docker push $VESTA_API
+
 cache:
   directories:
-  - "$HOME/.m2/repository"
-  - "$HOME/.sonar/cache"
+    - '$HOME/.m2/repository'
+    - '$HOME/.sonar/cache'
