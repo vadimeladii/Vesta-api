@@ -78,4 +78,10 @@ public interface UserController {
     @ApiOperation(value = "Refresh token")
     @PostMapping("/refresh")
     Token refreshToken(String refreshToken);
+
+    @ApiOperation(value = "Returneaza detaliile userului logat")
+    @GetMapping(value = "/me")
+    @ResponseBody
+    UserView currentUserDetails();
+
 }
