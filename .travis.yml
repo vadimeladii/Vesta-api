@@ -24,7 +24,7 @@ addons:
   sonarcloud:
     organization: vadimeladii
     token:
-      secure: 12a04818db8db99128b69c19d63077fac188c2a0
+      secure: tHoQ8YqqsuWMzF5QXj00zo+A30Z/8ATs7NYr8Ohc0n30Dh8B8jLJBFJ36z663gRCZ/3HA/3k90A7VROdFXHejC22sq5pGVu8sFFPFVeMkgNgz/k41K9Oddca6HQ2FpocjGCthFGoREC/SmQLhf24VbEYXwzpwrIu/PdS/9dmm58v1+xctvQzwMRmg2AC7ARsXOQLFMeLDJ/nNGs3QdtRnfJPuHWOXykLCACa1PHJG5MtnzicoONbm9RM6jqF3vRFMsvMAqAUF/s83y6s5OUDM8bhjGC7RevcQEN7L+z/pxa6+u03TjnHhOOng6LfYN773wXW52zec+YiPHVChqIgicAa5XtTIY6QYMRDvpuLOAz8QnWoXfkam5g0dPjtOhfpC7Hiiy50lg1TYqWYa5BGPClF1POA/grqUSQZO/tTSvd8t6VNBcM168114G5HKp0AX9mh2vrezblcw2ArCLeG8XGyoltWb3/zRotq34Rfy19kNTM/7XGFVge8qB46ByGlICboCXoJyi703A8ttLlw7XxUMNzvN452xx9X6vZhZtXRmNCXx4XMFdaLA+JCNlrLFdMXSMI18dVrmPbOq26WXiW1hDqtoGd75ZzJQG4CgHh41wTrcp9gOFlEJ1Nz+Iu8s7HTs3bMi232OM6mywMdebsbs5S9nMH5gMil1TCbROo=
 
 script:
   - mvn clean install sonar:sonar
