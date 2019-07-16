@@ -4,6 +4,7 @@ import com.vesta.controller.view.Token;
 import com.vesta.service.TokenService;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,17 +15,25 @@ import static com.vesta.config.security.SecurityConstants.*;
 @Service
 public class TokenServiceImpl implements TokenService {
 
+    @Value("${vesta.access.expiration}")
+    private Long accessExpiration;
+
+    @Value("${vesta.refresh.expiration}")
+    private Long refreshExpiration;
+  
+    @Value("${vesta.email.expiration}")
+    private Long emailExpiration;
 
     public Token generatedAccessToken(String username) {
-        return buildToken(username, EXPIRATION_TIME, JWT_SECRET, TOKEN_PREFIX);
+        return buildToken(username, accessExpiration, JWT_SECRET, TOKEN_PREFIX);
     }
 
     public Token generatedRefreshToken(String username) {
-        return buildToken(username, REFRESH_EXPIRATION, REFRESH_SECRET, TOKEN_PREFIX);
+        return buildToken(username, refreshExpiration, REFRESH_SECRET, TOKEN_PREFIX);
     }
 
     public Token generatedEmailToken(String username) {
-        return buildToken(username, EMAIL_EXPIRATION, EMAIL_SECRET, "");
+        return buildToken(username, emailExpiration, EMAIL_SECRET, "");
     }
 
     @Override

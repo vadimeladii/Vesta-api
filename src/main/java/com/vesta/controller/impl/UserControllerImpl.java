@@ -9,7 +9,9 @@ import com.vesta.controller.view.UserResetForgotView;
 import com.vesta.controller.view.UserView;
 import com.vesta.service.UserService;
 import com.vesta.service.dto.AccountCredential;
+import com.vesta.service.dto.UserDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -59,10 +61,12 @@ public class UserControllerImpl implements UserController {
 
     public void forgotPasswordMail(String email) {
         userService.forgotPasswordMail(email);
-
     }
 
     public void resetForgotPassword(UserResetForgotView userResetForgotView) {
         userService.resetForgotPassword(userResetForgotView.getToken(), userResetForgotView.getPassword());
+
+    public UserView currentUserDetails() {
+      return userViewConverter.convert(userService.getByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
     }
 }

@@ -82,7 +82,7 @@ public interface UserController {
             @ApiResponse(code = 200, message = "Acces Token was generated"),
             @ApiResponse(code = 401, message = "Life time of refresh token has finished")
     })
-    Token refreshToken(@RequestBody String refreshToken);
+    Token refreshToken(String refreshToken);
 
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Email was sent successfully"),
@@ -100,4 +100,9 @@ public interface UserController {
     @ApiOperation(value = "Reset forgot password")
     @PostMapping("reset/forgot/password")
     void resetForgotPassword(@RequestBody UserResetForgotView userResetForgotView);
+
+    @ApiOperation(value = "Returneaza detaliile userului logat")
+    @GetMapping(value = "/me")
+    @ResponseBody
+    UserView currentUserDetails();
 }

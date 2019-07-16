@@ -25,7 +25,7 @@ import static com.vesta.config.security.SecurityConstants.*;
 @EnableSwagger2
 public class SwaggerConfig {
 
-    @Value("${swagger.host}")
+    @Value("${vesta.swagger.host}")
     private String host;
 
     @Bean
