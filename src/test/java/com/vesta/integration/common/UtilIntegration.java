@@ -18,6 +18,14 @@ public class UtilIntegration {
         return userEntity;
     }
 
+    public static UserEntity createUserEntiyWithPassword(String password) {
+
+        UserEntity userEntity = createUserEntiy();
+        userEntity.setPassword(password);
+
+        return userEntity;
+    }
+
     public static CompanyEntity createCompayEntity() {
 
         CompanyEntity companyEntity = new CompanyEntity();

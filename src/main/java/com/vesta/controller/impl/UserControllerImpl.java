@@ -63,6 +63,6 @@ public class UserControllerImpl implements UserController {
     }
 
     public void resetForgotPassword(UserResetForgotView userResetForgotView) {
-        userService.resetForgotPassword(userResetForgotView.getPassword());
+        userService.resetForgotPassword(userResetForgotView.getToken(), userResetForgotView.getPassword());
     }
 }

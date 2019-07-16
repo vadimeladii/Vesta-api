@@ -17,7 +17,6 @@ import com.vesta.service.dto.UserDto;
 import com.vesta.util.Roles;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -81,19 +80,18 @@ public class UserServiceImpl implements UserService {
     @Override
     public void forgotPasswordMail(String email) {
         userRepository.findByEmail(email).ifPresentOrElse(userEntity
-                -> emailService.sendEmailForgotPassword(userEntity.getUsername(), userEntity.getEmail()),
-                ()-> log.error("Can't sent forgot password mail because user doesn't exist: email - {}", email));
+                        -> emailService.sendEmailForgotPassword(userEntity.getUsername(), userEntity.getEmail()),
+                () -> log.error("Can't sent forgot password mail because user doesn't exist: email - {}", email));
     }
 
     @Override
-    public void resetForgotPassword(String password) {
+    public void resetForgotPassword(String token, String password) {
 
-        UserEntity userEntity = userRepository.findByUsername(SecurityContextHolder
-                .getContext()
-                .getAuthentication().getName())
+        String subject = tokenService.getSubject(token);
+        UserEntity userEntity = userRepository.findByUsername(subject)
                 .orElseThrow(() -> new UnauthorizedException("The username not found"));
 
-        verify(passwordEncoder.matches(userEntity.getPassword(), password),
+        verify(passwordEncoder.matches(password, userEntity.getPassword()),
                 () -> new ConflictException("New Password do not must match with Old Password"));
         userEntity.setPassword(passwordEncoder.encode(password));
         userRepository.save(userEntity);

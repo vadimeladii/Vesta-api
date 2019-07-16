@@ -20,6 +20,8 @@ public interface UserService {
 
     UserDto update(Long id, @Valid UserDto userDto);
 
+    void resetForgotPassword(String token, String password);
+
     void delete(Long id);
 
     UserDto getByUsername(String username);
@@ -29,6 +31,4 @@ public interface UserService {
     Token refreshToken(String refreshToken);
 
     void forgotPasswordMail(String email);
-
-    void resetForgotPassword(String password);
 }

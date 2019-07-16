@@ -27,6 +27,11 @@ public class TokenServiceImpl implements TokenService {
         return buildToken(username, EMAIL_EXPIRATION, EMAIL_SECRET, "");
     }
 
+    @Override
+    public String getSubject(String token) {
+        return buildSubject(token, EMAIL_SECRET);
+    }
+
     public String getSubject(HttpServletRequest request) {
         String token = request.getHeader(TOKEN_HEADER);
 

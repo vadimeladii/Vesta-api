@@ -52,7 +52,7 @@ public class EmailServiceImpl implements EmailService {
             helper.setFrom(mail.getFrom());
             helper.setTo(mail.getTo());
             helper.setSubject(mail.getSubject());
-            helper.setText(mail.getText(),true);
+            helper.setText(mail.getText(), true);
         } catch (MessagingException e) {
             log.error("The email was not sent");
         }
@@ -73,7 +73,7 @@ public class EmailServiceImpl implements EmailService {
         sendEmail(mail);
     }
 
-    private String getModelTemplateForResetPassword(String username){
+    private String getModelTemplateForResetPassword(String username) {
         Map<String, String> model = new HashMap<>();
         model.put("base_url", baseUrl);
         model.put("token", tokenService.generatedEmailToken(username).getToken());

@@ -27,7 +27,7 @@ import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
-public class CompanyServiceTest {
+class CompanyServiceTest {
 
     private CompanyService companyService;
 
@@ -37,12 +37,12 @@ public class CompanyServiceTest {
     private CompanyConverter companyConverter = new CompanyConverter();
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         companyService = new CompanyServiceImpl(companyRepository, companyConverter);
     }
 
     @Test
-    public void test_findByName_validName() {
+    void test_findByName_validName() {
         // given
         CompanyEntity companyEntity = createCompayEntity();
 
@@ -60,7 +60,7 @@ public class CompanyServiceTest {
     }
 
     @Test
-    public void test_findByName_invalidName() {
+    void test_findByName_invalidName() {
         // given
         CompanyEntity companyEntity = createCompayEntity();
 

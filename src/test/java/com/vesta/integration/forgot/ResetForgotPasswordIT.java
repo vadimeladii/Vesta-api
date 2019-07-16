@@ -1,14 +1,18 @@
 package com.vesta.integration.forgot;
 
+import com.google.gson.Gson;
+import com.vesta.controller.view.UserResetForgotView;
 import com.vesta.integration.IntegrationConfigTest;
 import com.vesta.repository.UserRepository;
 import com.vesta.repository.entity.UserEntity;
+import com.vesta.service.TokenService;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
-import static com.vesta.integration.common.UtilIntegration.createUserEntiy;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static com.vesta.integration.common.UtilIntegration.createUserEntiyWithPassword;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class ResetForgotPasswordIT extends IntegrationConfigTest {
@@ -16,58 +20,60 @@ public class ResetForgotPasswordIT extends IntegrationConfigTest {
     @Autowired
     private UserRepository userRepository;
 
-    @Test
-    public void accesResetPasswordWithoutToken() throws Exception {
+    @Autowired
+    private TokenService tokenService;
 
-        UserEntity userEntity = createUserEntiy();
-        userRepository.save(userEntity);
-
-        this.mvc.perform(get("/user/reset/forgot/password"))
-                .andExpect(status().isOk());
-    }
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Test
-    public void accesResetPasswordWithExpiredToken() throws Exception {
-        UserEntity userEntity = createUserEntiy();
+    public void submitPasswordConflict() throws Exception {
+        UserEntity userEntity = createUserEntiyWithPassword(passwordEncoder.encode("password"));
         userRepository.save(userEntity);
 
-        this.mvc.perform(get("/user/reset/forgot/password"))
-                .andExpect(status().isOk());
+        UserResetForgotView userResetForgotView = new UserResetForgotView();
 
-    }
+        userResetForgotView.setPassword("password");
+        userResetForgotView.setToken(tokenService.generatedEmailToken("username").getToken());
 
-    @Test
-    public void accesResetPasswordWithValidToken() throws Exception {
-        UserEntity userEntity = createUserEntiy();
-        userRepository.save(userEntity);
+        Gson gson = new Gson();
+        String json = gson.toJson(userResetForgotView);
 
-        this.mvc.perform(get("/user/reset/forgot/password"))
-                .andExpect(status().isOk());
-
+        this.mvc.perform(post("/user/reset/forgot/password")
+                .contentType(MediaType.APPLICATION_JSON).content(json))
+                .andExpect(status().isConflict());
     }
 
     @Test
     public void submitPasswordSucces() throws Exception {
-        UserEntity userEntity = createUserEntiy();
+        UserEntity userEntity = createUserEntiyWithPassword(passwordEncoder.encode("password"));
         userRepository.save(userEntity);
 
-        this.mvc.perform(get("/user/reset/forgot/password")
-                .with(csrf())
-                .param("password", "password")
-                .param("confirmPassword", "123456pass")
-                .param("token", "username")
-        )
-                .andExpect(status().isOk());
+        UserResetForgotView userResetForgotView = new UserResetForgotView();
 
+        userResetForgotView.setPassword("newPassword");
+        userResetForgotView.setToken(tokenService.generatedEmailToken("username").getToken());
+
+        Gson gson = new Gson();
+        String json = gson.toJson(userResetForgotView);
+
+        this.mvc.perform(post("/user/reset/forgot/password")
+                .contentType(MediaType.APPLICATION_JSON).content(json))
+                .andExpect(status().isOk());
     }
 
     @Test
-    public void submitPasswordConflict() throws Exception {
-        UserEntity userEntity = createUserEntiy();
-        userRepository.save(userEntity);
+    public void accesResetPasswordWithInvalidToken() throws Exception {
+        UserResetForgotView userResetForgotView = new UserResetForgotView();
 
-        this.mvc.perform(get("/user/reset/forgot/password"))
-                .andExpect(status().isOk());
+        userResetForgotView.setPassword("newPassword");
+        userResetForgotView.setToken(tokenService.generatedEmailToken("username").getToken());
 
+        Gson gson = new Gson();
+        String json = gson.toJson(userResetForgotView);
+
+        this.mvc.perform(post("/user/reset/forgot/password")
+                .contentType(MediaType.APPLICATION_JSON).content(json))
+                .andExpect(status().isUnauthorized());
     }
 }

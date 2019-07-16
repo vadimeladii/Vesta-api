@@ -10,7 +10,7 @@ public class VestaException extends RuntimeException {
 
     private final HttpStatus httpStatus;
 
-    public VestaException(String message, HttpStatus httpStatus){
+    VestaException(String message, HttpStatus httpStatus) {
         super(message);
         this.message = message;
         this.httpStatus = httpStatus;

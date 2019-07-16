@@ -94,7 +94,8 @@ public interface UserController {
 
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Passward was reset successfully"),
-            @ApiResponse(code = 401, message = "Life time of token has finished")
+            @ApiResponse(code = 401, message = "Life time of token has finished"),
+            @ApiResponse(code = 409, message = "New Password equals with Old Password")
     })
     @ApiOperation(value = "Reset forgot password")
     @PostMapping("reset/forgot/password")
