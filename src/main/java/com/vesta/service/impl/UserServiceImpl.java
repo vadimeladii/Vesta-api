@@ -7,14 +7,16 @@ import com.vesta.exception.UnauthorizedException;
 import com.vesta.exception.VestaException;
 import com.vesta.repository.UserRepository;
 import com.vesta.repository.entity.UserEntity;
+import com.vesta.service.EmailService;
 import com.vesta.service.RolesService;
 import com.vesta.service.TokenService;
 import com.vesta.service.UserService;
 import com.vesta.service.converter.UserConverter;
 import com.vesta.service.dto.AccountCredential;
-import com.vesta.util.Roles;
 import com.vesta.service.dto.UserDto;
+import com.vesta.util.Roles;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -25,19 +27,16 @@ import java.util.stream.Collectors;
 
 import static com.vesta.expression.ExpressionAsserts.verify;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
-
     private final UserRepository userRepository;
-
     private final UserConverter userConverter;
-
     private final TokenService tokenService;
-
     private final PasswordEncoder passwordEncoder;
-
     private final RolesService rolesService;
+    private final EmailService emailService;
 
     @Override
     public UserDto getById(Long id) {
@@ -56,8 +55,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void create(UserDto userDto) {
-        verify(userRepository.existsByUsername(userDto.getUsername()), () -> new ConflictException("Username already exists"));
-        verify(userRepository.existsByEmail(userDto.getEmail()), () -> new ConflictException("Email already exists"));
+        verify(userRepository.existsByUsername(userDto.getUsername()),
+                () -> new ConflictException("Username already exists"));
+        verify(userRepository.existsByEmail(userDto.getEmail()),
+                () -> new ConflictException("Email already exists"));
 
         UserEntity entity = userConverter.deconvert(userDto);
         entity.setPassword(passwordEncoder.encode(userDto.getPassword()));
@@ -77,6 +78,27 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void forgotPasswordMail(String email) {
+        userRepository.findByEmail(email).ifPresentOrElse(userEntity
+                        -> emailService.sendEmailForgotPassword(userEntity.getUsername(), userEntity.getEmail()),
+                () -> log.error("Can't sent forgot password mail because user doesn't exist: email - {}", email));
+    }
+
+    @Override
+    public void resetForgotPassword(String token, String password) {
+
+        String subject = tokenService.getSubject(token);
+        UserEntity userEntity = userRepository.findByUsername(subject)
+                .orElseThrow(() -> new UnauthorizedException("The username not found"));
+
+        verify(passwordEncoder.matches(password, userEntity.getPassword()),
+                () -> new ConflictException("New Password do not must match with Old Password"));
+        userEntity.setPassword(passwordEncoder.encode(password));
+        userRepository.save(userEntity);
+
+    }
+
+    @Override
     public void delete(Long id) {
         userRepository.deleteById(id);
     }
@@ -92,7 +114,8 @@ public class UserServiceImpl implements UserService {
         UserEntity userEntity = getUserEntityByUsername(accountCredential.getUsername(),
                 new UnauthorizedException("The username doesn't correct"));
 
-        verify(!passwordEncoder.matches(accountCredential.getPassword(), userEntity.getPassword()), () -> new UnauthorizedException("The password doesn't correct"));
+        verify(!passwordEncoder.matches(accountCredential.getPassword(), userEntity.getPassword()),
+                () -> new UnauthorizedException("The password doesn't correct"));
 
         Map<String, String> tokens = new HashMap<>();
         tokens.put("accessToken", tokenService.generatedAccessToken(accountCredential.getUsername()).getToken());

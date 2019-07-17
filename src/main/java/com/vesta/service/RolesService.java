@@ -4,5 +4,5 @@ import com.vesta.repository.entity.RoleEntity;
 
 public interface RolesService {
 
-    RoleEntity findByName (String name);
+    RoleEntity findByName(String name);
 }

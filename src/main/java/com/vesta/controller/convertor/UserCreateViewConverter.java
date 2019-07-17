@@ -21,7 +21,7 @@ public class UserCreateViewConverter implements Converter<UserDto, UserCreateVie
         return view;
     }
 
-    public UserDto deconvert(UserCreateView view){
+    public UserDto deconvert(UserCreateView view) {
         if (view == null) return null;
         UserDto dto = new UserDto();
         dto.setFirstName(view.getFirstName());

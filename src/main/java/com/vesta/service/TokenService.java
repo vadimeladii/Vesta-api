@@ -13,5 +13,8 @@ public interface TokenService {
     Token generatedRefreshToken(String username);
 
     String getRefreshSubject(String token);
-  
+
+    Token generatedEmailToken(String username);
+
+    String getSubject(String token);
 }

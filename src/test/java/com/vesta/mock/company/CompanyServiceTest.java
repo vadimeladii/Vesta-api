@@ -19,6 +19,7 @@ import org.mockito.quality.Strictness;
 
 import java.util.Optional;
 
+import static com.vesta.integration.common.UtilIntegration.createCompayEntity;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
@@ -26,7 +27,7 @@ import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
-public class CompanyServiceTest {
+class CompanyServiceTest {
 
     private CompanyService companyService;
 
@@ -36,17 +37,14 @@ public class CompanyServiceTest {
     private CompanyConverter companyConverter = new CompanyConverter();
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         companyService = new CompanyServiceImpl(companyRepository, companyConverter);
     }
 
     @Test
-    public void test_findByName_validName() {
+    void test_findByName_validName() {
         // given
-        CompanyEntity companyEntity = new CompanyEntity();
-        companyEntity.setId(1L);
-        companyEntity.setName("test");
-        companyEntity.setFloor(1);
+        CompanyEntity companyEntity = createCompayEntity();
 
         Mockito.when(companyRepository.findByName(companyEntity.getName()))
                 .thenReturn(Optional.of(companyEntity));
@@ -62,12 +60,9 @@ public class CompanyServiceTest {
     }
 
     @Test
-    public void test_findByName_invalidName() {
+    void test_findByName_invalidName() {
         // given
-        CompanyEntity companyEntity = new CompanyEntity();
-        companyEntity.setId(1L);
-        companyEntity.setName("test");
-        companyEntity.setFloor(1);
+        CompanyEntity companyEntity = createCompayEntity();
 
         Mockito.when(companyRepository.findByName(companyEntity.getName()))
                 .thenReturn(Optional.of(companyEntity));
@@ -75,6 +70,4 @@ public class CompanyServiceTest {
         // when
         Assertions.assertThrows(VestaException.class, () -> companyService.getByName("invalidName"));
     }
-
-
 }
