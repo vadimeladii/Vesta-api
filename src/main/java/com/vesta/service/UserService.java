@@ -18,7 +18,9 @@ public interface UserService {
 
     void create(@Valid UserDto userDto);
 
-    UserDto update(Long id,@Valid UserDto userDto);
+    UserDto update(Long id, @Valid UserDto userDto);
+
+    void resetForgotPassword(String token, String password);
 
     void delete(Long id);
 
@@ -27,4 +29,6 @@ public interface UserService {
     Map<String, String> login(AccountCredential accountCredential);
 
     Token refreshToken(String refreshToken);
+
+    void forgotPasswordMail(String email);
 }

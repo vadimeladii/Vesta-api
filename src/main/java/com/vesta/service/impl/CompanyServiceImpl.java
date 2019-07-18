@@ -22,7 +22,7 @@ public class CompanyServiceImpl implements CompanyService {
     private final CompanyConverter companyConverter;
 
     @Override
-    public List<CompanyDto> findAll(){
+    public List<CompanyDto> findAll() {
         return companyRepository.findAll()
                 .stream()
                 .map(companyConverter::convert)

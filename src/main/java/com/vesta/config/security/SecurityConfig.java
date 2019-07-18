@@ -13,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+import static com.vesta.config.security.SecurityConstants.AUTHORIZED_PATH;
 import static com.vesta.config.security.SecurityConstants.PATTERNS_PATH;
 
 @Configuration
@@ -31,11 +32,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers(HttpMethod.POST,
-                        "/user/login",
-                        "/user/registration",
-                        "/user/forgot-password",
-                        "/user/refresh").permitAll()
+                .antMatchers(HttpMethod.POST, AUTHORIZED_PATH).permitAll()
                 .antMatchers(PATTERNS_PATH).permitAll()
                 .anyRequest().authenticated()
                 .and()

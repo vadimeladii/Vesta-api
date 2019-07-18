@@ -5,6 +5,7 @@ import com.vesta.controller.convertor.UserCreateViewConverter;
 import com.vesta.controller.convertor.UserViewConverter;
 import com.vesta.controller.view.Token;
 import com.vesta.controller.view.UserCreateView;
+import com.vesta.controller.view.UserResetForgotView;
 import com.vesta.controller.view.UserView;
 import com.vesta.service.UserService;
 import com.vesta.service.dto.AccountCredential;
@@ -54,12 +55,17 @@ public class UserControllerImpl implements UserController {
         userService.delete(id);
     }
 
-    @Override
     public Token refreshToken(String refreshToken) {
         return userService.refreshToken(refreshToken);
     }
 
-    @Override
+    public void forgotPasswordMail(String email) {
+        userService.forgotPasswordMail(email);
+    }
+
+    public void resetForgotPassword(UserResetForgotView userResetForgotView) {
+        userService.resetForgotPassword(userResetForgotView.getToken(), userResetForgotView.getPassword());
+
     public UserView currentUserDetails() {
       return userViewConverter.convert(userService.getByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
     }
