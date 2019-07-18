@@ -65,8 +65,9 @@ public class UserControllerImpl implements UserController {
 
     public void resetForgotPassword(UserResetForgotView userResetForgotView) {
         userService.resetForgotPassword(userResetForgotView.getToken(), userResetForgotView.getPassword());
+    }
 
     public UserView currentUserDetails() {
-      return userViewConverter.convert(userService.getByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
+        return userViewConverter.convert(userService.getByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
     }
 }
