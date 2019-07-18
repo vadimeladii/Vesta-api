@@ -3,6 +3,7 @@ package com.vesta.mock.user;
 import com.vesta.exception.VestaException;
 import com.vesta.repository.UserRepository;
 import com.vesta.repository.entity.UserEntity;
+import com.vesta.service.EmailService;
 import com.vesta.service.RolesService;
 import com.vesta.service.TokenService;
 import com.vesta.service.UserService;
@@ -46,11 +47,14 @@ public class UserServiceTest {
     @Mock
     private RolesService rolesService;
 
+    @Mock
+    private EmailService emailService;
+
     private UserConverter userConverter = new UserConverter();
 
     @BeforeEach
     public void setUp() {
-        userService = new UserServiceImpl(userRepository, userConverter, tokenService, passwordEncoder, rolesService);
+        userService = new UserServiceImpl(userRepository, userConverter, tokenService, passwordEncoder, rolesService, emailService);
     }
 
     @Test
