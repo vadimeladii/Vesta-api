@@ -1,0 +1,16 @@
+output:
+  logstash:
+    enabled: true
+    hosts:
+      - elk:5044
+    ssl:
+      certificate_authorities:
+        - /etc/pki/tls/certs/logstash-beats.crt
+    timeout: 15
+
+filebeat:
+  inputs:
+    -
+      paths:
+        - "/usr/share/filebeat/logs/*.log"
+      document_type: applicationlog

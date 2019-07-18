@@ -1,20 +1,26 @@
 version: '2'
 services:
-  # POSTGRES
+#   POSTGRES
   db:
     image: postgres:latest
+    container_name: vesta_postgres
     restart: always
+    networks:
+      - vesta
     environment:
       POSTGRES_PASSWORD: postgres
-  # SPRING_BOOT APPLICATION
+#   SPRING_BOOT APPLICATION
   spring_boot:
     image: vadimeladii7/vesta-api:latest
+    container_name: vesta_api
     ports:
       - "8080:8080"
-    links:
-      - db
+    networks:
+      - vesta
     depends_on:
       - db
+    volumes:
+      - logs:/logs
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/postgres
       - SPRING_DATASOURCE_USERNAME=postgres
@@ -22,3 +28,29 @@ services:
       - SPRING_FLYWAY_URL=jdbc:postgresql://db:5432/postgres
       - SPRING_FLYWAY_USER=postgres
       - SPRING_FLYWAY_PASSWORD=postgres
+
+  elk:
+    image: sebp/elk
+    ports:
+      - "5601:5601"
+      - "9200:9200"
+      - "5044:5044"
+    networks:
+      - vesta
+
+  filebeat:
+    build: ./filebeat
+    container_name: filebeat
+    depends_on:
+      - elk
+    volumes:
+      - logs:/usr/share/filebeat/logs
+    networks:
+      - vesta
+
+networks:
+  vesta:
+    driver: bridge
+
+volumes:
+  logs:
