@@ -105,14 +105,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto getByUsername(String username) {
-        return userConverter.convert(getUserEntityByUsername(username,
-                new NotFoundException("The username not found")));
+        return userConverter.convert(userRepository.findByUsername(username)
+                .orElseThrow(() -> new UnauthorizedException("The username doesn't correct")));
     }
 
     @Override
     public Map<String, String> login(AccountCredential accountCredential) {
-        UserEntity userEntity = getUserEntityByUsername(accountCredential.getUsername(),
-                new UnauthorizedException("The username doesn't correct"));
+        UserEntity userEntity = userRepository.findByUsername(accountCredential.getUsername())
+                .orElseThrow(() -> new UnauthorizedException("The username doesn't correct"));
 
         verify(!passwordEncoder.matches(accountCredential.getPassword(), userEntity.getPassword()),
                 () -> new UnauthorizedException("The password doesn't correct"));
@@ -126,11 +126,5 @@ public class UserServiceImpl implements UserService {
     @Override
     public Token refreshToken(String refreshToken) {
         return tokenService.generatedAccessToken(tokenService.getRefreshSubject(refreshToken));
-    }
-
-    private UserEntity getUserEntityByUsername(String username, VestaException exception) {
-        return userRepository
-                .findByUsername(username)
-                .orElseThrow(() -> exception);
     }
 }
