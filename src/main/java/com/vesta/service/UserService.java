@@ -18,7 +18,7 @@ public interface UserService {
 
     void create(@Valid UserDto userDto);
 
-    UserDto update(Long id, @Valid UserDto userDto);
+    UserDto update(Long id, UserDto userDto);
 
     void resetForgotPassword(String token, String password);
 
