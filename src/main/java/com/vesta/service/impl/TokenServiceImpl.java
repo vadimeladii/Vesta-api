@@ -4,6 +4,7 @@ import com.vesta.controller.view.Token;
 import com.vesta.service.TokenService;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +13,7 @@ import java.util.Date;
 
 import static com.vesta.config.security.SecurityConstants.*;
 
+@Slf4j
 @Service
 public class TokenServiceImpl implements TokenService {
 
@@ -25,14 +27,20 @@ public class TokenServiceImpl implements TokenService {
     private Long emailExpiration;
 
     public Token generatedAccessToken(String username) {
+        log.info("method --- generatedAccessToken");
+
         return buildToken(username, accessExpiration, JWT_SECRET, TOKEN_PREFIX);
     }
 
     public Token generatedRefreshToken(String username) {
+        log.info("method --- generatedRefreshToken");
+
         return buildToken(username, refreshExpiration, REFRESH_SECRET, TOKEN_PREFIX);
     }
 
     public Token generatedEmailToken(String username) {
+        log.info("method --- generatedEmailToken");
+
         return buildToken(username, emailExpiration, EMAIL_SECRET, "");
     }
 
@@ -48,6 +56,8 @@ public class TokenServiceImpl implements TokenService {
     }
 
     public String getRefreshSubject(String token) {
+        log.info("method --- getRefreshSubject");
+
         return buildSubject(token, REFRESH_SECRET);
     }
 

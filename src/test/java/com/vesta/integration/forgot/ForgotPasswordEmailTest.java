@@ -9,34 +9,38 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.mail.internet.MimeMessage;
 
-import static com.vesta.integration.common.UtilIntegration.createUserEntiy;
+import static com.vesta.common.UtilData.USER_EMAIL;
+import static com.vesta.common.UtilData.userEntity;
 import static org.junit.Assert.assertEquals;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class ForgotPasswordEmailIT extends IntegrationConfigTest {
+public class ForgotPasswordEmailTest extends IntegrationConfigTest {
+
+    private final String URL_TEMPLATE = "/user/forgot/password/email";
 
     @Rule
-    public SmtpServerRuleTemplateTest mailServerRule = new SmtpServerRuleTemplateTest(2525);
+    public SmtpServerRuleTemplateTest mailServerRule = new SmtpServerRuleTemplateTest("username", "password", 2525);
 
     @Autowired
     private UserRepository userRepository;
 
     @Test
-    public void submitPassfordForgotSucces() throws Exception {
+    public void submitPasswordForgotSuccess() throws Exception {
 
-        UserEntity userEntity = createUserEntiy();
+        UserEntity userEntity = userEntity();
         userRepository.save(userEntity);
 
-        this.mvc.perform(post("/user/forgot/password/email")
+        this.mvc.perform(post(URL_TEMPLATE)
                 .with(csrf())
-                .param("email", "vesta.api@gmail.com"))
+                .param("email", USER_EMAIL))
                 .andExpect(status().isOk());
 
         MimeMessage[] receivedMessages = mailServerRule.getMessages();
-        assertEquals(1, receivedMessages.length);
         MimeMessage current = receivedMessages[0];
-        assertEquals("vesta.api@gmail.com", current.getAllRecipients()[0].toString());
+
+        assertEquals(1, receivedMessages.length);
+        assertEquals(USER_EMAIL, current.getAllRecipients()[0].toString());
     }
 }

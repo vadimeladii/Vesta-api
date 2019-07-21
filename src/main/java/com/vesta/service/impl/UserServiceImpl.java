@@ -40,6 +40,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto getById(Long id) {
+        log.info("method --- getById");
+
         UserEntity userEntity = userRepository.findById(id).orElseThrow(() ->
                 new NotFoundException("The user doesn't exist"));
         return userConverter.convert(userEntity);
@@ -47,6 +49,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserDto> findAll() {
+        log.info("method --- findAll");
+
         return userRepository.findAll()
                 .stream()
                 .map(userConverter::convert)
@@ -55,6 +59,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void create(UserDto userDto) {
+        log.info("method --- create");
+
         verify(userRepository.existsByUsername(userDto.getUsername()),
                 () -> new ConflictException("Username already exists"));
         verify(userRepository.existsByEmail(userDto.getEmail()),
@@ -68,6 +74,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto update(Long id, UserDto userDto) {
+        log.info("method --- update");
+
         UserEntity userEntity = userRepository.findById(id).orElseThrow(() ->
                 new NotFoundException("The user doesn't exist"));
 
@@ -79,6 +87,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void forgotPasswordMail(String email) {
+        log.info("method --- forgotPasswordMail");
+
         userRepository.findByEmail(email).ifPresentOrElse(userEntity
                         -> emailService.sendEmailForgotPassword(userEntity.getUsername(), userEntity.getEmail()),
                 () -> log.error("Can't sent forgot password mail because user doesn't exist: email - {}", email));
@@ -86,6 +96,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void resetForgotPassword(String token, String password) {
+        log.info("method --- resetForgotPassword");
 
         String subject = tokenService.getSubject(token);
         UserEntity userEntity = userRepository.findByUsername(subject)
@@ -95,22 +106,27 @@ public class UserServiceImpl implements UserService {
                 () -> new ConflictException("New Password do not must match with Old Password"));
         userEntity.setPassword(passwordEncoder.encode(password));
         userRepository.save(userEntity);
-
     }
 
     @Override
     public void delete(Long id) {
+        log.info("method --- delete");
+
         userRepository.deleteById(id);
     }
 
     @Override
     public UserDto getByUsername(String username) {
+        log.info("method --- getByUsername");
+
         return userConverter.convert(userRepository.findByUsername(username)
                 .orElseThrow(() -> new UnauthorizedException("The username doesn't correct")));
     }
 
     @Override
     public Map<String, String> login(AccountCredential accountCredential) {
+        log.info("method --- login");
+
         UserEntity userEntity = userRepository.findByUsername(accountCredential.getUsername())
                 .orElseThrow(() -> new UnauthorizedException("The username doesn't correct"));
 
@@ -125,6 +141,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Token refreshToken(String refreshToken) {
+        log.info("method --- refreshToken");
+
         return tokenService.generatedAccessToken(tokenService.getRefreshSubject(refreshToken));
     }
 }
