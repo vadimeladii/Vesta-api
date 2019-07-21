@@ -1,5 +1,6 @@
 package com.vesta.mock.user;
 
+import com.vesta.common.UtilData;
 import com.vesta.exception.VestaException;
 import com.vesta.repository.UserRepository;
 import com.vesta.repository.entity.UserEntity;
@@ -10,18 +11,16 @@ import com.vesta.service.UserService;
 import com.vesta.service.converter.UserConverter;
 import com.vesta.service.dto.UserDto;
 import com.vesta.service.impl.UserServiceImpl;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
+import org.apache.commons.lang3.RandomStringUtils;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.mockito.junit.jupiter.MockitoSettings;
-import org.mockito.quality.Strictness;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collections;
 import java.util.Optional;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -29,8 +28,8 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.verify;
 
-@ExtendWith(MockitoExtension.class)
-@MockitoSettings(strictness = Strictness.LENIENT)
+@Transactional
+@RunWith(MockitoJUnitRunner.class)
 public class UserServiceTest {
 
     private UserService userService;
@@ -52,7 +51,7 @@ public class UserServiceTest {
 
     private UserConverter userConverter = new UserConverter();
 
-    @BeforeEach
+    @Before
     public void setUp() {
         userService = new UserServiceImpl(userRepository, userConverter, tokenService, passwordEncoder, rolesService, emailService);
     }
@@ -61,20 +60,15 @@ public class UserServiceTest {
     public void test_findByName_validUserName() {
 
         // given
-        UserEntity userEntity = new UserEntity();
-        userEntity.setFirstName("firstname");
-        userEntity.setLastName("lastname");
-        userEntity.setUsername("username");
-        userEntity.setEmail("test2@gmail.com");
-        userEntity.setRoles(Collections.emptyList());
+        UserEntity userEntity = UtilData.userEntity();
 
+        // when
         Mockito.when(userRepository.findByUsername(userEntity.getUsername()))
                 .thenReturn(Optional.of(userEntity));
 
-        // when
+        // then
         UserDto returnDto = userService.getByUsername(userEntity.getUsername());
 
-        // then
         assertNotNull(returnDto);
         assertThat(userEntity.getFirstName(), is(returnDto.getFirstName()));
         assertThat(userEntity.getLastName(), is(returnDto.getLastName()));
@@ -83,42 +77,23 @@ public class UserServiceTest {
         verify(userRepository).findByUsername(userEntity.getUsername());
     }
 
-    @Test
+    @Test(expected = VestaException.class)
     public void test_findByName_invalidUserName() {
-        // given
-        UserEntity userEntity = new UserEntity();
-        userEntity.setFirstName("firstname");
-        userEntity.setLastName("lastname");
-        userEntity.setUsername("username");
-        userEntity.setEmail("test2@gmail.com");
-        userEntity.setRoles(Collections.emptyList());
-
-        Mockito.when(userRepository.findByUsername(userEntity.getUsername()))
-                .thenReturn(Optional.of(userEntity));
-
-        // when
-        Assertions.assertThrows(VestaException.class, () -> userService.getByUsername("invalidName"));
+        userService.getByUsername(RandomStringUtils.randomAlphabetic(10));
     }
 
     @Test
     public void test_findById_validId(){
-
         // given
-        UserEntity userEntity = new UserEntity();
-        userEntity.setId(1L);
-        userEntity.setFirstName("firstname");
-        userEntity.setLastName("lastname");
-        userEntity.setUsername("username");
-        userEntity.setEmail("test2@gmail.com");
-        userEntity.setRoles(Collections.emptyList());
+        UserEntity userEntity = UtilData.userEntity();
 
+        // when
         Mockito.when(userRepository.findById(userEntity.getId()))
                 .thenReturn(Optional.of(userEntity));
 
-        // when
+        // then
         UserDto returnDto = userService.getById(userEntity.getId());
 
-        // then
         assertNotNull(returnDto);
         assertThat(userEntity.getId(), is(returnDto.getId()));
         assertThat(userEntity.getFirstName(), is(returnDto.getFirstName()));
@@ -128,23 +103,8 @@ public class UserServiceTest {
         verify(userRepository).findById(userEntity.getId());
     }
 
-    @Test
+    @Test(expected = VestaException.class)
     public void test_findById_invalidId() {
-        // given
-        UserEntity userEntity = new UserEntity();
-        userEntity.setId(1l);
-        userEntity.setFirstName("firstname");
-        userEntity.setLastName("lastname");
-        userEntity.setUsername("username");
-        userEntity.setEmail("test2@gmail.com");
-        userEntity.setRoles(Collections.emptyList());
-
-        Mockito.when(userRepository.findById(userEntity.getId()))
-                .thenReturn(Optional.of(userEntity));
-
-        // when
-        Assertions.assertThrows(VestaException.class, () -> userService.getById(null));
+        userService.getById(null);
     }
-
-
 }

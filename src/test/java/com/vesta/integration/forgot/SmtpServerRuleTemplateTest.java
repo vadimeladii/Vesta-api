@@ -6,13 +6,19 @@ import org.junit.rules.ExternalResource;
 
 import javax.mail.internet.MimeMessage;
 
+import static com.vesta.common.UtilData.USER_EMAIL;
 
 public class SmtpServerRuleTemplateTest extends ExternalResource {
 
+    private String mailUsername;
+    private String mailPassword;
     private GreenMail mailServer;
     private int port;
 
-    SmtpServerRuleTemplateTest(int port) {
+
+    SmtpServerRuleTemplateTest(String mailUsername, String mailPassword, int port) {
+        this.mailUsername = mailUsername;
+        this.mailPassword = mailPassword;
         this.port = port;
     }
 
@@ -21,7 +27,7 @@ public class SmtpServerRuleTemplateTest extends ExternalResource {
         super.before();
         mailServer = new GreenMail(new ServerSetup(port, null, "smtp"));
         mailServer.start();
-        mailServer.setUser("vesta.api@gmail.com", "username", "password");
+        mailServer.setUser(USER_EMAIL, mailUsername, mailPassword);
 
     }
 

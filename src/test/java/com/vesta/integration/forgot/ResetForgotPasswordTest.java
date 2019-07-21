@@ -3,6 +3,7 @@ package com.vesta.integration.forgot;
 import com.google.gson.Gson;
 import com.vesta.controller.view.UserResetForgotView;
 import com.vesta.integration.IntegrationConfigTest;
+import com.vesta.common.UtilData;
 import com.vesta.repository.UserRepository;
 import com.vesta.repository.entity.UserEntity;
 import com.vesta.service.TokenService;
@@ -11,11 +12,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import static com.vesta.integration.common.UtilIntegration.createUserEntiyWithPassword;
+import static com.vesta.common.UtilData.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class ResetForgotPasswordIT extends IntegrationConfigTest {
+public class ResetForgotPasswordTest extends IntegrationConfigTest {
+
+    private final String URL_TEMPLATE = "/user/reset/forgot/password";
 
     @Autowired
     private UserRepository userRepository;
@@ -28,36 +31,36 @@ public class ResetForgotPasswordIT extends IntegrationConfigTest {
 
     @Test
     public void submitPasswordConflict() throws Exception {
-        UserEntity userEntity = createUserEntiyWithPassword(passwordEncoder.encode("password"));
+        UserEntity userEntity = UtilData.userEntity(passwordEncoder.encode(USER_PASSWORD));
         userRepository.save(userEntity);
 
         UserResetForgotView userResetForgotView = new UserResetForgotView();
 
-        userResetForgotView.setPassword("password");
-        userResetForgotView.setToken(tokenService.generatedEmailToken("username").getToken());
+        userResetForgotView.setPassword(USER_PASSWORD);
+        userResetForgotView.setToken(tokenService.generatedEmailToken(USER_USERNAME).getToken());
 
         Gson gson = new Gson();
         String json = gson.toJson(userResetForgotView);
 
-        this.mvc.perform(post("/user/reset/forgot/password")
+        this.mvc.perform(post(URL_TEMPLATE)
                 .contentType(MediaType.APPLICATION_JSON).content(json))
                 .andExpect(status().isConflict());
     }
 
     @Test
     public void submitPasswordSucces() throws Exception {
-        UserEntity userEntity = createUserEntiyWithPassword(passwordEncoder.encode("password"));
+        UserEntity userEntity = UtilData.userEntity(passwordEncoder.encode(USER_USERNAME));
         userRepository.save(userEntity);
 
         UserResetForgotView userResetForgotView = new UserResetForgotView();
 
-        userResetForgotView.setPassword("newPassword");
-        userResetForgotView.setToken(tokenService.generatedEmailToken("username").getToken());
+        userResetForgotView.setPassword(USER_NEW_PASSWORD);
+        userResetForgotView.setToken(tokenService.generatedEmailToken(USER_USERNAME).getToken());
 
         Gson gson = new Gson();
         String json = gson.toJson(userResetForgotView);
 
-        this.mvc.perform(post("/user/reset/forgot/password")
+        this.mvc.perform(post(URL_TEMPLATE)
                 .contentType(MediaType.APPLICATION_JSON).content(json))
                 .andExpect(status().isOk());
     }
@@ -66,13 +69,13 @@ public class ResetForgotPasswordIT extends IntegrationConfigTest {
     public void accesResetPasswordWithInvalidToken() throws Exception {
         UserResetForgotView userResetForgotView = new UserResetForgotView();
 
-        userResetForgotView.setPassword("newPassword");
-        userResetForgotView.setToken(tokenService.generatedEmailToken("username").getToken());
+        userResetForgotView.setPassword(USER_NEW_PASSWORD);
+        userResetForgotView.setToken(tokenService.generatedEmailToken(USER_EMAIL).getToken());
 
         Gson gson = new Gson();
         String json = gson.toJson(userResetForgotView);
 
-        this.mvc.perform(post("/user/reset/forgot/password")
+        this.mvc.perform(post(URL_TEMPLATE)
                 .contentType(MediaType.APPLICATION_JSON).content(json))
                 .andExpect(status().isUnauthorized());
     }

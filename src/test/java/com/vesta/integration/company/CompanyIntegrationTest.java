@@ -15,17 +15,18 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.List;
 
-import static com.vesta.integration.common.UtilIntegration.createCompayEntity;
+import static com.vesta.common.UtilData.companyEntity;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class CompanyIntegrationTest extends IntegrationConfigTest {
+public class  CompanyIntegrationTest extends IntegrationConfigTest {
 
     @Autowired
     CompanyRepository companyRepository;
+
     @Autowired
     private ObjectMapper objectMapper;
 
@@ -33,7 +34,7 @@ public class CompanyIntegrationTest extends IntegrationConfigTest {
     @Test
     public void getListOfCompanies() throws Exception {
         // given
-        CompanyEntity companyEntity = createCompayEntity();
+        CompanyEntity companyEntity = companyEntity();
         companyRepository.save(companyEntity);
 
         // when
@@ -42,6 +43,7 @@ public class CompanyIntegrationTest extends IntegrationConfigTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andReturn();
+
         List<CompanyView> response = objectMapper.readValue(
                 mvcResult.getResponse().getContentAsString(),
                 new TypeReference<List<CompanyView>>() {
@@ -50,7 +52,7 @@ public class CompanyIntegrationTest extends IntegrationConfigTest {
         // then
         assertNotNull(response);
         assertNotNull(response.get(0));
-        assertThat(response.get(0).getId(), is(companyEntity.getId()));
+        assertThat(response.get(0).getId(), is(1L));
         assertThat(response.get(0).getName(), is(companyEntity.getName()));
         assertThat(response.get(0).getFloor(), is(companyEntity.getFloor()));
     }

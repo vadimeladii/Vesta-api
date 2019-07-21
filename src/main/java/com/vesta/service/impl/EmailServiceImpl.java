@@ -41,6 +41,8 @@ public class EmailServiceImpl implements EmailService {
     private Configuration freemarkerConf;
 
     private void sendEmail(MailDto mail) {
+        log.info("method --- sendEmail");
+
         MimeMessageHelper helper;
         MimeMessage message = mailSender.createMimeMessage();
 
@@ -63,6 +65,8 @@ public class EmailServiceImpl implements EmailService {
 
     @Override
     public void sendEmailForgotPassword(String username, String email) {
+        log.info("method --- sendEmailForgotPassword");
+
         MailDto mail = new MailDto();
 
         mail.setFrom(emailFrom);
