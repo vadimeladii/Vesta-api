@@ -124,22 +124,45 @@
             <version>${passay.version}</version>
         </dependency>
     </dependencies>
+    <profiles>
+        <profile>
+            <id>coverage</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.jacoco</groupId>
+                        <artifactId>jacoco-maven-plugin</artifactId>
+                        <version>0.8.3</version>
+                        <configuration>
+                            <excludes>
+                                <exclude>**/config/**/*</exclude>
+                                <exclude>**/*Entity.*</exclude>
+                                <exclude>**/*Dto.*</exclude>
+                                <exclude>**/*View.*</exclude>
+                                <exclude>**/*Converter.*</exclude>
+                            </excludes>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>prepare-agent</id>
+                                <goals>
+                                    <goal>prepare-agent</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>report</id>
+                                <goals>
+                                    <goal>report</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
     <build>
         <plugins>
-            <plugin>
-                <groupId>org.jacoco</groupId>
-                <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.1</version>
-                <configuration>
-                    <excludes>
-                        <exclude>**/config/**/*</exclude>
-                        <exclude>**/*Entity.*</exclude>
-                        <exclude>**/*Dto.*</exclude>
-                        <exclude>**/*View.*</exclude>
-                        <exclude>**/*Converter.*</exclude>
-                    </excludes>
-                </configuration>
-            </plugin>
             <plugin>
                 <groupId>org.flywaydb</groupId>
                 <artifactId>flyway-maven-plugin</artifactId>
