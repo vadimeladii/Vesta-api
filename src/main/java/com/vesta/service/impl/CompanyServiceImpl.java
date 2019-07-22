@@ -18,7 +18,6 @@ import java.util.stream.Collectors;
 public class CompanyServiceImpl implements CompanyService {
 
     private final CompanyRepository companyRepository;
-
     private final CompanyConverter companyConverter;
 
     @Override

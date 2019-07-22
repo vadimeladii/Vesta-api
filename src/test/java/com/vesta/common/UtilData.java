@@ -2,6 +2,7 @@ package com.vesta.common;
 
 import com.vesta.repository.entity.CompanyEntity;
 import com.vesta.repository.entity.RoleEntity;
+import com.vesta.repository.entity.SubjectImageEntity;
 import com.vesta.repository.entity.UserEntity;
 import org.apache.commons.lang3.RandomStringUtils;
 
@@ -9,20 +10,23 @@ import java.util.Collections;
 
 public class UtilData {
 
-    public static Long USER_ID = Long.parseLong(RandomStringUtils.randomNumeric(10));
+    private static Long USER_ID = Long.parseLong(RandomStringUtils.randomNumeric(10));
     public static String USER_USERNAME = RandomStringUtils.randomAlphabetic(10);
     public static String USER_EMAIL = RandomStringUtils.randomAlphabetic(10) + "@gmail.com";
     public static String USER_PASSWORD = RandomStringUtils.randomAlphabetic(10);
     public static String USER_NEW_PASSWORD = RandomStringUtils.randomAlphabetic(10);
-    public static String USER_LAST_NAME = RandomStringUtils.randomAlphabetic(10);
-    public static String USER_FIRST_NAME = RandomStringUtils.randomAlphabetic(10);
+    private static String USER_LAST_NAME = RandomStringUtils.randomAlphabetic(10);
+    private static String USER_FIRST_NAME = RandomStringUtils.randomAlphabetic(10);
 
-    public static Long COMPANY_ID = Long.parseLong(RandomStringUtils.randomNumeric(10));
+    private static Long SUBJECT_IMAGE_ID = Long.parseLong(RandomStringUtils.randomNumeric(10));
+    private static String SUBJECT_IMAGE = RandomStringUtils.randomAlphabetic(100);
+
+    private static Long COMPANY_ID = Long.parseLong(RandomStringUtils.randomNumeric(10));
     public static String COMPANY_NAME = RandomStringUtils.randomAlphabetic(10);
-    public static Integer COMPANY_FLOOR = Integer.parseInt(RandomStringUtils.randomNumeric(5));
+    private static Integer COMPANY_FLOOR = Integer.parseInt(RandomStringUtils.randomNumeric(5));
 
-    public static Long ROLE_ID = Long.parseLong(RandomStringUtils.randomNumeric(10));
-    public static String ROLE_NAME = RandomStringUtils.randomAlphabetic(10);
+    private static Long ROLE_ID = Long.parseLong(RandomStringUtils.randomNumeric(10));
+    private static String ROLE_NAME = RandomStringUtils.randomAlphabetic(10);
 
     public static UserEntity userEntity() {
         UserEntity userEntity = new UserEntity();
@@ -42,6 +46,14 @@ public class UtilData {
         userEntity.setPassword(password);
 
         return userEntity;
+    }
+
+    public static SubjectImageEntity subjectImageEntity(){
+        SubjectImageEntity subjectImageEntity = new SubjectImageEntity();
+        subjectImageEntity.setId(SUBJECT_IMAGE_ID);
+        subjectImageEntity.setImage(SUBJECT_IMAGE);
+
+        return subjectImageEntity;
     }
 
     public static CompanyEntity companyEntity() {
