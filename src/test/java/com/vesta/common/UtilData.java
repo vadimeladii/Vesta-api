@@ -1,6 +1,7 @@
 package com.vesta.common;
 
 import com.vesta.repository.entity.CompanyEntity;
+import com.vesta.repository.entity.FloorEntity;
 import com.vesta.repository.entity.RoleEntity;
 import com.vesta.repository.entity.UserEntity;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -23,6 +24,9 @@ public class UtilData {
 
     public static Long ROLE_ID = Long.parseLong(RandomStringUtils.randomNumeric(10));
     public static String ROLE_NAME = RandomStringUtils.randomAlphabetic(10);
+
+    public static Long FLOOR_ID = Long.parseLong(RandomStringUtils.randomNumeric(10));
+    public static String FLOOR_NAME = RandomStringUtils.randomAlphabetic(10);
 
     public static UserEntity userEntity() {
         UserEntity userEntity = new UserEntity();
@@ -66,5 +70,13 @@ public class UtilData {
         roleEntity.setName(ROLE_NAME);
 
         return roleEntity;
+    }
+
+    public static FloorEntity floorEntity(){
+        FloorEntity floorEntity = new FloorEntity();
+        floorEntity.setId(FLOOR_ID);
+        floorEntity.setName(FLOOR_NAME);
+
+        return floorEntity;
     }
 }

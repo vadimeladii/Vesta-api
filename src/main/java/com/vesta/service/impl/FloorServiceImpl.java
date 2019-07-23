@@ -36,6 +36,6 @@ public class FloorServiceImpl implements FloorService {
         log.info("method --- getById");
 
         return floorConverter.convert(floorRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("The username not found")));
+                .orElseThrow(() -> new NotFoundException("The floor not found")));
     }
 }
