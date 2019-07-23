@@ -18,8 +18,8 @@ public class UtilData {
     private static String USER_LAST_NAME = RandomStringUtils.randomAlphabetic(10);
     private static String USER_FIRST_NAME = RandomStringUtils.randomAlphabetic(10);
 
-    private static Long SUBJECT_IMAGE_ID = Long.parseLong(RandomStringUtils.randomNumeric(10));
-    private static String SUBJECT_IMAGE = RandomStringUtils.randomAlphabetic(100);
+    public static Long SUBJECT_IMAGE_ID = Long.parseLong(RandomStringUtils.randomNumeric(10));
+    public static String SUBJECT_IMAGE = RandomStringUtils.randomAlphabetic(100);
 
     private static Long COMPANY_ID = Long.parseLong(RandomStringUtils.randomNumeric(10));
     public static String COMPANY_NAME = RandomStringUtils.randomAlphabetic(10);

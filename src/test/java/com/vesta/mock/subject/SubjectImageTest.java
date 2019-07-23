@@ -16,11 +16,9 @@ import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.verify;
 
 @Transactional
@@ -44,23 +42,48 @@ public class SubjectImageTest {
     @Test
     public void getById_Valid() {
         // given
-        SubjectImageEntity entity = UtilData.subjectImageEntity();
+        SubjectImageEntity subjectImageEntity = UtilData.subjectImageEntity();
 
         // when
-        Mockito.when(repository.findById(entity.getId()))
-                .thenReturn(Optional.of(entity));
+        Mockito.when(repository.findById(subjectImageEntity.getId()))
+                .thenReturn(Optional.of(subjectImageEntity));
 
         // then
-        SubjectImageDto returnDto = service.getById(entity.getId());
-
-        assertNotNull(returnDto);
-        assertThat(entity.getId(), is(returnDto.getId()));
-        assertThat(entity.getImage(), is(returnDto.getImage()));
-        verify(repository).findById(entity.getId());
+        service.getById(subjectImageEntity.getId());
+        verify(repository).findById(subjectImageEntity.getId());
     }
 
     @Test(expected = VestaException.class)
     public void getById_Invalid() {
         service.getById(null);
+    }
+
+    @Test
+    public void deleteById_Succes() {
+        // given
+        SubjectImageEntity subjectImageEntity = UtilData.subjectImageEntity();
+        // when
+        service.deleteImage(subjectImageEntity.getId());
+        // then
+        verify(repository).deleteById(subjectImageEntity.getId());
+    }
+
+    @Test
+    public void addImage_Success() {
+        // given
+        SubjectImageDto subjectImageDto = new SubjectImageDto();
+        subjectImageDto.setImage("test-image");
+
+        service.createImage(subjectImageDto);
+    }
+
+    @Test
+    public void findAll_Images() {
+        // given
+        SubjectImageEntity subjectImageEntity = UtilData.subjectImageEntity();
+        // when
+        Mockito.when(repository.findAll())
+                .thenReturn(List.of(subjectImageEntity));
+        service.getAll();
     }
 }

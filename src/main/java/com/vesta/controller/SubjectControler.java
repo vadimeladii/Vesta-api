@@ -1,12 +1,15 @@
 package com.vesta.controller;
 
 import com.vesta.controller.view.SubjectImageView;
+import com.vesta.service.dto.SubjectImageDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RequestMapping("/subject")
 @Api(value = "Subject Controller REST Endpoint")
@@ -16,16 +19,16 @@ public interface SubjectControler {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Image deleted with success"),
     })
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/image/{id}")
     void deleteImage(@PathVariable("id") Long id);
 
     @ApiOperation(value = "Add the image")
     @ApiResponses(value = {
             @ApiResponse(code = 202, message = "Image added with success"),
     })
-    @PostMapping("/add/imge")
+    @PostMapping("/image/add")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    void createImage(@RequestBody SubjectImageView subjectImageView);
+    void createImage(SubjectImageView subjectImageView);
 
     @ApiOperation(value = "Returns the image by ID")
     @ApiResponses(value = {
@@ -34,6 +37,10 @@ public interface SubjectControler {
             @ApiResponse(code = 404, message = "Image not found")
     })
     @ResponseBody
-    @GetMapping("/{id}")
-    SubjectImageView getById(@PathVariable Long id);
+    @GetMapping("/image/{id}")
+    SubjectImageView getById(@PathVariable("id") Long id);
+
+    @ApiOperation(value = "Returns the all images")
+    @GetMapping("/image/all")
+    List<SubjectImageDto> getAll();
 }

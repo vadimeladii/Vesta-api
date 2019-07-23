@@ -10,6 +10,9 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Slf4j
 @Service
 @AllArgsConstructor
@@ -37,8 +40,18 @@ public class SubjectImageServiceImpl implements SubjectImageService {
 
     @Override
     public void deleteImage(Long id) {
-        log.info("method --- delete");
+        log.info("method --- deleteImage");
 
         subjectImageRepository.deleteById(id);
+    }
+
+    @Override
+    public List<SubjectImageDto> getAll() {
+        log.info("method --- findAll");
+
+        return subjectImageRepository.findAll()
+                .stream()
+                .map(converter::convert)
+                .collect(Collectors.toList());
     }
 }

@@ -4,8 +4,12 @@ import com.vesta.controller.SubjectControler;
 import com.vesta.controller.convertor.SubjectImageViewConverter;
 import com.vesta.controller.view.SubjectImageView;
 import com.vesta.service.SubjectImageService;
+import com.vesta.service.dto.SubjectImageDto;
 import lombok.AllArgsConstructor;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @AllArgsConstructor
@@ -27,5 +31,10 @@ public class SubjectControlerImpl implements SubjectControler {
     @Override
     public SubjectImageView getById (Long id){
         return converter.convert(subjectImageService.getById(id));
+    }
+
+    @Override
+    public List<SubjectImageDto> getAll(){
+        return subjectImageService.getAll();
     }
 }
