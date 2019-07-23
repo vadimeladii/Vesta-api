@@ -2,6 +2,7 @@ package com.vesta.service.impl;
 
 import com.vesta.exception.NotFoundException;
 import com.vesta.repository.FloorRepository;
+import com.vesta.repository.entity.FloorEntity;
 import com.vesta.service.FloorService;
 import com.vesta.service.converter.FloorConverter;
 import com.vesta.service.dto.FloorDto;
@@ -9,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -37,5 +39,13 @@ public class FloorServiceImpl implements FloorService {
 
         return floorConverter.convert(floorRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("The floor not found")));
+    }
+
+    @Override
+    public void create(@Valid FloorDto floorDto) {
+        log.info("method --- create");
+
+        FloorEntity entity = floorConverter.deconvert(floorDto);
+        floorRepository.save(entity);
     }
 }
