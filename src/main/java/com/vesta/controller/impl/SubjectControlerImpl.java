@@ -24,7 +24,7 @@ public class SubjectControlerImpl implements SubjectControler {
     }
 
     @Override
-    public void createImage(SubjectImageView subjectImageView){
+    public void createImage(@RequestBody SubjectImageView subjectImageView){
         subjectImageService.createImage(converter.deconvert(subjectImageView));
     }
 
