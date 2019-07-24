@@ -1,13 +1,13 @@
 package com.vesta.common;
 
-import com.vesta.repository.entity.CompanyEntity;
-import com.vesta.repository.entity.RoleEntity;
 import com.vesta.repository.entity.UserEntity;
+import com.vesta.service.dto.AccountCredential;
+import com.vesta.service.dto.UserDto;
 import org.apache.commons.lang3.RandomStringUtils;
 
 import java.util.Collections;
 
-public class UtilData {
+public class UserUtilData {
 
     public static Long USER_ID = Long.parseLong(RandomStringUtils.randomNumeric(10));
     public static String USER_USERNAME = RandomStringUtils.randomAlphabetic(10);
@@ -16,13 +16,6 @@ public class UtilData {
     public static String USER_NEW_PASSWORD = RandomStringUtils.randomAlphabetic(10);
     public static String USER_LAST_NAME = RandomStringUtils.randomAlphabetic(10);
     public static String USER_FIRST_NAME = RandomStringUtils.randomAlphabetic(10);
-
-    public static Long COMPANY_ID = Long.parseLong(RandomStringUtils.randomNumeric(10));
-    public static String COMPANY_NAME = RandomStringUtils.randomAlphabetic(10);
-    public static Integer COMPANY_FLOOR = Integer.parseInt(RandomStringUtils.randomNumeric(5));
-
-    public static Long ROLE_ID = Long.parseLong(RandomStringUtils.randomNumeric(10));
-    public static String ROLE_NAME = RandomStringUtils.randomAlphabetic(10);
 
     public static UserEntity userEntity() {
         UserEntity userEntity = new UserEntity();
@@ -44,27 +37,31 @@ public class UtilData {
         return userEntity;
     }
 
-    public static CompanyEntity companyEntity() {
-        CompanyEntity companyEntity = new CompanyEntity();
-        companyEntity.setId(COMPANY_ID);
-        companyEntity.setName(COMPANY_NAME);
-        companyEntity.setFloor(COMPANY_FLOOR);
+    public static UserDto userDto() {
+        UserDto userDto = new UserDto();
+        userDto.setId(USER_ID);
+        userDto.setUsername(USER_USERNAME);
+        userDto.setEmail(USER_EMAIL);
+        userDto.setPassword(USER_PASSWORD);
+        userDto.setLastName(USER_LAST_NAME);
+        userDto.setFirstName(USER_FIRST_NAME);
+        userDto.setRoles(Collections.emptyList());
 
-        return companyEntity;
+        return userDto;
     }
 
-    public static CompanyEntity companyEntity(String name) {
-        CompanyEntity companyEntity = companyEntity();
-        companyEntity.setName(name);
+    public static UserDto userDto(String username) {
+        UserDto userDto = userDto();
+        userDto.setUsername(username);
 
-        return companyEntity;
+        return userDto;
     }
 
-    public static RoleEntity roleEntity() {
-        RoleEntity roleEntity = new RoleEntity();
-        roleEntity.setId(ROLE_ID);
-        roleEntity.setName(ROLE_NAME);
+    public static AccountCredential accountCredential() {
+        AccountCredential accountCredential = new AccountCredential();
+        accountCredential.setUsername(USER_USERNAME);
+        accountCredential.setPassword(USER_PASSWORD);
 
-        return roleEntity;
+        return accountCredential;
     }
 }

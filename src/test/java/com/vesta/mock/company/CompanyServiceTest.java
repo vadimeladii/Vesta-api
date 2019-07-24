@@ -18,8 +18,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
-import static com.vesta.common.UtilData.COMPANY_NAME;
-import static com.vesta.common.UtilData.companyEntity;
+import static com.vesta.common.CompanyUtilData.COMPANY_NAME;
+import static com.vesta.common.CompanyUtilData.companyEntity;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
