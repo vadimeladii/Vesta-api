@@ -3,6 +3,7 @@ package com.vesta.service;
 import com.vesta.controller.view.Token;
 import com.vesta.service.dto.AccountCredential;
 import com.vesta.service.dto.UserDto;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Valid;
@@ -18,7 +19,7 @@ public interface UserService {
 
     void create(@Valid UserDto userDto);
 
-    UserDto update(Long id, UserDto userDto);
+    UserDto update(Long id, @Valid UserDto userDto);
 
     void resetForgotPassword(String token, String password);
 

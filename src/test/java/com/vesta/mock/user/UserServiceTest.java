@@ -32,7 +32,6 @@ import static org.mockito.Mockito.verify;
 @RunWith(MockitoJUnitRunner.class)
 public class UserServiceTest {
 
-    private UserService userService;
 
     @Mock
     private UserRepository userRepository;
@@ -49,6 +48,7 @@ public class UserServiceTest {
     @Mock
     private EmailService emailService;
 
+    private UserService userService;
     private UserConverter userConverter = new UserConverter();
 
     @Before

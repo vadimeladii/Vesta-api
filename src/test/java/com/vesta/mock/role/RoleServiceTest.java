@@ -43,7 +43,7 @@ public class RoleServiceTest {
         Mockito.when(roleRepository.findByName(roleEntity.getName()))
                 .thenReturn(Optional.of(roleEntity));
 
-        // th   en
+        // then
         RoleEntity returnEntity = rolesService.findByName(roleEntity.getName());
 
         assertNotNull(returnEntity);
