@@ -12,4 +12,6 @@ public interface FloorService {
     FloorDto getById(Long id);
 
     void create(@Valid FloorDto floorDto);
+
+    void delete(Long id);
 }

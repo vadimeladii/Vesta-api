@@ -48,4 +48,11 @@ public class FloorServiceImpl implements FloorService {
         FloorEntity entity = floorConverter.deconvert(floorDto);
         floorRepository.save(entity);
     }
+
+    @Override
+    public void delete(Long id) {
+        log.info("method --- delete");
+
+        floorRepository.deleteById(id);
+    }
 }

@@ -44,4 +44,12 @@ public interface FloorController {
     @ResponseStatus(HttpStatus.CREATED)
     void create(@RequestBody FloorView floorView);
 
+    @ApiOperation(value = "Delete floor by ID")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Floor was deleted successfully"),
+            @ApiResponse(code = 404, message = "Floor not found")
+    })
+
+    @DeleteMapping("/{id}")
+    void delete(@PathVariable("id") Long id);
 }
