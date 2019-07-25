@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @AllArgsConstructor
@@ -34,7 +35,10 @@ public class SubjectControlerImpl implements SubjectControler {
     }
 
     @Override
-    public List<SubjectImageDto> getAll(){
-        return subjectImageService.getAll();
+    public List<SubjectImageView> getAll(){
+        return subjectImageService.getAll()
+                .stream()
+                .map(converter::convert)
+                .collect(Collectors.toList());
     }
 }

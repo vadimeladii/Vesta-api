@@ -21,7 +21,7 @@ public interface UserService {
 
     UserDto update(Long id, @Valid UserDto userDto);
 
-    void resetForgotPassword(String token, @Valid String password);
+    void resetForgotPassword(String token, String password);
 
     void delete(Long id);
 

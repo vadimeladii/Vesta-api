@@ -42,5 +42,5 @@ public interface SubjectControler {
 
     @ApiOperation(value = "Returns the all images")
     @GetMapping("/image/all")
-    List<SubjectImageDto> getAll();
+    List<SubjectImageView> getAll();
 }
