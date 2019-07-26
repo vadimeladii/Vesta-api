@@ -2,7 +2,7 @@ package com.vesta.common;
 
 import com.vesta.repository.entity.CompanyEntity;
 import com.vesta.repository.entity.RoleEntity;
-import com.vesta.repository.entity.SubjectImageEntity;
+import com.vesta.repository.entity.SubjectTemplateEntity;
 import com.vesta.repository.entity.UserEntity;
 import org.apache.commons.lang3.RandomStringUtils;
 
@@ -48,12 +48,12 @@ public class UtilData {
         return userEntity;
     }
 
-    public static SubjectImageEntity subjectImageEntity(){
-        SubjectImageEntity subjectImageEntity = new SubjectImageEntity();
-        subjectImageEntity.setId(SUBJECT_IMAGE_ID);
-        subjectImageEntity.setImage(SUBJECT_IMAGE);
+    public static SubjectTemplateEntity subjectImageEntity(){
+        SubjectTemplateEntity subjectTemplateEntity = new SubjectTemplateEntity();
+        subjectTemplateEntity.setId(SUBJECT_IMAGE_ID);
+        subjectTemplateEntity.setImage(SUBJECT_IMAGE);
 
-        return subjectImageEntity;
+        return subjectTemplateEntity;
     }
 
     public static CompanyEntity companyEntity() {
