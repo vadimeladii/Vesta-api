@@ -43,4 +43,13 @@ public class ForgotPasswordEmailTest extends IntegrationConfigTest {
         assertEquals(1, receivedMessages.length);
         assertEquals(USER_EMAIL, current.getAllRecipients()[0].toString());
     }
+
+    @Test
+    public void submitPasswordForgotInsucces() throws Exception{
+
+        this.mvc.perform(post(URL_TEMPLATE)
+                .with(csrf())
+                .param("email", "invalid@gmail.com"))
+                .andExpect(status().isOk());
+    }
 }
