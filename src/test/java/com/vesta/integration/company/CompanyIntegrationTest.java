@@ -15,7 +15,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.List;
 
-import static com.vesta.common.UtilData.companyEntity;
+import static com.vesta.common.CompanyUtilData.companyEntity;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
@@ -44,12 +44,12 @@ public class  CompanyIntegrationTest extends IntegrationConfigTest {
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andReturn();
 
+        // then
         List<CompanyView> response = objectMapper.readValue(
                 mvcResult.getResponse().getContentAsString(),
                 new TypeReference<List<CompanyView>>() {
                 });
 
-        // then
         assertNotNull(response);
         assertNotNull(response.get(0));
         assertThat(response.get(0).getId(), is(1L));

@@ -6,7 +6,7 @@ import org.junit.rules.ExternalResource;
 
 import javax.mail.internet.MimeMessage;
 
-import static com.vesta.common.UtilData.USER_EMAIL;
+import static com.vesta.common.UserUtilData.USER_EMAIL;
 
 public class SmtpServerRuleTemplateTest extends ExternalResource {
 

@@ -2,7 +2,7 @@ package com.vesta.integration.floor;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.vesta.common.UtilData;
+import com.vesta.common.FloorUtilData;
 import com.vesta.controller.view.FloorView;
 import com.vesta.integration.IntegrationConfigTest;
 import com.vesta.repository.FloorRepository;
@@ -34,7 +34,7 @@ public class  FloorIntegrationTest extends IntegrationConfigTest {
     @Test
     public void getListOfFloors() throws Exception {
         // given
-        FloorEntity floorEntity = UtilData.floorEntity();
+        FloorEntity floorEntity = FloorUtilData.floorEntity();
         floorRepository.save(floorEntity);
 
         // when

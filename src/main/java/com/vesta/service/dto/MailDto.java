@@ -6,6 +6,7 @@ import java.util.Map;
 
 @Data
 public class MailDto {
+
     private String from;
     private String to;
     private String subject;

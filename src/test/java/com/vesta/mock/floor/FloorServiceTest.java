@@ -1,6 +1,6 @@
 package com.vesta.mock.floor;
 
-import com.vesta.common.UtilData;
+import com.vesta.common.FloorUtilData;
 import com.vesta.exception.VestaException;
 import com.vesta.repository.FloorRepository;
 import com.vesta.repository.entity.FloorEntity;
@@ -42,7 +42,7 @@ public class FloorServiceTest {
     @Test
     public void test_findById_validId() {
         // given
-        FloorEntity floorEntity = UtilData.floorEntity();
+        FloorEntity floorEntity = FloorUtilData.floorEntity();
 
         // when
         Mockito.when(floorRepository.findById(floorEntity.getId()))
