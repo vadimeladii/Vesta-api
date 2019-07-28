@@ -4,12 +4,15 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
-@Table(name = "companies")
+@Table(name = "company")
 @Setter
 @Getter
 public class CompanyEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -18,6 +21,6 @@ public class CompanyEntity {
     @Column(name = "company_name")
     private String name;
 
-    @Column(name = "floor")
-    private Integer floor;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "companyId")
+    private List<FloorEntity> floors = new ArrayList<>();
 }

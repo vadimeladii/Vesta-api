@@ -16,6 +16,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import java.util.List;
 
 import static com.vesta.common.CompanyUtilData.companyEntity;
+import static com.vesta.common.CompanyUtilData.companyEntityWithoutFloors;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
@@ -34,7 +35,7 @@ public class  CompanyIntegrationTest extends IntegrationConfigTest {
     @Test
     public void getListOfCompanies() throws Exception {
         // given
-        CompanyEntity companyEntity = companyEntity();
+        CompanyEntity companyEntity = companyEntityWithoutFloors();
         companyRepository.save(companyEntity);
 
         // when
@@ -54,6 +55,5 @@ public class  CompanyIntegrationTest extends IntegrationConfigTest {
         assertNotNull(response.get(0));
         assertThat(response.get(0).getId(), is(1L));
         assertThat(response.get(0).getName(), is(companyEntity.getName()));
-        assertThat(response.get(0).getFloor(), is(companyEntity.getFloor()));
     }
 }
