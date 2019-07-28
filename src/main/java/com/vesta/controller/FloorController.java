@@ -5,10 +5,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -36,4 +34,22 @@ public interface FloorController {
     @GetMapping("/{id}")
     FloorView getById(@PathVariable Long id);
 
+    @ApiOperation(value = "Create a new floor")
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Floor was created"),
+            @ApiResponse(code = 409, message = "Conflict, floor already exist"),
+            @ApiResponse(code = 500, message = "Server error")
+    })
+    @PostMapping("/create")
+    @ResponseStatus(HttpStatus.CREATED)
+    void create(@RequestBody FloorView floorView);
+
+    @ApiOperation(value = "Delete floor by ID")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Floor was deleted successfully"),
+            @ApiResponse(code = 404, message = "Floor not found")
+    })
+
+    @DeleteMapping("/{id}")
+    void delete(@PathVariable("id") Long id);
 }
