@@ -5,7 +5,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vesta.common.FloorUtilData;
 import com.vesta.controller.view.FloorView;
 import com.vesta.integration.IntegrationConfigTest;
+import com.vesta.repository.CompanyRepository;
 import com.vesta.repository.FloorRepository;
+import com.vesta.repository.entity.CompanyEntity;
 import com.vesta.repository.entity.FloorEntity;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.List;
 
+import static com.vesta.common.CompanyUtilData.companyEntityWithoutFloors;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
@@ -25,7 +28,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class  FloorIntegrationTest extends IntegrationConfigTest {
 
     @Autowired
-    FloorRepository floorRepository;
+    private FloorRepository floorRepository;
+
+    @Autowired
+    private CompanyRepository companyRepository;
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -34,7 +40,10 @@ public class  FloorIntegrationTest extends IntegrationConfigTest {
     @Test
     public void getListOfFloors() throws Exception {
         // given
-        FloorEntity floorEntity = FloorUtilData.floorEntity();
+        CompanyEntity companyEntity = companyEntityWithoutFloors();
+        CompanyEntity companyDB = companyRepository.save(companyEntity);
+
+        FloorEntity floorEntity = FloorUtilData.floorEntity(companyDB.getId());
         floorRepository.save(floorEntity);
 
         // when
@@ -54,5 +63,6 @@ public class  FloorIntegrationTest extends IntegrationConfigTest {
         assertNotNull(response.get(0));
         assertThat(response.get(0).getId(), is(1L));
         assertThat(response.get(0).getName(), is(floorEntity.getName()));
+        assertThat(response.get(0).getCompanyId(), is(floorEntity.getCompanyId()));
     }
 }
