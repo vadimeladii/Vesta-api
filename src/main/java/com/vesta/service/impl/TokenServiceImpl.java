@@ -1,7 +1,9 @@
 package com.vesta.service.impl;
 
 import com.vesta.controller.view.Token;
+import com.vesta.exception.JwtException;
 import com.vesta.service.TokenService;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.extern.slf4j.Slf4j;
@@ -22,7 +24,7 @@ public class TokenServiceImpl implements TokenService {
 
     @Value("${vesta.refresh.expiration}")
     private Long refreshExpiration;
-  
+
     @Value("${vesta.email.expiration}")
     private Long emailExpiration;
 
@@ -63,11 +65,15 @@ public class TokenServiceImpl implements TokenService {
 
     private String buildSubject(String token, String secret) {
         if (token != null) {
-            return Jwts.parser()
-                    .setSigningKey(secret)
-                    .parseClaimsJws(token.replace(TOKEN_PREFIX, ""))
-                    .getBody()
-                    .getSubject();
+            try {
+                return Jwts.parser()
+                        .setSigningKey(secret)
+                        .parseClaimsJws(token.replace(TOKEN_PREFIX, ""))
+                        .getBody()
+                        .getSubject();
+            } catch (ExpiredJwtException ex) {
+                throw new JwtException("Expired JWT Exception");
+            }
         }
         return null;
     }

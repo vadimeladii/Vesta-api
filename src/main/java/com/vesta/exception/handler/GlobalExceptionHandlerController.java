@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletResponse;
@@ -12,7 +13,7 @@ import java.io.IOException;
 
 @Slf4j
 @RestControllerAdvice
-public class GlobalExceptionHandlerController {
+public class GlobalExceptionHandlerController extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(VestaException.class)
     public void handleVestaException(HttpServletResponse res, VestaException ex) throws IOException {
