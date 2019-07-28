@@ -28,18 +28,21 @@ public class TokenServiceImpl implements TokenService {
     @Value("${vesta.email.expiration}")
     private Long emailExpiration;
 
+    @Override
     public Token generatedAccessToken(String username) {
         log.info("method --- generatedAccessToken");
 
         return buildToken(username, accessExpiration, JWT_SECRET, TOKEN_PREFIX);
     }
 
+    @Override
     public Token generatedRefreshToken(String username) {
         log.info("method --- generatedRefreshToken");
 
         return buildToken(username, refreshExpiration, REFRESH_SECRET, TOKEN_PREFIX);
     }
 
+    @Override
     public Token generatedEmailToken(String username) {
         log.info("method --- generatedEmailToken");
 
@@ -51,12 +54,14 @@ public class TokenServiceImpl implements TokenService {
         return buildSubject(token, EMAIL_SECRET);
     }
 
+    @Override
     public String getSubject(HttpServletRequest request) {
         String token = request.getHeader(TOKEN_HEADER);
 
         return buildSubject(token, JWT_SECRET);
     }
 
+    @Override
     public String getRefreshSubject(String token) {
         log.info("method --- getRefreshSubject");
 

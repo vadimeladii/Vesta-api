@@ -25,7 +25,6 @@ public interface UserController {
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "User not found")
     })
-
     @ResponseBody
     @GetMapping("/{id}")
     UserView getById(@PathVariable Long id);
@@ -44,7 +43,6 @@ public interface UserController {
             @ApiResponse(code = 200, message = "User was updated successfully"),
             @ApiResponse(code = 404, message = "User not found")
     })
-
     @PutMapping("/{id}")
     UserCreateView update(@PathVariable("id") Long id, @RequestBody UserCreateView userCreateView);
 
@@ -72,7 +70,6 @@ public interface UserController {
             @ApiResponse(code = 200, message = "User was deleted successfully"),
             @ApiResponse(code = 404, message = "User not found")
     })
-
     @DeleteMapping("/{id}")
     void delete(@PathVariable("id") Long id);
 

@@ -4,7 +4,6 @@ import com.vesta.controller.view.Token;
 import com.vesta.exception.ConflictException;
 import com.vesta.exception.NotFoundException;
 import com.vesta.exception.UnauthorizedException;
-import com.vesta.exception.VestaException;
 import com.vesta.repository.UserRepository;
 import com.vesta.repository.entity.UserEntity;
 import com.vesta.service.EmailService;
