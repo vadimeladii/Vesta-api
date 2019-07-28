@@ -16,4 +16,13 @@ public class FloorViewConverter implements Converter<FloorDto, FloorView> {
         view.setName(dto.getName());
         return view;
     }
+
+
+    public FloorDto deconvert(FloorView view) {
+        if (view == null) return null;
+        FloorDto dto = new FloorDto();
+        dto.setId(view.getId());
+        dto.setName(view.getName());
+        return dto;
+    }
 }

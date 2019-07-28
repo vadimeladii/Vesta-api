@@ -13,4 +13,6 @@ public interface FloorRepository extends JpaRepository<FloorEntity, Long> {
     List<FloorEntity> findAll();
 
     Optional<FloorEntity> findById(Long id);
+
+    void deleteById(Long id);
 }
