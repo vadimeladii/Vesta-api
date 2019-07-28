@@ -1,6 +1,6 @@
 package com.vesta.mock.role;
 
-import com.vesta.common.UtilData;
+import com.vesta.common.RoleUtilData;
 import com.vesta.repository.RoleRepository;
 import com.vesta.repository.entity.RoleEntity;
 import com.vesta.service.RolesService;
@@ -37,7 +37,7 @@ public class RoleServiceTest {
     @Test
     public void test_findByRoleName_validRoleName() {
         // given
-        RoleEntity roleEntity = UtilData.roleEntity();
+        RoleEntity roleEntity = RoleUtilData.roleEntity();
 
         // when
         Mockito.when(roleRepository.findByName(roleEntity.getName()))

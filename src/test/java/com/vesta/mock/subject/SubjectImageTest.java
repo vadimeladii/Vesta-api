@@ -1,6 +1,6 @@
 package com.vesta.mock.subject;
 
-import com.vesta.common.UtilData;
+import com.vesta.common.SubjectImageUtilData;
 import com.vesta.exception.VestaException;
 import com.vesta.repository.SubjectImageRepository;
 import com.vesta.repository.entity.SubjectImageEntity;
@@ -42,7 +42,7 @@ public class SubjectImageTest {
     @Test
     public void getById_Valid() {
         // given
-        SubjectImageEntity subjectImageEntity = UtilData.subjectImageEntity();
+        SubjectImageEntity subjectImageEntity = SubjectImageUtilData.subjectImageEntity();
 
         // when
         Mockito.when(repository.findById(subjectImageEntity.getId()))
@@ -61,7 +61,7 @@ public class SubjectImageTest {
     @Test
     public void deleteById_Succes() {
         // given
-        SubjectImageEntity subjectImageEntity = UtilData.subjectImageEntity();
+        SubjectImageEntity subjectImageEntity = SubjectImageUtilData.subjectImageEntity();
         // when
         service.deleteImage(subjectImageEntity.getId());
         // then
@@ -80,7 +80,7 @@ public class SubjectImageTest {
     @Test
     public void findAll_Images() {
         // given
-        SubjectImageEntity subjectImageEntity = UtilData.subjectImageEntity();
+        SubjectImageEntity subjectImageEntity = SubjectImageUtilData.subjectImageEntity();
         // when
         Mockito.when(repository.findAll())
                 .thenReturn(List.of(subjectImageEntity));
