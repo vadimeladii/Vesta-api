@@ -45,7 +45,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .cors().and()
                 .csrf().disable()
+                .exceptionHandling()
+                .accessDeniedHandler(accessDeniedHandler())
+                .authenticationEntryPoint(authenticationEntryPoint())
+                .and()
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+
+    }
+
+    @Bean
+    RestAccessDeniedHandler accessDeniedHandler() {
+        return new RestAccessDeniedHandler();
+    }
+
+    @Bean
+    RestAuthenticationEntryPoint authenticationEntryPoint() {
+        return new RestAuthenticationEntryPoint();
     }
 
     @Bean

@@ -40,6 +40,20 @@ public class EmailServiceImpl implements EmailService {
     @Autowired
     private Configuration freemarkerConf;
 
+    @Override
+    public void sendEmailForgotPassword(String username, String email) {
+        log.info("method --- sendEmailForgotPassword");
+
+        MailDto mail = new MailDto();
+
+        mail.setFrom(emailFrom);
+        mail.setTo(email);
+        mail.setSubject("Password reset request");
+        mail.setText(getModelTemplateForResetPassword(username));
+
+        sendEmail(mail);
+    }
+
     private void sendEmail(MailDto mail) {
         log.info("method --- sendEmail");
 
@@ -62,20 +76,6 @@ public class EmailServiceImpl implements EmailService {
         mailSender.send(message);
     }
 
-
-    @Override
-    public void sendEmailForgotPassword(String username, String email) {
-        log.info("method --- sendEmailForgotPassword");
-
-        MailDto mail = new MailDto();
-
-        mail.setFrom(emailFrom);
-        mail.setTo(email);
-        mail.setSubject("Password reset request");
-        mail.setText(getModelTemplateForResetPassword(username));
-
-        sendEmail(mail);
-    }
 
     private String getModelTemplateForResetPassword(String username) {
         Map<String, String> model = new HashMap<>();

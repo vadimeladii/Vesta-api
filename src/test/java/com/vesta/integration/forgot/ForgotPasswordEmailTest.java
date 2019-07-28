@@ -9,8 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.mail.internet.MimeMessage;
 
-import static com.vesta.common.UtilData.USER_EMAIL;
-import static com.vesta.common.UtilData.userEntity;
+import static com.vesta.common.UserUtilData.USER_EMAIL;
+import static com.vesta.common.UserUtilData.userEntity;
 import static org.junit.Assert.assertEquals;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -42,5 +42,14 @@ public class ForgotPasswordEmailTest extends IntegrationConfigTest {
 
         assertEquals(1, receivedMessages.length);
         assertEquals(USER_EMAIL, current.getAllRecipients()[0].toString());
+    }
+
+    @Test
+    public void submitPasswordForgotInsucces() throws Exception{
+
+        this.mvc.perform(post(URL_TEMPLATE)
+                .with(csrf())
+                .param("email", "invalid@gmail.com"))
+                .andExpect(status().isOk());
     }
 }
