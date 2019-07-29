@@ -9,20 +9,17 @@ import javax.persistence.*;
 @Table(name = "subject")
 @Getter
 @Setter
-public class  SubjectEntity {
+public class SubjectEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "subject_name")
-    private String subjectName;
-
     @Column(name = "position_x")
-    private Integer position_x;
+    private Float positionX;
 
     @Column(name = "position_y")
-    private Integer position_y;
+    private Float positionY;
 
     @Column(name = "scale")
     private Float scale;
@@ -31,7 +28,10 @@ public class  SubjectEntity {
     private Boolean editable;
 
     @Column(name = "rotation")
-    private Integer rotation;
+    private Float rotation;
+
+    @Column(name = "floor_id")
+    private Long floorId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "subject_template_id", referencedColumnName = "id")

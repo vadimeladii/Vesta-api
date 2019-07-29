@@ -12,7 +12,7 @@ import java.util.List;
 
 @RequestMapping("/subject")
 @Api(value = "Subject Controller REST Endpoint")
-public interface SubjectControler {
+public interface SubjectTemplateController {
 
     @ApiOperation(value = "Delete the image by ID")
     @ApiResponses(value = {

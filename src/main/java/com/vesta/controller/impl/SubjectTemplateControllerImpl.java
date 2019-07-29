@@ -1,6 +1,6 @@
 package com.vesta.controller.impl;
 
-import com.vesta.controller.SubjectControler;
+import com.vesta.controller.SubjectTemplateController;
 import com.vesta.controller.convertor.SubjectTemplateViewConverter;
 import com.vesta.controller.view.SubjectTemplateView;
 import com.vesta.service.SubjectTemplateService;
@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @AllArgsConstructor
-public class SubjectControlerImpl implements SubjectControler {
+public class SubjectTemplateControllerImpl implements SubjectTemplateController {
 
     private final SubjectTemplateService subjectTemplateService;
     private final SubjectTemplateViewConverter converter;
