@@ -1,7 +1,7 @@
 package com.vesta.controller.impl;
 
 import com.vesta.controller.convertor.SubjectViewConverter;
-import com.vesta.controller.view.SubjectController;
+import com.vesta.controller.SubjectController;
 import com.vesta.controller.view.SubjectView;
 import com.vesta.service.SubjectService;
 import lombok.AllArgsConstructor;
