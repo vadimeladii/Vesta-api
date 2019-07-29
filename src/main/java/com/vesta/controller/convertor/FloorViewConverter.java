@@ -19,7 +19,6 @@ public class FloorViewConverter implements Converter<FloorDto, FloorView> {
         return view;
     }
 
-
     public FloorDto deconvert(FloorView view) {
         if (view == null) return null;
         FloorDto dto = new FloorDto();

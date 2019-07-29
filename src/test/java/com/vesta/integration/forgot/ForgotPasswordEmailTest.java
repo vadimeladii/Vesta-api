@@ -21,7 +21,7 @@ public class ForgotPasswordEmailTest extends IntegrationConfigTest {
     private final String URL_TEMPLATE = "/user/forgot/password/email";
 
     @Rule
-    public SmtpServerRuleTemplateTest mailServerRule = new SmtpServerRuleTemplateTest("username", "password", 2525);
+    public SmtpServerRuleTemplateT mailServerRule = new SmtpServerRuleTemplateT("username", "password", 2525);
 
     @Autowired
     private UserRepository userRepository;

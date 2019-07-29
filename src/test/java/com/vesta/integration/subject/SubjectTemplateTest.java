@@ -24,7 +24,7 @@ public class SubjectTemplateTest extends IntegrationConfigTest {
 
     @WithMockUser
     @Test
-    public void deleteByIdSucces() throws Exception {
+    public void deleteByIdSuccess() throws Exception {
 
         SubjectTemplateEntity entity = SubjectTemplateUtilData.subjectTemplateEntity();
         repository.save(entity);

@@ -7,7 +7,8 @@ import java.util.List;
 
 @Data
 public class SubjectView implements Serializable {
-    private final long serialVersionUID = 7217837176434251304L;
+
+    private static final long serialVersionUID = 7217837176434251304L;
 
     private Long id;
     private List<Float> position;

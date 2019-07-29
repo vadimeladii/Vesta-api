@@ -1,7 +1,7 @@
 package com.vesta.config.security;
 
 import com.vesta.service.UserService;
-import com.vesta.service.dto.AuthentificationCredential;
+import com.vesta.service.dto.AuthenticationCredential;
 import com.vesta.service.dto.UserDto;
 import com.vesta.service.impl.TokenServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,10 +41,10 @@ public class JWTFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
-    private AuthentificationCredential converter(UserDto userDto) {
+    private AuthenticationCredential converter(UserDto userDto) {
         if (userDto == null) {
             return null;
         }
-        return new AuthentificationCredential(userDto, true);
+        return new AuthenticationCredential(userDto, true);
     }
 }

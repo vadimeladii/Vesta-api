@@ -12,14 +12,23 @@ public class SubjectViewConverter implements Converter<SubjectDto, SubjectView> 
 
     @Override
     public SubjectView convert(SubjectDto dto) {
-       if (dto == null) return null;
-       SubjectView view = new SubjectView();
-       view.setId(dto.getId());
-       view.setPosition(List.of(dto.getPositionX(), dto.getPositionY()));
-       view.setRotation(dto.getRotation());
-       view.setEditable(dto.getEditable());
-       view.setImage(dto.getImage());
+        if (dto == null) return null;
+        SubjectView view = new SubjectView();
+        view.setId(dto.getId());
+        view.setPosition(List.of(dto.getPositionX(), dto.getPositionY()));
+        view.setScale(dto.getScale());
+        view.setRotation(dto.getRotation());
+        view.setEditable(dto.getEditable());
+        view.setImage(dto.getImage());
 
-       return view;
+        return view;
     }
+
+//    public SubjectDto deconvert(SubjectView view) {
+//        if (view == null) return null;
+//        SubjectDto dto = new SubjectDto();
+//        dto.setPosition(List.of(dto.getPositionX(), dto.getPositionY()));
+//
+//        return dto;
+//    }
 }

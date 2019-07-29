@@ -8,6 +8,7 @@ import com.vesta.service.SubjectTemplateService;
 import com.vesta.service.converter.SubjectTemplateConverter;
 import com.vesta.service.dto.SubjectTemplateDto;
 import com.vesta.service.impl.SubjectTemplateServiceImpl;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,14 +26,12 @@ import static org.mockito.Mockito.verify;
 @RunWith(MockitoJUnitRunner.class)
 public class SubjectImageTest {
 
-    @Mock
     private SubjectTemplateService service;
 
     @Mock
     private SubjectTemplateRepository repository;
 
-    @Mock
-    private SubjectTemplateConverter converter;
+    private SubjectTemplateConverter converter = new SubjectTemplateConverter();
 
     @Before
     public void setUp() {
@@ -84,6 +83,9 @@ public class SubjectImageTest {
         // when
         Mockito.when(repository.findAll())
                 .thenReturn(List.of(subjectTemplateEntity));
-        service.getAll();
+        List<SubjectTemplateDto> subjectTemplates = service.getAll();
+
+        Assert.assertEquals(subjectTemplates.size(), 1);
+        Assert.assertEquals(subjectTemplates.get(0).getImage(), subjectTemplateEntity.getImage());
     }
 }

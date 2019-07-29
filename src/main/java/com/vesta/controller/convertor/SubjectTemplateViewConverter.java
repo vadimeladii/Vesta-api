@@ -10,14 +10,14 @@ public class SubjectTemplateViewConverter implements Converter<SubjectTemplateDt
 
     @Override
     public SubjectTemplateView convert(SubjectTemplateDto dto) {
-        if (dto ==  null) return null;
+        if (dto == null) return null;
         SubjectTemplateView view = new SubjectTemplateView();
         view.setId(dto.getId());
         view.setImage(dto.getImage());
         return view;
     }
 
-    public SubjectTemplateDto deconvert(SubjectTemplateView view){
+    public SubjectTemplateDto deconvert(SubjectTemplateView view) {
         if (view == null) return null;
         SubjectTemplateDto dto = new SubjectTemplateDto();
         dto.setId(view.getId());

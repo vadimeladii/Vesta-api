@@ -24,5 +24,7 @@ public class IntegrationConfigTest {
     protected MockMvc mvc;
 
     @Test
-    public void contextLoads() {}
+    public void contextLoads() {
+//        null
+    }
 }

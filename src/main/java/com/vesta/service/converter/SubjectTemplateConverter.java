@@ -16,6 +16,7 @@ public class SubjectTemplateConverter implements Converter<SubjectTemplateEntity
         dto.setImage(entity.getImage());
         return dto;
     }
+
     public SubjectTemplateEntity deconvert(SubjectTemplateDto imageDto) {
         if (imageDto == null) return null;
         SubjectTemplateEntity imageEntity = new SubjectTemplateEntity();

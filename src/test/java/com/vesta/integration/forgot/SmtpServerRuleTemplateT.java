@@ -8,7 +8,7 @@ import javax.mail.internet.MimeMessage;
 
 import static com.vesta.common.UserUtilData.USER_EMAIL;
 
-public class SmtpServerRuleTemplateTest extends ExternalResource {
+public class SmtpServerRuleTemplateT extends ExternalResource {
 
     private String mailUsername;
     private String mailPassword;
@@ -16,7 +16,7 @@ public class SmtpServerRuleTemplateTest extends ExternalResource {
     private int port;
 
 
-    SmtpServerRuleTemplateTest(String mailUsername, String mailPassword, int port) {
+    SmtpServerRuleTemplateT(String mailUsername, String mailPassword, int port) {
         this.mailUsername = mailUsername;
         this.mailPassword = mailPassword;
         this.port = port;

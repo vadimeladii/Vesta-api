@@ -1,6 +1,5 @@
 package com.vesta.service.dto;
 
-import com.vesta.repository.entity.SubjectTemplateEntity;
 import lombok.Data;
 
 @Data
