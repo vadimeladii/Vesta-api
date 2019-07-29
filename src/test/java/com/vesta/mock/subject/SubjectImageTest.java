@@ -23,7 +23,7 @@ import static org.mockito.Mockito.verify;
 
 @Transactional
 @RunWith(MockitoJUnitRunner.class)
-public class SubjectTemplateTest {
+public class SubjectImageTest {
 
     @Mock
     private SubjectTemplateService service;

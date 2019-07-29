@@ -14,6 +14,18 @@ public class FloorConverter implements Converter<FloorEntity, FloorDto> {
         FloorDto dto = new FloorDto();
         dto.setId(entity.getId());
         dto.setName(entity.getName());
+        dto.setCompanyId(entity.getCompanyId());
+
         return dto;
+    }
+
+    public FloorEntity deconvert(FloorDto dto) {
+        if (dto == null) return null;
+        FloorEntity entity = new FloorEntity();
+        entity.setId(dto.getId());
+        entity.setName(dto.getName());
+        entity.setCompanyId(dto.getCompanyId());
+
+        return entity;
     }
 }

@@ -3,7 +3,7 @@ package com.vesta.integration.forgot;
 import com.google.gson.Gson;
 import com.vesta.controller.view.UserResetForgotView;
 import com.vesta.integration.IntegrationConfigTest;
-import com.vesta.common.UtilData;
+import com.vesta.common.UserUtilData;
 import com.vesta.repository.UserRepository;
 import com.vesta.repository.entity.UserEntity;
 import com.vesta.service.TokenService;
@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import static com.vesta.common.UtilData.*;
+import static com.vesta.common.UserUtilData.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -31,7 +31,7 @@ public class ResetForgotPasswordTest extends IntegrationConfigTest {
 
     @Test
     public void submitPasswordConflict() throws Exception {
-        UserEntity userEntity = UtilData.userEntity(passwordEncoder.encode(USER_PASSWORD));
+        UserEntity userEntity = UserUtilData.userEntity(passwordEncoder.encode(USER_PASSWORD));
         userRepository.save(userEntity);
 
         UserResetForgotView userResetForgotView = new UserResetForgotView();
@@ -49,7 +49,7 @@ public class ResetForgotPasswordTest extends IntegrationConfigTest {
 
     @Test
     public void submitPasswordSucces() throws Exception {
-        UserEntity userEntity = UtilData.userEntity(passwordEncoder.encode(USER_USERNAME));
+        UserEntity userEntity = UserUtilData.userEntity(passwordEncoder.encode(USER_USERNAME));
         userRepository.save(userEntity);
 
         UserResetForgotView userResetForgotView = new UserResetForgotView();

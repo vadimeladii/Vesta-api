@@ -6,7 +6,7 @@ import lombok.Setter;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "floors")
+@Table(name = "floor")
 @Setter
 @Getter
 public class FloorEntity {
@@ -17,4 +17,7 @@ public class FloorEntity {
 
     @Column(name = "floor_name")
     private String name;
+
+    @Column(name = "company_id")
+    private Long companyId;
 }
