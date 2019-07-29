@@ -3,13 +3,14 @@ package com.vesta.controller.view;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Data
 public class CompanyView implements Serializable {
 
-    private static final long serialVersionUID = -8361339528981156917L;
+    private static final long serialVersionUID = -5440952051091845682L;
 
     private Long id;
     private String name;
-    private Integer floor;
+    private List<FloorView> floors;
 }

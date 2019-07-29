@@ -31,4 +31,14 @@ public class FloorControllerImpl implements FloorController {
         return floorViewConverter.convert(floorService.getById(id));
     }
 
+    @Override
+    public void create(FloorView floorView) {
+        floorService.create(floorViewConverter.deconvert(floorView));
+    }
+
+    @Override
+    public void delete(Long id) {
+        floorService.delete(id);
+    }
+
 }

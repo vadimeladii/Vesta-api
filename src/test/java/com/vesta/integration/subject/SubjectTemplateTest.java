@@ -1,7 +1,7 @@
 package com.vesta.integration.subject;
 
 import com.google.gson.Gson;
-import com.vesta.common.UtilData;
+import com.vesta.common.SubjectTemplateUtilData;
 import com.vesta.controller.view.SubjectTemplateView;
 import com.vesta.integration.IntegrationConfigTest;
 import com.vesta.repository.SubjectTemplateRepository;
@@ -11,8 +11,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 
-import static com.vesta.common.UtilData.SUBJECT_IMAGE;
-import static com.vesta.common.UtilData.SUBJECT_IMAGE_ID;
+import static com.vesta.common.SubjectTemplateUtilData.SUBJECT_IMAGE;
+import static com.vesta.common.SubjectTemplateUtilData.SUBJECT_IMAGE_ID;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -26,7 +26,7 @@ public class SubjectTemplateTest extends IntegrationConfigTest {
     @Test
     public void deleteByIdSucces() throws Exception {
 
-        SubjectTemplateEntity entity = UtilData.subjectImageEntity();
+        SubjectTemplateEntity entity = SubjectTemplateUtilData.subjectTemplateEntity();
         repository.save(entity);
 
         this.mvc.perform(delete("/subject/image/{id}", SUBJECT_IMAGE_ID)

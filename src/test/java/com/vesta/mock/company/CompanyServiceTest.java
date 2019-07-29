@@ -5,6 +5,7 @@ import com.vesta.repository.CompanyRepository;
 import com.vesta.repository.entity.CompanyEntity;
 import com.vesta.service.CompanyService;
 import com.vesta.service.converter.CompanyConverter;
+import com.vesta.service.converter.FloorConverter;
 import com.vesta.service.dto.CompanyDto;
 import com.vesta.service.impl.CompanyServiceImpl;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -18,8 +19,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
-import static com.vesta.common.UtilData.COMPANY_NAME;
-import static com.vesta.common.UtilData.companyEntity;
+import static com.vesta.common.CompanyUtilData.COMPANY_NAME;
+import static com.vesta.common.CompanyUtilData.companyEntity;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
@@ -34,7 +35,7 @@ public class CompanyServiceTest {
     @Mock
     private CompanyRepository companyRepository;
 
-    private CompanyConverter companyConverter = new CompanyConverter();
+    private CompanyConverter companyConverter = new CompanyConverter(new FloorConverter());
 
     @Before
     public void setUp() {
@@ -55,7 +56,7 @@ public class CompanyServiceTest {
 
         assertNotNull(returnDto);
         assertThat(companyEntity.getName(), is(returnDto.getName()));
-        assertThat(companyEntity.getFloor(), is(returnDto.getFloor()));
+        assertThat(companyEntity.getFloors().size(), is(1));
         verify(companyRepository).findByName(companyEntity.getName());
     }
 

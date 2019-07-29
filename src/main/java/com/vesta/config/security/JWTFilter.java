@@ -7,13 +7,16 @@ import com.vesta.service.impl.TokenServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
+import org.springframework.web.filter.OncePerRequestFilter;
 
-import javax.servlet.*;
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Component
-public class JWTFilter extends GenericFilter {
+public class JWTFilter extends OncePerRequestFilter {
 
     @Autowired
     private TokenServiceImpl tokenService;
@@ -22,10 +25,10 @@ public class JWTFilter extends GenericFilter {
     private UserService userService;
 
     @Override
-    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
+    public void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws IOException, ServletException {
 
-        String subject = tokenService.getSubject((HttpServletRequest) servletRequest);
+        String subject = tokenService.getSubject(request);
 
         if (subject != null) {
 
@@ -35,7 +38,7 @@ public class JWTFilter extends GenericFilter {
                     .setAuthentication(converter(userDto));
         }
 
-        filterChain.doFilter(servletRequest, servletResponse);
+        filterChain.doFilter(request, response);
     }
 
     private AuthentificationCredential converter(UserDto userDto) {
