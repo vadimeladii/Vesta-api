@@ -1,32 +1,32 @@
 package com.vesta.integration.subject;
 
 import com.google.gson.Gson;
-import com.vesta.common.SubjectImageUtilData;
-import com.vesta.controller.view.SubjectImageView;
+import com.vesta.common.SubjectTemplateUtilData;
+import com.vesta.controller.view.SubjectTemplateView;
 import com.vesta.integration.IntegrationConfigTest;
-import com.vesta.repository.SubjectImageRepository;
-import com.vesta.repository.entity.SubjectImageEntity;
+import com.vesta.repository.SubjectTemplateRepository;
+import com.vesta.repository.entity.SubjectTemplateEntity;
 import org.junit.Test;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 
-import static com.vesta.common.SubjectImageUtilData.SUBJECT_IMAGE;
-import static com.vesta.common.SubjectImageUtilData.SUBJECT_IMAGE_ID;
+import static com.vesta.common.SubjectTemplateUtilData.SUBJECT_IMAGE;
+import static com.vesta.common.SubjectTemplateUtilData.SUBJECT_IMAGE_ID;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class SubjectImageTest extends IntegrationConfigTest {
+public class SubjectTemplateTest extends IntegrationConfigTest {
 
     @MockBean
-    private SubjectImageRepository repository;
+    private SubjectTemplateRepository repository;
 
     @WithMockUser
     @Test
-    public void deleteByIdSucces() throws Exception {
+    public void deleteByIdSuccess() throws Exception {
 
-        SubjectImageEntity entity = SubjectImageUtilData.subjectImageEntity();
+        SubjectTemplateEntity entity = SubjectTemplateUtilData.subjectTemplateEntity();
         repository.save(entity);
 
         this.mvc.perform(delete("/subject/image/{id}", SUBJECT_IMAGE_ID)
@@ -39,12 +39,12 @@ public class SubjectImageTest extends IntegrationConfigTest {
     @Test
     public void addImageWithSuccess() throws Exception {
 
-        SubjectImageView subjectImageView = new SubjectImageView();
-        subjectImageView.setId(SUBJECT_IMAGE_ID);
-        subjectImageView.setImage(SUBJECT_IMAGE);
+        SubjectTemplateView subjectTemplateView = new SubjectTemplateView();
+        subjectTemplateView.setId(SUBJECT_IMAGE_ID);
+        subjectTemplateView.setImage(SUBJECT_IMAGE);
 
         Gson gson = new Gson();
-        String json = gson.toJson(subjectImageView);
+        String json = gson.toJson(subjectTemplateView);
 
         this.mvc.perform(post("/subject/image/add")
                 .contentType(MediaType.APPLICATION_JSON).content(json))
