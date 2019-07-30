@@ -10,9 +10,8 @@ public class SubjectUtilData {
     private static Float SUBJECT_POSITION_Y = Float.parseFloat(RandomStringUtils.randomNumeric(10));
     private static Float SUBJECT_SCALE = Float.parseFloat(RandomStringUtils.randomNumeric(10));
     private static Float SUBJECT_ROTATION = Float.parseFloat(RandomStringUtils.randomNumeric(10));
-    private static Boolean SUBJECT_EDITABLE = Boolean.parseBoolean(RandomStringUtils.randomNumeric(10));
-
-
+    private static Boolean SUBJECT_EDITABLE = Boolean.parseBoolean(RandomStringUtils.random(10));
+    private static Long FLOOR_ID = Long.parseLong(RandomStringUtils.randomNumeric(10));
 
     public static SubjectEntity subjectEntity(){
         SubjectEntity entity = new SubjectEntity();
@@ -22,6 +21,8 @@ public class SubjectUtilData {
         entity.setScale(SUBJECT_SCALE);
         entity.setRotation(SUBJECT_ROTATION);
         entity.setEditable(SUBJECT_EDITABLE);
+        entity.setFloorId(FLOOR_ID);
+        entity.setSubjectTemplateEntity(SubjectTemplateUtilData.subjectTemplateEntity());
 
         return entity;
     }

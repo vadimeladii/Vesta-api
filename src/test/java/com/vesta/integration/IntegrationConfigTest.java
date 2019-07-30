@@ -25,6 +25,5 @@ public class IntegrationConfigTest {
 
     @Test
     public void contextLoads() {
-//        null
     }
 }

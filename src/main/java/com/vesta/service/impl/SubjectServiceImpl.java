@@ -17,40 +17,16 @@ import java.util.stream.Collectors;
 @Service
 @AllArgsConstructor
 public class SubjectServiceImpl implements SubjectService {
+
     private final SubjectRepository repository;
     private final SubjectConverter converter;
-
-    @Override
-    public void addSubject(SubjectDto dto) {
-        log.info("method --- addSubject - Propriety");
-
-        SubjectEntity entity = converter.deconvert(dto);
-        repository.save(entity);
-    }
-
-    @Override
-    public SubjectDto updateSubject(Long id, SubjectDto dto) {
-        log.info("method --- update");
-
-        SubjectEntity entity = repository.findById(id).orElseThrow(
-                () -> new NotFoundException("The Image not found"));
-
-        SubjectEntity updatedEntity = converter.deconvert(dto);
-        entity.setPositionX(updatedEntity.getPositionX());
-        entity.setPositionY(updatedEntity.getPositionY());
-        entity.setScale(updatedEntity.getScale());
-        entity.setEditable(updatedEntity.getEditable());
-        entity.setRotation(updatedEntity.getRotation());
-
-        return converter.convert(repository.save(entity));
-    }
 
     @Override
     public SubjectDto getById(Long id) {
         log.info("method --- getByID");
 
         SubjectEntity entity = repository.findById(id).orElseThrow(
-                () -> new NotFoundException("The Image doesn't exist"));
+                () -> new NotFoundException("The subject doesn't exist"));
         return converter.convert(entity);
     }
 
@@ -66,7 +42,7 @@ public class SubjectServiceImpl implements SubjectService {
 
     @Override
     public void delete(Long id) {
-        log.info("method --- deleteProprites");
+        log.info("method --- delete");
 
         repository.deleteById(id);
     }

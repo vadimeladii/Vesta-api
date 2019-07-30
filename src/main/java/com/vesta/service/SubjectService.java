@@ -6,10 +6,6 @@ import java.util.List;
 
 public interface SubjectService {
 
-    void addSubject(SubjectDto dto);
-
-    SubjectDto updateSubject(Long id, SubjectDto dto);
-
     SubjectDto getById(Long id);
 
     List<SubjectDto> getAll();

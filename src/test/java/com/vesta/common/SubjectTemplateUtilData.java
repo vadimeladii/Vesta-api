@@ -9,10 +9,10 @@ public class SubjectTemplateUtilData {
     public static String SUBJECT_IMAGE = RandomStringUtils.randomAlphabetic(100);
 
     public static SubjectTemplateEntity subjectTemplateEntity(){
-        SubjectTemplateEntity subjectImageEntity = new SubjectTemplateEntity();
-        subjectImageEntity.setId(SUBJECT_IMAGE_ID);
-        subjectImageEntity.setImage(SUBJECT_IMAGE);
+        SubjectTemplateEntity subjectTemplateEntity = new SubjectTemplateEntity();
+        subjectTemplateEntity.setId(SUBJECT_IMAGE_ID);
+        subjectTemplateEntity.setImage(SUBJECT_IMAGE);
 
-        return subjectImageEntity;
+        return subjectTemplateEntity;
     }
 }

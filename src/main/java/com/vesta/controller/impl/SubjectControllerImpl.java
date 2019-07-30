@@ -34,5 +34,4 @@ public class SubjectControllerImpl implements SubjectController {
                 .map(converter::convert)
                 .collect(Collectors.toList());
     }
-
 }

@@ -24,11 +24,16 @@ public class SubjectViewConverter implements Converter<SubjectDto, SubjectView> 
         return view;
     }
 
-//    public SubjectDto deconvert(SubjectView view) {
-//        if (view == null) return null;
-//        SubjectDto dto = new SubjectDto();
-//        dto.setPosition(List.of(dto.getPositionX(), dto.getPositionY()));
-//
-//        return dto;
-//    }
+    public SubjectDto deconvert(SubjectView view) {
+        if (view == null) return null;
+        SubjectDto dto = new SubjectDto();
+        dto.setId(view.getId());
+        dto.setPositionX(view.getPosition().get(0));
+        dto.setPositionY(view.getPosition().get(1));
+        dto.setScale(view.getScale());
+        dto.setRotation(view.getRotation());
+        dto.setImage(view.getImage());
+
+        return dto;
+    }
 }
