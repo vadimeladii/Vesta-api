@@ -17,6 +17,4 @@ public interface SubjectTemplateRepository extends JpaRepository<SubjectTemplate
     void deleteById(Long id);
 
     List<SubjectTemplateEntity> findAll();
-
-
 }
