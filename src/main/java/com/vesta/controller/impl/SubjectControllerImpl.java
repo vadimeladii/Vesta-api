@@ -34,4 +34,17 @@ public class SubjectControllerImpl implements SubjectController {
                 .map(converter::convert)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public List<SubjectView> getAllByFloorId(Long floorId) {
+        return service.getAllByFloorId(floorId)
+                .stream()
+                .map(converter::convert)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public void addSubject(SubjectView subjectView) {
+        service.addSubject(converter.deconvert(subjectView));
+    }
 }
