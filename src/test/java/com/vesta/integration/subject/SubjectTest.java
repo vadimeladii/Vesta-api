@@ -52,7 +52,7 @@ public class SubjectTest extends IntegrationConfigTest {
         Gson gson = new Gson();
         String json = gson.toJson(subjectView);
 
-        this.mvc.perform(post("/subject/subjects/add/new/subject")
+        this.mvc.perform(post("/subject/subjects")
                 .contentType(MediaType.APPLICATION_JSON).content(json)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated());
