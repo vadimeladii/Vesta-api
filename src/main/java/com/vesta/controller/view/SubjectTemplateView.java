@@ -5,7 +5,7 @@ import lombok.Data;
 import java.io.Serializable;
 
 @Data
-public class SubjectImageView implements Serializable {
+public class SubjectTemplateView implements Serializable {
 
     private static final long serialVersionUID = -1064673225865505046L;
 

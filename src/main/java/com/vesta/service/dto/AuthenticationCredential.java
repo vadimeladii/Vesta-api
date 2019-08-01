@@ -9,14 +9,14 @@ import java.util.Collection;
 import java.util.stream.Collectors;
 
 @AllArgsConstructor
-public class AuthentificationCredential implements Authentication {
+public class AuthenticationCredential implements Authentication {
 
-    private UserDto userDto;
+    private UserDto dto;
     private boolean isAuthenticated;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return userDto.getRoles()
+        return dto.getRoles()
                 .stream()
                 .map(role -> new SimpleGrantedAuthority("ROLE_".concat(role)))
                 .collect(Collectors.toList());
@@ -29,12 +29,12 @@ public class AuthentificationCredential implements Authentication {
 
     @Override
     public Object getDetails() {
-        return this.userDto;
+        return this.dto;
     }
 
     @Override
     public Object getPrincipal() {
-        return this.userDto;
+        return this.dto;
     }
 
     @Override
@@ -43,12 +43,12 @@ public class AuthentificationCredential implements Authentication {
     }
 
     @Override
-    public void setAuthenticated(boolean isAuthenticated) throws IllegalArgumentException {
+    public void setAuthenticated(boolean isAuthenticated) {
         this.isAuthenticated = isAuthenticated;
     }
 
     @Override
     public String getName() {
-        return this.userDto.getUsername();
+        return this.dto.getUsername();
     }
 }

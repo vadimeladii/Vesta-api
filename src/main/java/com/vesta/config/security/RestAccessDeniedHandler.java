@@ -14,15 +14,17 @@ import java.util.Date;
 
 public class RestAccessDeniedHandler implements AccessDeniedHandler {
 
+    private static final String ACTION = "Acces Denied";
+
     @Override
     public void handle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AccessDeniedException e) throws IOException {
         ErrorData response = ErrorData.builder()
                 .status(HttpStatus.FORBIDDEN.value())
-                .message("Access Denied")
+                .message(ACTION)
                 .timestamp(new Date())
-                .error("Access Denied")
+                .error(ACTION)
                 .build();
-        response.setMessage("Access Denied");
+        response.setMessage(ACTION);
         OutputStream out = httpServletResponse.getOutputStream();
         ObjectMapper mapper = new ObjectMapper();
         mapper.writeValue(out, response);

@@ -11,6 +11,7 @@ import java.util.List;
 public class PasswordConstraintValidator implements ConstraintValidator<ValidPassword, String> {
     @Override
     public void initialize(ValidPassword arg0) {
+        //initialisation of constraintAnnotation
     }
 
     @Override
