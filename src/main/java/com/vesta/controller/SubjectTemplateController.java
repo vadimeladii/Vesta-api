@@ -1,7 +1,6 @@
 package com.vesta.controller;
 
-import com.vesta.controller.view.SubjectImageView;
-import com.vesta.service.dto.SubjectImageDto;
+import com.vesta.controller.view.SubjectTemplateView;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -13,7 +12,7 @@ import java.util.List;
 
 @RequestMapping("/subject")
 @Api(value = "Subject Controller REST Endpoint")
-public interface SubjectControler {
+public interface SubjectTemplateController {
 
     @ApiOperation(value = "Delete the image by ID")
     @ApiResponses(value = {
@@ -28,7 +27,7 @@ public interface SubjectControler {
     })
     @PostMapping("/image/add")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    void createImage(SubjectImageView subjectImageView);
+    void createImage(SubjectTemplateView subjectTemplateView);
 
     @ApiOperation(value = "Returns the image by ID")
     @ApiResponses(value = {
@@ -38,9 +37,9 @@ public interface SubjectControler {
     })
     @ResponseBody
     @GetMapping("/image/{id}")
-    SubjectImageView getById(@PathVariable("id") Long id);
+    SubjectTemplateView getById(@PathVariable("id") Long id);
 
     @ApiOperation(value = "Returns the all images")
     @GetMapping("/image/all")
-    List<SubjectImageView> getAll();
+    List<SubjectTemplateView> getAll();
 }

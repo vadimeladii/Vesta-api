@@ -5,8 +5,8 @@ import org.apache.commons.lang3.RandomStringUtils;
 
 public class RoleUtilData {
 
-    public static Long ROLE_ID = Long.parseLong(RandomStringUtils.randomNumeric(10));
-    public static String ROLE_NAME = RandomStringUtils.randomAlphabetic(10);
+    private static Long ROLE_ID = Long.parseLong(RandomStringUtils.randomNumeric(10));
+    private static String ROLE_NAME = RandomStringUtils.randomAlphabetic(10);
 
     public static RoleEntity roleEntity() {
         RoleEntity roleEntity = new RoleEntity();

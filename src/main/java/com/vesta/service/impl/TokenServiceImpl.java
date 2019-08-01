@@ -84,11 +84,11 @@ public class TokenServiceImpl implements TokenService {
     }
 
     private Token buildToken(String username, Long expirationTime, String secret, String prefix) {
-        String JWT = Jwts.builder()
+        String jwt = Jwts.builder()
                 .setSubject(username)
                 .setExpiration(new Date(System.currentTimeMillis() + expirationTime))
                 .signWith(SignatureAlgorithm.HS512, secret)
                 .compact();
-        return new Token(prefix + JWT);
+        return new Token(prefix + jwt);
     }
 }

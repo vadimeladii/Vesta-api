@@ -3,7 +3,6 @@ package com.vesta.service;
 import com.vesta.controller.view.Token;
 import com.vesta.service.dto.AccountCredential;
 import com.vesta.service.dto.UserDto;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Valid;
