@@ -44,7 +44,7 @@ public class SubjectControllerImpl implements SubjectController {
     }
 
     @Override
-    public void addSubject(SubjectView subjectView) {
-        service.addSubject(converter.deconvert(subjectView));
+    public void create(SubjectView subjectView) {
+        service.create(converter.deconvert(subjectView));
     }
 }

@@ -14,5 +14,5 @@ public interface SubjectService {
 
     List<SubjectDto> getAllByFloorId(Long floorId);
 
-    void addSubject(SubjectDto dto);
+    void create(SubjectDto dto);
 }

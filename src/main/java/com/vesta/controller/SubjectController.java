@@ -42,15 +42,15 @@ public interface SubjectController {
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "Floor not found")
     })
-    @GetMapping("/subjects/all/by/floor")
-    List<SubjectView> getAllByFloorId(Long floorId);
+    @GetMapping("/subjects/all/by/{floorId}")
+    List<SubjectView> getAllByFloorId(@PathVariable Long floorId);
 
     @ApiOperation(value = "Add a new subject")
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Subject was added"),
             @ApiResponse(code = 500, message = "Server error")
     })
-    @PostMapping("/subjects/add/new/subject")
+    @PostMapping("/subjects")
     @ResponseStatus(HttpStatus.CREATED)
-    void addSubject(@RequestBody SubjectView subjectView);
+    void create(@RequestBody SubjectView subjectView);
 }

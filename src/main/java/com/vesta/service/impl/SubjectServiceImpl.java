@@ -62,7 +62,7 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
-    public void addSubject(SubjectDto dto) {
+    public void create(SubjectDto dto) {
         log.info("method --- addSubject");
 
         SubjectEntity entity = converter.deconvert(dto);
