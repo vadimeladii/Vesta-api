@@ -23,4 +23,13 @@ public class CompanyConverter implements Converter<CompanyEntity, CompanyDto> {
         dto.setFloors(entity.getFloors().stream().map(floorConverter::convert).collect(Collectors.toList()));
         return dto;
     }
+
+    public CompanyEntity deconvert(CompanyDto dto) {
+        if (dto == null) return null;
+        CompanyEntity entity = new CompanyEntity();
+        entity.setId(dto.getId());
+        entity.setName(dto.getName());
+        entity.setFloors(dto.getFloors().stream().map(floorConverter::deconvert).collect(Collectors.toList()));
+        return entity;
+    }
 }
