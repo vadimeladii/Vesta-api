@@ -3,6 +3,7 @@ package com.vesta.mock.subject;
 import com.vesta.common.SubjectUtilData;
 import com.vesta.exception.VestaException;
 import com.vesta.repository.SubjectRepository;
+import com.vesta.repository.SubjectTemplateRepository;
 import com.vesta.repository.entity.SubjectEntity;
 import com.vesta.service.SubjectService;
 import com.vesta.service.converter.SubjectConverter;
@@ -19,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 
+import static com.vesta.common.SubjectUtilData.FLOOR_ID;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.verify;
@@ -32,11 +34,14 @@ public class SubjectTest {
     @Mock
     private SubjectRepository repository;
 
+    @Mock
+    private SubjectTemplateRepository templateRepository;
+
     private SubjectConverter converter = new SubjectConverter();
 
     @Before
     public void setUp() {
-        service = new SubjectServiceImpl(repository, converter);
+        service = new SubjectServiceImpl(repository, converter, templateRepository);
     }
 
     @Test
@@ -80,6 +85,32 @@ public class SubjectTest {
 
         // then
         List<SubjectDto> subject = service.getAll();
+
+        assertEquals(subject.size(), 2);
+        assertNotNull(subject.get(0));
+        assertNotNull(subject.get(1));
+        assertThat(subjectEntity1.getId(), is(subject.get(0).getId()));
+        assertThat(subjectEntity1.getPositionX(), is(subject.get(0).getPositionX()));
+        assertThat(subjectEntity1.getPositionY(), is(subject.get(0).getPositionY()));
+        assertThat(subjectEntity1.getScale(), is(subject.get(0).getScale()));
+        assertThat(subjectEntity1.getRotation(), is(subject.get(0).getRotation()));
+        assertThat(subjectEntity1.getEditable(), is(subject.get(0).getEditable()));
+        assertThat(subjectEntity1.getFloorId(), is(subject.get(0).getFloorId()));
+        assertThat(subjectEntity1.getSubjectTemplateEntity().getImage(), is(subject.get(0).getImage()));
+    }
+
+    @Test
+    public void test_findAllByFloorId_valid() {
+        // given
+        SubjectEntity subjectEntity1 = SubjectUtilData.subjectEntity();
+        SubjectEntity subjectEntity2 = SubjectUtilData.subjectEntity();
+
+        // when
+        Mockito.when(repository.findAllByFloorId(FLOOR_ID))
+                .thenReturn(List.of(subjectEntity1, subjectEntity2));
+
+        // then
+        List<SubjectDto> subject = service.getAllByFloorId(FLOOR_ID);
 
         assertEquals(subject.size(), 2);
         assertNotNull(subject.get(0));

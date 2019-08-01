@@ -15,4 +15,6 @@ public interface SubjectRepository extends JpaRepository<SubjectEntity, Long> {
     void deleteById(Long id);
 
     List<SubjectEntity> findAll();
+
+    List<SubjectEntity> findAllByFloorId(Long floorId);
 }
