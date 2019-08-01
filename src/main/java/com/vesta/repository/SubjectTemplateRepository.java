@@ -12,6 +12,8 @@ public interface SubjectTemplateRepository extends JpaRepository<SubjectTemplate
 
     Optional<SubjectTemplateEntity> findById(Long id);
 
+    Optional<SubjectTemplateEntity> getByImage (String image);
+
     void deleteById(Long id);
 
     List<SubjectTemplateEntity> findAll();

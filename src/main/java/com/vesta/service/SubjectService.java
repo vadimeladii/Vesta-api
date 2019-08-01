@@ -11,4 +11,8 @@ public interface SubjectService {
     List<SubjectDto> getAll();
 
     void delete(Long id);
+
+    List<SubjectDto> getAllByFloorId(Long floorId);
+
+    void create(SubjectDto dto);
 }
