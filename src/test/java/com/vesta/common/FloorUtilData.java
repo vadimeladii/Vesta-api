@@ -5,9 +5,9 @@ import org.apache.commons.lang3.RandomStringUtils;
 
 public class FloorUtilData {
 
-    public static Long FLOOR_ID = Long.parseLong(RandomStringUtils.randomNumeric(10));
-    public static String FLOOR_NAME = RandomStringUtils.randomAlphabetic(10);
-    public static Long FLOOR_COMPANY_ID = Long.parseLong(RandomStringUtils.randomNumeric(10));
+    private static Long FLOOR_ID = Long.parseLong(RandomStringUtils.randomNumeric(10));
+    private static String FLOOR_NAME = RandomStringUtils.randomAlphabetic(10);
+    private static Long FLOOR_COMPANY_ID = Long.parseLong(RandomStringUtils.randomNumeric(10));
 
     public static FloorEntity floorEntity(){
         FloorEntity floorEntity = new FloorEntity();
