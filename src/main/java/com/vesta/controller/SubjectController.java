@@ -22,6 +22,14 @@ public interface SubjectController {
     @DeleteMapping("/subjects/{id}")
     void delete(@PathVariable Long id);
 
+    @ApiOperation(value = "Delete All by ID")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Subjects deleted with success"),
+            @ApiResponse(code = 404, message = "Subjects not found"),
+    })
+    @DeleteMapping("/subjects/ids")
+    void deleteAll(@RequestBody List<Long> ids);
+
     @ApiOperation(value = "Returns the image by ID")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Get subjects by id has succeeded"),
@@ -53,4 +61,13 @@ public interface SubjectController {
     @PostMapping("/subjects")
     @ResponseStatus(HttpStatus.CREATED)
     void create(@RequestBody SubjectView subjectView);
+
+    @ApiOperation(value = "Add a new subjects")
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Subjects was added"),
+            @ApiResponse(code = 500, message = "Server error")
+    })
+    @PostMapping("/subjects/list")
+    @ResponseStatus(HttpStatus.CREATED)
+    void create(@RequestBody List<SubjectView> subjectViews);
 }

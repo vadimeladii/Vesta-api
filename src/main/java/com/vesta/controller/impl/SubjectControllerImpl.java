@@ -23,6 +23,11 @@ public class SubjectControllerImpl implements SubjectController {
     }
 
     @Override
+    public void deleteAll(List<Long> ids) {
+        service.deleteAll(ids);
+    }
+
+    @Override
     public SubjectView getById(Long id) {
         return converter.convert(service.getById(id));
     }
@@ -47,4 +52,14 @@ public class SubjectControllerImpl implements SubjectController {
     public void create(SubjectView subjectView) {
         service.create(converter.deconvert(subjectView));
     }
+
+    @Override
+    public void create(List<SubjectView> subjectView) {
+        service.create(subjectView
+                .stream()
+                .map(converter::deconvert)
+                .collect(Collectors.toList()));
+    }
+
+
 }
