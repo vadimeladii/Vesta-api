@@ -14,14 +14,6 @@ import java.util.List;
 @Api(value = "Subject Controller REST Endpoint")
 public interface SubjectController {
 
-    @ApiOperation(value = "Delete by ID")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Subject deleted with success"),
-            @ApiResponse(code = 404, message = "Subject not found"),
-    })
-    @DeleteMapping("/subjects/{id}")
-    void delete(@PathVariable Long id);
-
     @ApiOperation(value = "Returns the image by ID")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Get subjects by id has succeeded"),
@@ -29,12 +21,8 @@ public interface SubjectController {
             @ApiResponse(code = 404, message = "Subject not found")
     })
     @ResponseBody
-    @GetMapping("/subjects/{id}")
+    @GetMapping("/{id}")
     SubjectView getById(@PathVariable Long id);
-
-    @ApiOperation(value = "Returns the all subjects")
-    @GetMapping("/subjects/all")
-    List<SubjectView> getAll();
 
     @ApiOperation(value = "Returns the all subjects by FloorID")
     @ApiResponses(value = {
@@ -42,15 +30,27 @@ public interface SubjectController {
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "Floor not found")
     })
-    @GetMapping("/subjects/all/by/{floorId}")
-    List<SubjectView> getAllByFloorId(@PathVariable Long floorId);
+    @GetMapping("/{floorId}")
+    List<SubjectView> getByFloorId(@PathVariable Long floorId);
+
+    @ApiOperation(value = "Returns the all subjects")
+    @GetMapping
+    List<SubjectView> getAll();
+
+    @ApiOperation(value = "Delete by ID")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Subject deleted with success"),
+            @ApiResponse(code = 404, message = "Subject not found"),
+    })
+    @DeleteMapping("/{id}")
+    void delete(@PathVariable Long id);
 
     @ApiOperation(value = "Add a new subject")
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Subject was added"),
             @ApiResponse(code = 500, message = "Server error")
     })
-    @PostMapping("/subjects")
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     void create(@RequestBody SubjectView subjectView);
 }

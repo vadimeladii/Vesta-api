@@ -106,11 +106,11 @@ public class SubjectTest {
         SubjectEntity subjectEntity2 = SubjectUtilData.subjectEntity();
 
         // when
-        Mockito.when(repository.findAllByFloorId(FLOOR_ID))
+        Mockito.when(repository.findByFloorId(FLOOR_ID))
                 .thenReturn(List.of(subjectEntity1, subjectEntity2));
 
         // then
-        List<SubjectDto> subject = service.getAllByFloorId(FLOOR_ID);
+        List<SubjectDto> subject = service.getByFloorId(FLOOR_ID);
 
         assertEquals(subject.size(), 2);
         assertNotNull(subject.get(0));

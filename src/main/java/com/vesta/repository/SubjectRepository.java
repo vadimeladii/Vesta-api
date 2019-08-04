@@ -16,5 +16,5 @@ public interface SubjectRepository extends JpaRepository<SubjectEntity, Long> {
 
     List<SubjectEntity> findAll();
 
-    List<SubjectEntity> findAllByFloorId(Long floorId);
+    List<SubjectEntity> findByFloorId(Long floorId);
 }

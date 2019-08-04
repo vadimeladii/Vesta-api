@@ -27,7 +27,7 @@ public interface CompanyController {
             @ApiResponse(code = 201, message = "Company was created"),
             @ApiResponse(code = 500, message = "Server error")
     })
-    @PostMapping("/registration")
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     void create(@RequestBody CompanyView companyView);
 }
