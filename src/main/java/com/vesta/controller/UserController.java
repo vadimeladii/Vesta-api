@@ -76,10 +76,10 @@ public interface UserController {
     @ApiOperation(value = "Refresh token")
     @PostMapping("/refresh")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Acces Token was generated"),
+            @ApiResponse(code = 200, message = "Access Token was generated"),
             @ApiResponse(code = 401, message = "Life time of refresh token has finished")
     })
-    Token refreshToken(String refreshToken);
+    Token refreshToken(@RequestBody Token refreshToken);
 
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Email was sent successfully"),
