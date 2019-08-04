@@ -59,8 +59,8 @@ public class UserControllerImpl implements UserController {
     }
 
     @Override
-    public Token refreshToken(String refreshToken) {
-        return userService.refreshToken(refreshToken);
+    public Token refreshToken(Token refreshToken) {
+        return userService.refreshToken(refreshToken.getToken());
     }
 
     @Override
