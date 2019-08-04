@@ -29,7 +29,7 @@ public class SubjectTemplateTest extends IntegrationConfigTest {
         SubjectTemplateEntity entity = SubjectTemplateUtilData.subjectTemplateEntity();
         repository.save(entity);
 
-        this.mvc.perform(delete("/subject/image/{id}", SUBJECT_IMAGE_ID)
+        this.mvc.perform(delete("/subjectTemplate/{id}", SUBJECT_IMAGE_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
@@ -37,7 +37,7 @@ public class SubjectTemplateTest extends IntegrationConfigTest {
 
     @WithMockUser
     @Test
-    public void addImageWithSuccess() throws Exception {
+    public void addSubjectTemplateWithSuccess() throws Exception {
 
         SubjectTemplateView subjectTemplateView = new SubjectTemplateView();
         subjectTemplateView.setId(SUBJECT_IMAGE_ID);
@@ -46,8 +46,8 @@ public class SubjectTemplateTest extends IntegrationConfigTest {
         Gson gson = new Gson();
         String json = gson.toJson(subjectTemplateView);
 
-        this.mvc.perform(post("/subject/image/add")
+        this.mvc.perform(post("/subjectTemplate")
                 .contentType(MediaType.APPLICATION_JSON).content(json))
-                .andExpect(status().isAccepted());
+                .andExpect(status().isCreated());
     }
 }
