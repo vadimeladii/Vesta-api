@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RequestMapping("/floors")
+@RequestMapping("/floor")
 @Api(value = "Floor Controller REST Endpoint")
 public interface FloorController {
 
@@ -40,7 +40,7 @@ public interface FloorController {
             @ApiResponse(code = 409, message = "Conflict, floor already exist"),
             @ApiResponse(code = 500, message = "Server error")
     })
-    @PostMapping("/create")
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     void create(@RequestBody FloorView floorView);
 
@@ -49,7 +49,6 @@ public interface FloorController {
             @ApiResponse(code = 200, message = "Floor was deleted successfully"),
             @ApiResponse(code = 404, message = "Floor not found")
     })
-
     @DeleteMapping("/{id}")
     void delete(@PathVariable("id") Long id);
 }

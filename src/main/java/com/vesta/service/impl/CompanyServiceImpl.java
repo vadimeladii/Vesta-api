@@ -14,6 +14,7 @@ import com.vesta.service.dto.CompanyDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -49,17 +50,21 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
+    @Transactional
     public void create(CompanyDto companyDto) {
         log.info("method --- create");
 
         verify(companyRepository.existsByName(companyDto.getName()),
                 () -> new ConflictException("Name already exists"));
 
-        CompanyEntity entity = companyConverter.deconvert(companyDto);
-        entity.setId(null);
-        companyRepository.save(entity);
+        CompanyEntity dbCompany = companyRepository.save(companyConverter.deconvert(companyDto));
 
-        List<FloorEntity> floorEntities = companyDto.getFloors().stream().map(floorConverter::deconvert).collect(Collectors.toList());
+        List<FloorEntity> floorEntities = companyDto
+                .getFloors()
+                .stream()
+                .peek(dto -> dto.setCompanyId(dbCompany.getId()))
+                .map(floorConverter::deconvert)
+                .collect(Collectors.toList());
         floorRepository.saveAll(floorEntities);
     }
 }
