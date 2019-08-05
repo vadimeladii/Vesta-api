@@ -1,5 +1,6 @@
 package com.vesta.controller;
 
+import com.vesta.controller.view.SubjectUpdateView;
 import com.vesta.controller.view.SubjectView;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -27,7 +28,7 @@ public interface SubjectController {
             @ApiResponse(code = 200, message = "Subjects deleted with success"),
             @ApiResponse(code = 404, message = "Subjects not found"),
     })
-    @DeleteMapping("/subjects/ids")
+    @DeleteMapping("/ids")
     void deleteAll(@RequestBody List<Long> ids);
 
     @ApiOperation(value = "Returns the image by ID")
@@ -67,7 +68,15 @@ public interface SubjectController {
             @ApiResponse(code = 201, message = "Subjects was added"),
             @ApiResponse(code = 500, message = "Server error")
     })
-    @PostMapping("/subjects/list")
+    @PostMapping("/list")
     @ResponseStatus(HttpStatus.CREATED)
     void create(@RequestBody List<SubjectView> subjectViews);
+
+    @ApiOperation(value = "Modify subject data by ID")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Subject was updated successfully"),
+            @ApiResponse(code = 404, message = "Subject not found")
+    })
+    @PutMapping("/{id}")
+    SubjectUpdateView update(@PathVariable("id") Long id, @RequestBody SubjectUpdateView subjectUpdateView);
 }

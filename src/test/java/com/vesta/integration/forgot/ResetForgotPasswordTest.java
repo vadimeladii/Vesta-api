@@ -37,7 +37,7 @@ public class ResetForgotPasswordTest extends IntegrationConfigTest {
         UserResetForgotView userResetForgotView = new UserResetForgotView();
 
         userResetForgotView.setPassword(USER_PASSWORD);
-        userResetForgotView.setToken(tokenService.generatedEmailToken(USER_USERNAME).getToken());
+        userResetForgotView.setToken(tokenService.generatedEmailToken(USER_USERNAME).getJwntoken());
 
         Gson gson = new Gson();
         String json = gson.toJson(userResetForgotView);
@@ -55,7 +55,7 @@ public class ResetForgotPasswordTest extends IntegrationConfigTest {
         UserResetForgotView userResetForgotView = new UserResetForgotView();
 
         userResetForgotView.setPassword(USER_NEW_PASSWORD);
-        userResetForgotView.setToken(tokenService.generatedEmailToken(USER_USERNAME).getToken());
+        userResetForgotView.setToken(tokenService.generatedEmailToken(USER_USERNAME).getJwntoken());
 
         Gson gson = new Gson();
         String json = gson.toJson(userResetForgotView);
@@ -70,7 +70,7 @@ public class ResetForgotPasswordTest extends IntegrationConfigTest {
         UserResetForgotView userResetForgotView = new UserResetForgotView();
 
         userResetForgotView.setPassword(USER_NEW_PASSWORD);
-        userResetForgotView.setToken(tokenService.generatedEmailToken(USER_EMAIL).getToken());
+        userResetForgotView.setToken(tokenService.generatedEmailToken(USER_EMAIL).getJwntoken());
 
         Gson gson = new Gson();
         String json = gson.toJson(userResetForgotView);

@@ -19,5 +19,7 @@ public interface SubjectService {
     void create(SubjectDto dto);
 
     void create(List<SubjectDto> dtos);
+
+    SubjectDto update(Long id, SubjectDto dto);
 }
 

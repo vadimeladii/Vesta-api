@@ -133,8 +133,8 @@ public class UserServiceImpl implements UserService {
                 () -> new UnauthorizedException("The password doesn't correct"));
 
         Map<String, String> tokens = new HashMap<>();
-        tokens.put("accessToken", tokenService.generatedAccessToken(accountCredential.getUsername()).getToken());
-        tokens.put("refreshToken", tokenService.generatedRefreshToken(accountCredential.getUsername()).getToken());
+        tokens.put("accessToken", tokenService.generatedAccessToken(accountCredential.getUsername()).getJwntoken());
+        tokens.put("refreshToken", tokenService.generatedRefreshToken(accountCredential.getUsername()).getJwntoken());
         return tokens;
     }
 

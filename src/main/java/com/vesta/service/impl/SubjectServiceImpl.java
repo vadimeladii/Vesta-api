@@ -9,6 +9,7 @@ import com.vesta.service.dto.SubjectDto;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -47,11 +48,12 @@ public class SubjectServiceImpl implements SubjectService {
         repository.deleteById(id);
     }
 
+    @Transactional
     @Override
     public void deleteAll(List<Long> ids) {
         log.info("method --- delete");
 
-        repository.deleteAllById(ids);
+        repository.deleteAll(ids);
     }
 
     @Override
@@ -83,12 +85,19 @@ public class SubjectServiceImpl implements SubjectService {
 
     }
 
-//    @Override
-//    public SubjectDto updateAll(Long id, SubjectDto dto) {
-//        log.info("method --- update");
-//
-//        SubjectEntity entity = repository.findById(id).orElse(create(dto));
-//
-//        SubjectEntity update = converter.deconvert(dto);
-//    }
+    @Transactional
+    @Override
+    public SubjectDto update(Long id, SubjectDto dto) {
+        log.info("method --- update");
+
+        SubjectEntity entity = repository.findById(id).orElseThrow(()
+                -> new NotFoundException("Subject not found"));
+
+        entity.setPositionX(dto.getPositionX());
+        entity.setPositionY(dto.getPositionY());
+        entity.setScale(dto.getScale());
+        entity.setRotation(dto.getRotation());
+
+        return converter.convert(repository.save(entity));
+    }
 }

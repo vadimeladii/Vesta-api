@@ -52,7 +52,7 @@ public interface UserController {
             @ApiResponse(code = 401, message = "Username or password is not correct")
     })
     @PostMapping("/login")
-    Map<String, String> login(@RequestBody AccountCredential accountCredential) throws Exception;
+    Map<String, String> login(@RequestBody AccountCredential accountCredential);
 
 
     @ApiOperation(value = "Create a new user")

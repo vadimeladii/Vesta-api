@@ -11,5 +11,5 @@ public class Token implements Serializable {
 
     private static final long serialVersionUID = 3886412712132300473L;
 
-    private String token;
+    private String jwntoken;
 }
