@@ -29,7 +29,7 @@ public interface SubjectController {
             @ApiResponse(code = 404, message = "Subjects not found"),
     })
     @DeleteMapping("/ids")
-    void deleteAll(@RequestBody List<Long> ids);
+    void delete(@RequestBody List<Long> ids);
 
     @ApiOperation(value = "Returns the image by ID")
     @ApiResponses(value = {

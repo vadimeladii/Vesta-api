@@ -26,7 +26,7 @@ public class SubjectControllerImpl implements SubjectController {
     }
 
     @Override
-    public void deleteAll(List<Long> ids) {
+    public void delete(List<Long> ids) {
         service.deleteAll(ids);
     }
 
