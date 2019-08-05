@@ -44,8 +44,8 @@ public class SubjectControllerImpl implements SubjectController {
     }
 
     @Override
-    public List<SubjectView> getAllByFloorId(Long floorId) {
-        return service.getAllByFloorId(floorId)
+    public List<SubjectView> getByFloorId(Long floorId) {
+        return service.getByFloorId(floorId)
                 .stream()
                 .map(converter::convert)
                 .collect(Collectors.toList());

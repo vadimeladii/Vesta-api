@@ -30,7 +30,7 @@ public class SubjectTest extends IntegrationConfigTest {
         SubjectEntity entity = SubjectUtilData.subjectEntity();
         repository.save(entity);
 
-        this.mvc.perform(delete("/subject/subjects/{id}", SUBJECT_ID)
+        this.mvc.perform(delete("/subject/{id}", SUBJECT_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
@@ -68,7 +68,7 @@ public class SubjectTest extends IntegrationConfigTest {
         Gson gson = new Gson();
         String json = gson.toJson(subjectView);
 
-        this.mvc.perform(post("/subject/subjects")
+        this.mvc.perform(post("/subject")
                 .contentType(MediaType.APPLICATION_JSON).content(json)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated());

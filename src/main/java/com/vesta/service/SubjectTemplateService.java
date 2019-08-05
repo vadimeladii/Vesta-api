@@ -8,9 +8,9 @@ public interface SubjectTemplateService {
 
     SubjectTemplateDto getById(Long id);
 
-    void createImage(SubjectTemplateDto subjectTemplateDto);
+    void create(SubjectTemplateDto subjectTemplateDto);
 
-    void deleteImage(Long id);
+    void delete(Long id);
 
     List<SubjectTemplateDto> getAll();
 }
