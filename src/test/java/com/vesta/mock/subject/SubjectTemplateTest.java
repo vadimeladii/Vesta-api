@@ -62,7 +62,7 @@ public class SubjectTemplateTest {
         // given
         SubjectTemplateEntity subjectTemplateEntity = SubjectTemplateUtilData.subjectTemplateEntity();
         // when
-        service.deleteImage(subjectTemplateEntity.getId());
+        service.delete(subjectTemplateEntity.getId());
         // then
         verify(repository).deleteById(subjectTemplateEntity.getId());
     }
@@ -73,7 +73,7 @@ public class SubjectTemplateTest {
         SubjectTemplateDto subjectTemplateDto = new SubjectTemplateDto();
         subjectTemplateDto.setImage("test-image");
 
-        service.createImage(subjectTemplateDto);
+        service.create(subjectTemplateDto);
     }
 
     @Test

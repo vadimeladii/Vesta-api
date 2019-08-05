@@ -16,7 +16,7 @@ public interface SubjectRepository extends JpaRepository<SubjectEntity, Long> {
 
     List<SubjectEntity> findAll();
 
-    List<SubjectEntity> findAllByFloorId(Long floorId);
+    List<SubjectEntity> findByFloorId(Long floorId);
 
     @Modifying
     @Query("delete from SubjectEntity s where s.id in ?1")

@@ -50,17 +50,17 @@ public class SubjectServiceImpl implements SubjectService {
 
     @Transactional
     @Override
-    public void deleteAll(List<Long> ids) {
+    public void delete(List<Long> ids) {
         log.info("method --- delete");
 
         repository.deleteAll(ids);
     }
 
     @Override
-    public List<SubjectDto> getAllByFloorId(Long floorId) {
+    public List<SubjectDto> getByFloorId(Long floorId) {
         log.info("method --- getAllByFloorId");
 
-        return repository.findAllByFloorId(floorId)
+        return repository.findByFloorId(floorId)
                 .stream()
                 .map(converter::convert)
                 .collect(Collectors.toList());

@@ -9,4 +9,6 @@ public interface CompanyService {
     List<CompanyDto> findAll();
 
     CompanyDto getByName(String name);
+
+    void create(CompanyDto companyDto);
 }

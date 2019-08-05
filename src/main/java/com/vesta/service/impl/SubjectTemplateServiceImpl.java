@@ -31,7 +31,7 @@ public class SubjectTemplateServiceImpl implements SubjectTemplateService {
     }
 
     @Override
-    public void createImage(SubjectTemplateDto subjectTemplateDto) {
+    public void create(SubjectTemplateDto subjectTemplateDto) {
         log.info("method --- createImage");
 
         SubjectTemplateEntity subjectTemplateEntity = converter.deconvert(subjectTemplateDto);
@@ -39,7 +39,7 @@ public class SubjectTemplateServiceImpl implements SubjectTemplateService {
     }
 
     @Override
-    public void deleteImage(Long id) {
+    public void delete(Long id) {
         log.info("method --- deleteImage");
 
         subjectTemplateRepository.deleteById(id);

@@ -58,7 +58,7 @@ public interface UserController {
     @ApiOperation(value = "Create a new user")
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "User was created"),
-            @ApiResponse(code = 409, message = "Conflict username or eamil already exists"),
+            @ApiResponse(code = 409, message = "Conflict username or email already exists"),
             @ApiResponse(code = 500, message = "Server error")
     })
     @PostMapping("/registration")
@@ -76,10 +76,10 @@ public interface UserController {
     @ApiOperation(value = "Refresh token")
     @PostMapping("/refresh")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Acces Token was generated"),
+            @ApiResponse(code = 200, message = "Access Token was generated"),
             @ApiResponse(code = 401, message = "Life time of refresh token has finished")
     })
-    Token refreshToken(String refreshToken);
+    Token refreshToken(@RequestBody Token refreshToken);
 
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Email was sent successfully"),
@@ -90,7 +90,7 @@ public interface UserController {
     void forgotPasswordMail(String email);
 
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Passward was reset successfully"),
+            @ApiResponse(code = 200, message = "Password was reset successfully"),
             @ApiResponse(code = 401, message = "Life time of token has finished"),
             @ApiResponse(code = 409, message = "New Password equals with Old Password")
     })
@@ -98,7 +98,7 @@ public interface UserController {
     @PostMapping("reset/forgot/password")
     void resetForgotPassword(@RequestBody UserResetForgotView userResetForgotView);
 
-    @ApiOperation(value = "Returneaza detaliile userului logat")
+    @ApiOperation(value = "Return current authenticated user")
     @GetMapping(value = "/me")
     @ResponseBody
     UserView currentUserDetails();

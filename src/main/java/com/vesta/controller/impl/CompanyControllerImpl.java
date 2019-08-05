@@ -25,4 +25,8 @@ public class CompanyControllerImpl implements CompanyController {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public void create(CompanyView companyView) {
+        companyService.create(companyViewConverter.deconvert(companyView));
+    }
 }

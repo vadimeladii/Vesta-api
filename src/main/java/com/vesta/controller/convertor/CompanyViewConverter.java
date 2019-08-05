@@ -23,4 +23,12 @@ public class CompanyViewConverter implements Converter<CompanyDto, CompanyView> 
         view.setFloors(dto.getFloors().stream().map(floorViewConverter::convert).collect(Collectors.toList()));
         return view;
     }
+
+    public CompanyDto deconvert(CompanyView view) {
+        if (view == null) return null;
+        CompanyDto dto = new CompanyDto();
+        dto.setName(view.getName());
+        dto.setFloors(view.getFloors().stream().map(floorViewConverter::deconvert).collect(Collectors.toList()));
+        return dto;
+    }
 }

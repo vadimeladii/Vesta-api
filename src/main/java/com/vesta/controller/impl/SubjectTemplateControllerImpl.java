@@ -19,13 +19,13 @@ public class SubjectTemplateControllerImpl implements SubjectTemplateController 
     private final SubjectTemplateViewConverter converter;
 
     @Override
-    public void deleteImage(Long id) {
-        subjectTemplateService.deleteImage(id);
+    public void delete(Long id) {
+        subjectTemplateService.delete(id);
     }
 
     @Override
-    public void createImage(@RequestBody SubjectTemplateView subjectTemplateView) {
-        subjectTemplateService.createImage(converter.deconvert(subjectTemplateView));
+    public void create(@RequestBody SubjectTemplateView subjectTemplateView) {
+        subjectTemplateService.create(converter.deconvert(subjectTemplateView));
     }
 
     @Override

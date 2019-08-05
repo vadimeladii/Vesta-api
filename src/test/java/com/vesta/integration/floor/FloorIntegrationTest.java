@@ -47,7 +47,7 @@ public class  FloorIntegrationTest extends IntegrationConfigTest {
         floorRepository.save(floorEntity);
 
         // when
-        MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.get("/floors")
+        MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.get("/floor")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))

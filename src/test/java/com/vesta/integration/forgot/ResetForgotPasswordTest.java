@@ -37,7 +37,7 @@ public class ResetForgotPasswordTest extends IntegrationConfigTest {
         UserResetForgotView userResetForgotView = new UserResetForgotView();
 
         userResetForgotView.setPassword(USER_PASSWORD);
-        userResetForgotView.setToken(tokenService.generatedEmailToken(USER_USERNAME).getJwntoken());
+        userResetForgotView.setToken(tokenService.generatedEmailToken(USER_USERNAME).getJwtToken());
 
         Gson gson = new Gson();
         String json = gson.toJson(userResetForgotView);
@@ -48,14 +48,14 @@ public class ResetForgotPasswordTest extends IntegrationConfigTest {
     }
 
     @Test
-    public void submitPasswordSucces() throws Exception {
+    public void submitPasswordSuccess() throws Exception {
         UserEntity userEntity = UserUtilData.userEntity(passwordEncoder.encode(USER_USERNAME));
         userRepository.save(userEntity);
 
         UserResetForgotView userResetForgotView = new UserResetForgotView();
 
         userResetForgotView.setPassword(USER_NEW_PASSWORD);
-        userResetForgotView.setToken(tokenService.generatedEmailToken(USER_USERNAME).getJwntoken());
+        userResetForgotView.setToken(tokenService.generatedEmailToken(USER_USERNAME).getJwtToken());
 
         Gson gson = new Gson();
         String json = gson.toJson(userResetForgotView);
@@ -66,11 +66,11 @@ public class ResetForgotPasswordTest extends IntegrationConfigTest {
     }
 
     @Test
-    public void accesResetPasswordWithInvalidToken() throws Exception {
+    public void accessResetPasswordWithInvalidToken() throws Exception {
         UserResetForgotView userResetForgotView = new UserResetForgotView();
 
         userResetForgotView.setPassword(USER_NEW_PASSWORD);
-        userResetForgotView.setToken(tokenService.generatedEmailToken(USER_EMAIL).getJwntoken());
+        userResetForgotView.setToken(tokenService.generatedEmailToken(USER_EMAIL).getJwtToken());
 
         Gson gson = new Gson();
         String json = gson.toJson(userResetForgotView);

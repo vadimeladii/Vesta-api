@@ -2,6 +2,7 @@ package com.vesta.mock.company;
 
 import com.vesta.exception.VestaException;
 import com.vesta.repository.CompanyRepository;
+import com.vesta.repository.FloorRepository;
 import com.vesta.repository.entity.CompanyEntity;
 import com.vesta.service.CompanyService;
 import com.vesta.service.converter.CompanyConverter;
@@ -33,13 +34,19 @@ public class CompanyServiceTest {
     private CompanyService companyService;
 
     @Mock
+    private FloorConverter converter;
+
+    @Mock
+    private FloorRepository repository;
+
+    @Mock
     private CompanyRepository companyRepository;
 
     private CompanyConverter companyConverter = new CompanyConverter(new FloorConverter());
 
     @Before
     public void setUp() {
-        companyService = new CompanyServiceImpl(companyRepository, companyConverter);
+        companyService = new CompanyServiceImpl(companyRepository, companyConverter, converter, repository);
     }
 
     @Test

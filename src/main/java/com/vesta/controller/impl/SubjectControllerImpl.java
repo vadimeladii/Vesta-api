@@ -27,7 +27,7 @@ public class SubjectControllerImpl implements SubjectController {
 
     @Override
     public void delete(List<Long> ids) {
-        service.deleteAll(ids);
+        service.delete(ids);
     }
 
     @Override
@@ -44,8 +44,8 @@ public class SubjectControllerImpl implements SubjectController {
     }
 
     @Override
-    public List<SubjectView> getAllByFloorId(Long floorId) {
-        return service.getAllByFloorId(floorId)
+    public List<SubjectView> getByFloorId(Long floorId) {
+        return service.getByFloorId(floorId)
                 .stream()
                 .map(converter::convert)
                 .collect(Collectors.toList());
@@ -68,6 +68,4 @@ public class SubjectControllerImpl implements SubjectController {
     public SubjectUpdateView update(Long id, SubjectUpdateView subjectUpdateView) {
         return updateViewConverter.convert(service.update(id, updateViewConverter.deconvert(subjectUpdateView)));
     }
-
-
 }
