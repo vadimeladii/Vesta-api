@@ -73,6 +73,7 @@ public class SubjectServiceImpl implements SubjectService {
         repository.save(converter.deconvert(dto));
     }
 
+    @Transactional
     @Override
     public void create(List<SubjectDto> dtos) {
         log.info("method --- addSubjects");
@@ -82,7 +83,6 @@ public class SubjectServiceImpl implements SubjectService {
                 .map(converter::deconvert)
                 .collect(Collectors.toList());
         repository.saveAll(entities);
-
     }
 
     @Transactional
