@@ -1,7 +1,11 @@
 package com.vesta.common;
 
+import com.vesta.controller.view.SubjectView;
 import com.vesta.repository.entity.SubjectEntity;
+import com.vesta.service.dto.SubjectDto;
 import org.apache.commons.lang3.RandomStringUtils;
+
+import java.util.List;
 
 public class SubjectUtilData {
 
@@ -14,7 +18,7 @@ public class SubjectUtilData {
     public static Long FLOOR_ID = Long.parseLong(RandomStringUtils.randomNumeric(10));
     public static String TEMPLATE = "/img/svg/table.svg";
 
-    public static SubjectEntity subjectEntity(){
+    public static SubjectEntity subjectEntity() {
         SubjectEntity entity = new SubjectEntity();
         entity.setId(SUBJECT_ID);
         entity.setPositionX(SUBJECT_POSITION_X);
@@ -26,5 +30,31 @@ public class SubjectUtilData {
         entity.setSubjectTemplateEntity(SubjectTemplateUtilData.subjectTemplateEntity());
 
         return entity;
+    }
+
+    public static SubjectView subjectView() {
+
+        SubjectView subjectView = new SubjectView();
+
+        subjectView.setPosition(List.of(SUBJECT_POSITION_X, SUBJECT_POSITION_Y));
+        subjectView.setScale(SUBJECT_SCALE);
+        subjectView.setRotation(SUBJECT_ROTATION);
+        subjectView.setEditable(SUBJECT_EDITABLE);
+        subjectView.setFloorId(FLOOR_ID);
+        subjectView.setImage(TEMPLATE);
+
+        return subjectView;
+    }
+
+    public static SubjectDto subjectDto() {
+
+        SubjectDto subjectDto = new SubjectDto();
+
+        subjectDto.setPositionX(SUBJECT_POSITION_X);
+        subjectDto.setPositionY(SUBJECT_POSITION_Y);
+        subjectDto.setScale(SUBJECT_SCALE);
+        subjectDto.setRotation(SUBJECT_ROTATION);
+
+        return subjectDto;
     }
 }

@@ -5,7 +5,6 @@ import com.vesta.repository.CompanyRepository;
 import com.vesta.repository.FloorRepository;
 import com.vesta.repository.entity.CompanyEntity;
 import com.vesta.service.CompanyService;
-import com.vesta.service.FloorService;
 import com.vesta.service.converter.CompanyConverter;
 import com.vesta.service.converter.FloorConverter;
 import com.vesta.service.dto.CompanyDto;
@@ -34,9 +33,11 @@ public class CompanyServiceTest {
 
     private CompanyService companyService;
 
-    private FloorConverter floorConverter;
+    @Mock
+    private FloorConverter converter;
 
-    private FloorRepository floorRepository;
+    @Mock
+    private FloorRepository repository;
 
     @Mock
     private CompanyRepository companyRepository;
@@ -45,7 +46,7 @@ public class CompanyServiceTest {
 
     @Before
     public void setUp() {
-        companyService = new CompanyServiceImpl(companyRepository, companyConverter, floorConverter, floorRepository);
+        companyService = new CompanyServiceImpl(companyRepository, companyConverter, converter, repository);
     }
 
     @Test

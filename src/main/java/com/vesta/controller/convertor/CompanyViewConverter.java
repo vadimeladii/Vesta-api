@@ -8,8 +8,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.stream.Collectors;
 
-import static java.util.stream.Collectors.toList;
-
 @Component
 @RequiredArgsConstructor
 public class CompanyViewConverter implements Converter<CompanyDto, CompanyView> {
@@ -29,7 +27,6 @@ public class CompanyViewConverter implements Converter<CompanyDto, CompanyView> 
     public CompanyDto deconvert(CompanyView view) {
         if (view == null) return null;
         CompanyDto dto = new CompanyDto();
-        dto.setId(view.getId());
         dto.setName(view.getName());
         dto.setFloors(view.getFloors().stream().map(floorViewConverter::deconvert).collect(Collectors.toList()));
         return dto;

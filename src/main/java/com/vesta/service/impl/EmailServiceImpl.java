@@ -80,7 +80,7 @@ public class EmailServiceImpl implements EmailService {
     private String getModelTemplateForResetPassword(String username) {
         Map<String, String> model = new HashMap<>();
         model.put("base_url", baseUrl);
-        model.put("token", tokenService.generatedEmailToken(username).getToken());
+        model.put("token", tokenService.generatedEmailToken(username).getJwtToken());
         return buildText("ForogtPasswordTemplate.ftl", model);
     }
 

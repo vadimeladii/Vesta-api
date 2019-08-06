@@ -38,6 +38,22 @@ public class SubjectTest extends IntegrationConfigTest {
 
     @WithMockUser
     @Test
+    public void deleteAllSuccess() throws Exception {
+
+        SubjectEntity entity = SubjectUtilData.subjectEntity();
+        repository.save(entity);
+
+        Gson gson = new Gson();
+        String json = gson.toJson(List.of(SUBJECT_ID));
+
+        this.mvc.perform(delete("/subject/ids")
+                .contentType(MediaType.APPLICATION_JSON).content(json)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
+
+    @WithMockUser
+    @Test
     public void addSubjectSuccess() throws Exception {
 
         SubjectView subjectView = new SubjectView();
@@ -53,6 +69,22 @@ public class SubjectTest extends IntegrationConfigTest {
         String json = gson.toJson(subjectView);
 
         this.mvc.perform(post("/subject")
+                .contentType(MediaType.APPLICATION_JSON).content(json)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isCreated());
+
+    }
+
+    @WithMockUser
+    @Test
+    public void addSubjectsSuccess() throws Exception {
+
+        List<SubjectView> subjectsViews = List.of(SubjectUtilData.subjectView());
+
+        Gson gson = new Gson();
+        String json = gson.toJson(subjectsViews);
+
+        this.mvc.perform(post("/subject/list")
                 .contentType(MediaType.APPLICATION_JSON).content(json)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated());

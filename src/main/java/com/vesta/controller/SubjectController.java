@@ -1,5 +1,6 @@
 package com.vesta.controller;
 
+import com.vesta.controller.view.SubjectUpdateView;
 import com.vesta.controller.view.SubjectView;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -13,6 +14,22 @@ import java.util.List;
 @RequestMapping("/subject")
 @Api(value = "Subject Controller REST Endpoint")
 public interface SubjectController {
+
+    @ApiOperation(value = "Delete by ID")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Subject deleted with success"),
+            @ApiResponse(code = 404, message = "Subject not found"),
+    })
+    @DeleteMapping("/{id}")
+    void delete(@PathVariable Long id);
+
+    @ApiOperation(value = "Delete All by ID")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Subjects deleted with success"),
+            @ApiResponse(code = 404, message = "Subjects not found"),
+    })
+    @DeleteMapping("/ids")
+    void delete(@RequestBody List<Long> ids);
 
     @ApiOperation(value = "Returns the image by ID")
     @ApiResponses(value = {
@@ -37,14 +54,6 @@ public interface SubjectController {
     @GetMapping
     List<SubjectView> getAll();
 
-    @ApiOperation(value = "Delete by ID")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Subject deleted with success"),
-            @ApiResponse(code = 404, message = "Subject not found"),
-    })
-    @DeleteMapping("/{id}")
-    void delete(@PathVariable Long id);
-
     @ApiOperation(value = "Add a new subject")
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Subject was added"),
@@ -53,4 +62,21 @@ public interface SubjectController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     void create(@RequestBody SubjectView subjectView);
+
+    @ApiOperation(value = "Add a new subjects")
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Subjects was added"),
+            @ApiResponse(code = 500, message = "Server error")
+    })
+    @PostMapping("/list")
+    @ResponseStatus(HttpStatus.CREATED)
+    void create(@RequestBody List<SubjectView> subjectViews);
+
+    @ApiOperation(value = "Modify subject data by ID")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Subject was updated successfully"),
+            @ApiResponse(code = 404, message = "Subject not found")
+    })
+    @PutMapping("/{id}")
+    SubjectUpdateView update(@PathVariable("id") Long id, @RequestBody SubjectUpdateView subjectUpdateView);
 }

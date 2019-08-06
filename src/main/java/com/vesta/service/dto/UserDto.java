@@ -5,11 +5,13 @@ import lombok.Data;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.util.List;
 
 @Data
-public class UserDto {
+public class UserDto implements Serializable {
 
+    private static final long serialVersionUID = 1537838341726274065L;
     private Long id;
 
     @NotEmpty(message = "First name is required")

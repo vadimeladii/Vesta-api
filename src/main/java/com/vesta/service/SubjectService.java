@@ -12,7 +12,14 @@ public interface SubjectService {
 
     void delete(Long id);
 
+    void delete(List<Long> ids);
+  
     List<SubjectDto> getByFloorId(Long floorId);
 
     void create(SubjectDto dto);
+
+    void create(List<SubjectDto> dtos);
+
+    SubjectDto update(Long id, SubjectDto dto);
 }
+
