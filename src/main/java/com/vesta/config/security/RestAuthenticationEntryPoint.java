@@ -16,15 +16,16 @@ public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
     @Override
     public void commence(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException {
-        ErrorData response = ErrorData.builder()
-                .status(HttpStatus.UNAUTHORIZED.value())
-                .message("Unauthorised")
-                .timestamp(new Date())
-                .error("Unauthorised")
-                .build();
-        OutputStream out = httpServletResponse.getOutputStream();
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.writeValue(out, response);
-        out.flush();
+//        ErrorData response = ErrorData.builder()
+//                .status(HttpStatus.UNAUTHORIZED.value())
+//                .message("Unauthorised")
+//                .timestamp(new Date())
+//                .error("Unauthorised")
+//                .build();
+//        OutputStream out = httpServletResponse.getOutputStream();
+//        ObjectMapper mapper = new ObjectMapper();
+//        mapper.writeValue(out, response);
+//        out.flush();
+        httpServletResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED,  "Unauthorized");
     }
 }
