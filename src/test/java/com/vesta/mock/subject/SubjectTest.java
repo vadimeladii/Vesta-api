@@ -1,6 +1,7 @@
 package com.vesta.mock.subject;
 
 import com.vesta.common.SubjectUtilData;
+import com.vesta.exception.NotFoundException;
 import com.vesta.exception.VestaException;
 import com.vesta.repository.SubjectRepository;
 import com.vesta.repository.SubjectTemplateRepository;
@@ -37,11 +38,11 @@ public class SubjectTest {
     @Mock
     private SubjectTemplateRepository templateRepository;
 
-    private SubjectConverter converter = new SubjectConverter();
+    private SubjectConverter converter = new SubjectConverter(templateRepository);
 
     @Before
     public void setUp() {
-        service = new SubjectServiceImpl(repository, converter, templateRepository);
+        service = new SubjectServiceImpl(repository, converter);
     }
 
     @Test
@@ -126,12 +127,38 @@ public class SubjectTest {
     }
 
     @Test
-    public void deleteById_Succes() {
+    public void deleteById_Success() {
         // given
         SubjectEntity entity = SubjectUtilData.subjectEntity();
         // when
         service.delete(entity.getId());
         // then
         verify(repository).deleteById(entity.getId());
+    }
+
+    @Test(expected = NotFoundException.class)
+    public void test_updateSubject_invalidId() {
+        // given
+        SubjectDto dto = SubjectUtilData.subjectDto();
+
+        // when
+        Mockito.when(repository.findById(dto.getId()))
+                .thenReturn(Optional.empty());
+
+        // then
+        service.update(dto.getId(), dto);
+    }
+
+    @Test
+    public void test_update_valid() {
+        // given
+        SubjectDto dto = SubjectUtilData.subjectDto();
+
+        // when
+        Mockito.when(repository.findById(dto.getId()))
+                .thenReturn(Optional.of(SubjectUtilData.subjectEntity()));
+
+        // then
+        service.update(dto.getId(), dto);
     }
 }

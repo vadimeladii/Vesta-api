@@ -29,5 +29,4 @@ public class CompanyControllerImpl implements CompanyController {
     public void create(CompanyView companyView) {
         companyService.create(companyViewConverter.deconvert(companyView));
     }
-
 }

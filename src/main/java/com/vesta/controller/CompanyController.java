@@ -14,7 +14,7 @@ import java.util.List;
 @Api(value = "Company Controller REST Endpoint")
 public interface CompanyController {
 
-    @ApiOperation(value = "Returneaza toate companiile din baza de date")
+    @ApiOperation(value = "Return all companies")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Get all companies has succeeded"),
             @ApiResponse(code = 404, message = "Company not found")

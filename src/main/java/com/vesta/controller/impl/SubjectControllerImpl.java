@@ -1,7 +1,9 @@
 package com.vesta.controller.impl;
 
 import com.vesta.controller.SubjectController;
+import com.vesta.controller.convertor.SubjectUpdateViewConverter;
 import com.vesta.controller.convertor.SubjectViewConverter;
+import com.vesta.controller.view.SubjectUpdateView;
 import com.vesta.controller.view.SubjectView;
 import com.vesta.service.SubjectService;
 import lombok.AllArgsConstructor;
@@ -16,10 +18,16 @@ public class SubjectControllerImpl implements SubjectController {
 
     private final SubjectService service;
     private final SubjectViewConverter converter;
+    private final SubjectUpdateViewConverter updateViewConverter;
 
     @Override
     public void delete(Long id) {
         service.delete(id);
+    }
+
+    @Override
+    public void delete(List<Long> ids) {
+        service.delete(ids);
     }
 
     @Override
@@ -46,5 +54,18 @@ public class SubjectControllerImpl implements SubjectController {
     @Override
     public void create(SubjectView subjectView) {
         service.create(converter.deconvert(subjectView));
+    }
+
+    @Override
+    public void create(List<SubjectView> subjectView) {
+        service.create(subjectView
+                .stream()
+                .map(converter::deconvert)
+                .collect(Collectors.toList()));
+    }
+
+    @Override
+    public SubjectUpdateView update(Long id, SubjectUpdateView subjectUpdateView) {
+        return updateViewConverter.convert(service.update(id, updateViewConverter.deconvert(subjectUpdateView)));
     }
 }

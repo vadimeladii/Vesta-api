@@ -7,7 +7,6 @@ import com.vesta.repository.FloorRepository;
 import com.vesta.repository.entity.CompanyEntity;
 import com.vesta.repository.entity.FloorEntity;
 import com.vesta.service.CompanyService;
-import com.vesta.service.FloorService;
 import com.vesta.service.converter.CompanyConverter;
 import com.vesta.service.converter.FloorConverter;
 import com.vesta.service.dto.CompanyDto;
