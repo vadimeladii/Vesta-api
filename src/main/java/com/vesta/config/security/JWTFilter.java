@@ -1,6 +1,5 @@
 package com.vesta.config.security;
 
-import com.vesta.exception.VestaException;
 import com.vesta.service.UserService;
 import com.vesta.service.dto.AuthenticationCredential;
 import com.vesta.service.dto.UserDto;
@@ -29,21 +28,15 @@ public class JWTFilter extends OncePerRequestFilter {
     public void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws IOException, ServletException {
 
-        String subject = null;
-        try {
-            subject = tokenService.getSubject(request);
+        String subject = tokenService.getSubject(request);
 
-            if (subject != null) {
-                UserDto userDto = userService.getByUsername(subject);
-                SecurityContextHolder
-                        .getContext()
-                        .setAuthentication(converter(userDto));
-            }
-            filterChain.doFilter(request, response);
-
-        } catch (VestaException ex) {
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
+        if (subject != null) {
+            UserDto userDto = userService.getByUsername(subject);
+            SecurityContextHolder
+                    .getContext()
+                    .setAuthentication(converter(userDto));
         }
+        filterChain.doFilter(request, response);
     }
 
     private AuthenticationCredential converter(UserDto userDto) {

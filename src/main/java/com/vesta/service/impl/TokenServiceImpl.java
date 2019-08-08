@@ -1,11 +1,8 @@
 package com.vesta.service.impl;
 
 import com.vesta.controller.view.Token;
-import com.vesta.exception.JwtException;
 import com.vesta.service.TokenService;
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -76,8 +73,20 @@ public class TokenServiceImpl implements TokenService {
                         .parseClaimsJws(token.replace(TOKEN_PREFIX, ""))
                         .getBody()
                         .getSubject();
-            } catch (ExpiredJwtException ex) {
-                throw new JwtException("Expired JWT Exception");
+            } catch (SignatureException e) {
+                log.error("signature exception" + e);
+
+            } catch (MalformedJwtException e) {
+                log.error("token malformed" + e);
+
+            } catch (ExpiredJwtException e) {
+                log.error("token expired" + e);
+
+            } catch (UnsupportedJwtException e) {
+                log.error("unsupported" + e);
+
+            } catch (IllegalArgumentException e) {
+                log.error("Illegal" + e);
             }
         }
         return null;
