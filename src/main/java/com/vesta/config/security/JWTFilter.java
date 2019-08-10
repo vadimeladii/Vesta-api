@@ -31,13 +31,11 @@ public class JWTFilter extends OncePerRequestFilter {
         String subject = tokenService.getSubject(request);
 
         if (subject != null) {
-
             UserDto userDto = userService.getByUsername(subject);
             SecurityContextHolder
                     .getContext()
                     .setAuthentication(converter(userDto));
         }
-
         filterChain.doFilter(request, response);
     }
 
