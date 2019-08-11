@@ -66,5 +66,13 @@ public class CompanyServiceImpl implements CompanyService {
                 .collect(Collectors.toList());
         floorRepository.saveAll(floorEntities);
     }
+
+    @Override
+    public CompanyDto findById(Long id) {
+        verify(!companyRepository.existsById(id),
+                () -> new NotFoundException("The company not found"));
+
+        return companyRepository.findById(id).map(companyConverter::convert).get();
+    }
 }
 

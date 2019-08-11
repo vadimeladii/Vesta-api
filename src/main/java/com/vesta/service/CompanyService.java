@@ -11,4 +11,6 @@ public interface CompanyService {
     CompanyDto getByName(String name);
 
     void create(CompanyDto companyDto);
+
+    CompanyDto findById(Long id);
 }

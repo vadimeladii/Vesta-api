@@ -22,6 +22,14 @@ public interface CompanyController {
     @GetMapping
     List<CompanyView> findAll();
 
+    @ApiOperation(value = "Return the company by ID")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Get company by id has succeeded"),
+            @ApiResponse(code = 404, message = "Company not found")
+    })
+    @GetMapping("/{id}")
+    CompanyView findById(@PathVariable("id") Long id);
+
     @ApiOperation(value = "Create a new company")
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Company was created"),
