@@ -32,5 +32,4 @@ public class GlobalExceptionHandlerController extends ResponseEntityExceptionHan
         log.error(ex.getMessage(), ex);
         res.sendError(HttpStatus.INTERNAL_SERVER_ERROR.value(), ex.getMessage());
     }
-
 }

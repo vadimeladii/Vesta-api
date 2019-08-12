@@ -2,6 +2,7 @@ package com.vesta.repository.entity;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 
@@ -17,6 +18,7 @@ public class AvatarEntity {
     private Long id;
 
     @Lob
+    @Type(type="org.hibernate.type.BinaryType")
     @Column(name = "user_image")
     private byte[] avatar;
 
@@ -24,6 +26,6 @@ public class AvatarEntity {
     private String name;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "users", referencedColumnName = "id")
+    @JoinColumn(name = "users_id", referencedColumnName = "id")
     private UserEntity userEntity;
 }

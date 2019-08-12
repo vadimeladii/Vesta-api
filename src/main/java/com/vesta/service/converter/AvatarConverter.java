@@ -20,13 +20,4 @@ public class AvatarConverter implements Converter<AvatarEntity, AvatarDto> {
 
         return dto;
     }
-
-    public AvatarEntity convert(AvatarDto dto) {
-        if (dto == null) return null;
-        AvatarEntity entity = new AvatarEntity();
-        entity.setAvatar(dto.getAvatar());
-        entity.setName(dto.getName());
-
-        return entity;
-    }
 }

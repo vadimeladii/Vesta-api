@@ -9,7 +9,7 @@ import java.util.Collections;
 
 public class UserUtilData {
 
-    private static Long USER_ID = Long.parseLong(RandomStringUtils.randomNumeric(10));
+    public static Long USER_ID = Long.parseLong(RandomStringUtils.randomNumeric(10));
     public static String USER_USERNAME = RandomStringUtils.randomAlphabetic(10);
     public static String USER_EMAIL = RandomStringUtils.randomAlphabetic(10) + "@gmail.com";
     public static String USER_PASSWORD = RandomStringUtils.randomAlphabetic(10);

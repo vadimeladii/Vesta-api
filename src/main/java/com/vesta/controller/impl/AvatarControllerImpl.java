@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.swing.plaf.PanelUI;
+
 @RestController
 @RequiredArgsConstructor
 public class AvatarControllerImpl implements AvatarController {
@@ -21,4 +23,7 @@ public class AvatarControllerImpl implements AvatarController {
     public void delete(Long id) {
         service.delete(id);
     }
+
+    @Override
+    public
 }
