@@ -1,5 +1,6 @@
 package com.vesta.controller;
 
+import com.vesta.controller.view.AvatarView;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -27,4 +28,14 @@ public interface AvatarController {
     })
     @DeleteMapping("/{id}")
     void delete(@PathVariable("id") Long id);
+
+    @ApiOperation(value = "Returns the image by userID")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Get user avatar by id has succeeded"),
+            @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+            @ApiResponse(code = 404, message = "User not found")
+    })
+    @ResponseBody
+    @GetMapping("/user/{userId}")
+    AvatarView getByUserId(@PathVariable Long userId);
 }

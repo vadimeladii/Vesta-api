@@ -54,10 +54,10 @@ public class AvatarServiceImpl implements AvatarService {
     }
 
     @Override
-    public AvatarDto getById(Long id) {
+    public AvatarDto getByUserId(Long userId) {
         log.info("method --- getByID");
 
-        AvatarEntity entity = repository.findById(id).orElseThrow(
+        AvatarEntity entity = repository.findByUserEntity(userId).orElseThrow(
                 () -> new NotFoundException("User image not found"));
         return converter.convert(entity);
     }

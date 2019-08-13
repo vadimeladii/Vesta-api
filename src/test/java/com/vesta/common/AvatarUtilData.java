@@ -7,7 +7,7 @@ import org.apache.commons.lang3.RandomUtils;
 
 public class AvatarUtilData {
 
-    public static Long AVATAR_ID = Long.parseLong(RandomStringUtils.randomNumeric(10));
+    private static Long AVATAR_ID = Long.parseLong(RandomStringUtils.randomNumeric(10));
     private static String AVATAR_NAME = RandomStringUtils.randomAlphabetic(10);
     private static byte[] AVATAR_BYTE = RandomUtils.nextBytes(20);
     private static UserEntity USER_ID;

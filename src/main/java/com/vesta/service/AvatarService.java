@@ -9,5 +9,5 @@ public interface AvatarService {
 
     void delete(Long id);
 
-    AvatarDto getById(Long id);
+    AvatarDto getByUserId(Long userId);
 }
