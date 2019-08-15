@@ -25,5 +25,7 @@ public class SubjectView implements Serializable {
     @NotNull
     private Long floorId;
     @NotNull
+    private Object utilities;
+    @NotNull
     private String image;
 }

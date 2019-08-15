@@ -1,6 +1,7 @@
 package com.vesta.service;
 
 import com.vesta.service.dto.AvatarDto;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
 public interface AvatarService {
@@ -10,4 +11,6 @@ public interface AvatarService {
     void delete(Long id);
 
     AvatarDto getByUserId(Long userId);
+
+//    ResponseEntity<byte[]> getAvatarByUserId(Long userId);
 }

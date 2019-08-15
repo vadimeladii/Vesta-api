@@ -97,6 +97,7 @@ public class SubjectServiceImpl implements SubjectService {
         entity.setPositionY(dto.getPositionY());
         entity.setScale(dto.getScale());
         entity.setRotation(dto.getRotation());
+        entity.setUtilities(dto.getUtilities());
 
         return converter.convert(repository.save(entity));
     }

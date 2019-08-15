@@ -63,6 +63,7 @@ public class SubjectTest extends IntegrationConfigTest {
         subjectView.setRotation(SUBJECT_ROTATION);
         subjectView.setEditable(SUBJECT_EDITABLE);
         subjectView.setFloorId(FLOOR_ID);
+        subjectView.setUtilities(UTILITIES);
         subjectView.setImage(TEMPLATE);
 
         Gson gson = new Gson();
