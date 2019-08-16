@@ -43,11 +43,11 @@ public interface SubjectController {
 
     @ApiOperation(value = "Returns the all subjects by FloorID")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Get subjects by FlooID has succeeded"),
+            @ApiResponse(code = 200, message = "Get subjects by FloorID has succeeded"),
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "Floor not found")
     })
-    @GetMapping("/{floorId}")
+    @GetMapping("/floor/{floorId}")
     List<SubjectView> getByFloorId(@PathVariable Long floorId);
 
     @ApiOperation(value = "Returns the all subjects")
