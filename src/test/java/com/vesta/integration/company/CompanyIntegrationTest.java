@@ -37,8 +37,7 @@ public class  CompanyIntegrationTest extends IntegrationConfigTest {
     @Test
     public void getListOfCompanies() throws Exception {
         // given
-        CompanyEntity companyEntity = companyEntityWithoutFloors();
-        companyRepository.save(companyEntity);
+        CompanyEntity companyEntity = companyRepository.save(companyEntityWithoutFloors());
 
         // when
         MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.get("/company")
@@ -55,7 +54,7 @@ public class  CompanyIntegrationTest extends IntegrationConfigTest {
 
         assertNotNull(response);
         assertNotNull(response.get(0));
-        assertThat(response.get(0).getId(), is(1L));
+        assertThat(response.get(0).getId(), is(companyEntity.getId()));
         assertThat(response.get(0).getName(), is(companyEntity.getName()));
     }
 
