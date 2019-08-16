@@ -34,7 +34,7 @@ public class SubjectEntity {
     private Long floorId;
 
     @Column(name = "utilities")
-    private String utilities;
+    private String additional;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "subject_template_id", referencedColumnName = "id")

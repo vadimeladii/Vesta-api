@@ -20,6 +20,7 @@ public class SubjectViewConverter implements Converter<SubjectDto, SubjectView> 
         view.setRotation(dto.getRotation());
         view.setEditable(dto.getEditable());
         view.setFloorId(dto.getFloorId());
+        view.setAdditional(dto.getAdditional());
         view.setImage(dto.getImage());
 
         return view;
@@ -35,6 +36,7 @@ public class SubjectViewConverter implements Converter<SubjectDto, SubjectView> 
         dto.setEditable(view.getEditable());
         dto.setRotation(view.getRotation());
         dto.setFloorId(view.getFloorId());
+        dto.setAdditional(view.getAdditional());
         dto.setImage(view.getImage());
 
         return dto;

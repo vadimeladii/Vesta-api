@@ -16,7 +16,7 @@ public class SubjectUtilData {
     public static Float SUBJECT_ROTATION = Float.parseFloat(RandomStringUtils.randomNumeric(10));
     public static Boolean SUBJECT_EDITABLE = Boolean.parseBoolean(RandomStringUtils.random(10));
     public static Long FLOOR_ID = Long.parseLong(RandomStringUtils.randomNumeric(10));
-    public static String UTILITIES = RandomStringUtils.randomAlphabetic(10);
+    public static String ADDITIONAL = RandomStringUtils.randomAlphabetic(10);
     public static String TEMPLATE = "/img/svg/table.svg";
 
     public static SubjectEntity subjectEntity() {
@@ -28,7 +28,7 @@ public class SubjectUtilData {
         entity.setRotation(SUBJECT_ROTATION);
         entity.setEditable(SUBJECT_EDITABLE);
         entity.setFloorId(FLOOR_ID);
-        entity.setUtilities(UTILITIES);
+        entity.setAdditional(ADDITIONAL);
         entity.setSubjectTemplateEntity(SubjectTemplateUtilData.subjectTemplateEntity());
 
         return entity;
@@ -43,7 +43,7 @@ public class SubjectUtilData {
         subjectView.setRotation(SUBJECT_ROTATION);
         subjectView.setEditable(SUBJECT_EDITABLE);
         subjectView.setFloorId(FLOOR_ID);
-        subjectView.setUtilities(UTILITIES);
+        subjectView.setAdditional(ADDITIONAL);
         subjectView.setImage(TEMPLATE);
 
         return subjectView;
@@ -56,7 +56,7 @@ public class SubjectUtilData {
         subjectDto.setPositionX(SUBJECT_POSITION_X);
         subjectDto.setPositionY(SUBJECT_POSITION_Y);
         subjectDto.setScale(SUBJECT_SCALE);
-        subjectDto.setUtilities(UTILITIES);
+        subjectDto.setAdditional(ADDITIONAL);
         subjectDto.setRotation(SUBJECT_ROTATION);
 
         return subjectDto;
