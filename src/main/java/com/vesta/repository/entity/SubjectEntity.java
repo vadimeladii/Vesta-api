@@ -2,6 +2,8 @@ package com.vesta.repository.entity;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.TypeDef;
+import springfox.documentation.spring.web.json.Json;
 
 import javax.persistence.*;
 
@@ -33,7 +35,7 @@ public class SubjectEntity {
     @Column(name = "floor_id")
     private Long floorId;
 
-    @Column(name = "utilities")
+    @Column(name = "additional")
     private String additional;
 
     @ManyToOne(fetch = FetchType.LAZY)

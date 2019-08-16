@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -38,4 +39,8 @@ public interface AvatarController {
     @ResponseBody
     @GetMapping("/user/{userId}")
     AvatarView getByUserId(@PathVariable Long userId);
+
+    @ResponseBody
+    @GetMapping("/user/{userId}/avatar")
+    ResponseEntity getAvatarByUserId(@PathVariable Long userId);
 }

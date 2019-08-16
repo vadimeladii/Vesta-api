@@ -14,8 +14,8 @@ import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.util.ResourceUtils;
 
-import java.io.File;
-import java.io.FileInputStream;
+import java.io.*;
+import java.util.Random;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
@@ -47,10 +47,7 @@ public class AvatarIntegrationTest extends IntegrationConfigTest {
         UserEntity entity = UserUtilData.userEntity();
         userRepository.save(entity);
 
-        File resourceFile = ResourceUtils.getFile("src/test/resources/img/light-bulb.svg");
-
-        FileInputStream fi1 = new FileInputStream(resourceFile);
-        MockMultipartFile fstmp = new MockMultipartFile("image", resourceFile.getName(), "multipart/form-data", fi1);
+        MockMultipartFile fstmp = getMockMultipartFile();
 
         this.mvc.perform(multipart("/avatar/{userId}", entity.getId())
                 .file(fstmp)
@@ -64,10 +61,7 @@ public class AvatarIntegrationTest extends IntegrationConfigTest {
     @Test
     public void addSubjectInsucces_UserNotFound() throws Exception {
 
-        File resourceFile = ResourceUtils.getFile("src/test/resources/img/light-bulb.svg");
-
-        FileInputStream fi1 = new FileInputStream(resourceFile);
-        MockMultipartFile fstmp = new MockMultipartFile("image", resourceFile.getName(), "multipart/form-data", fi1);
+        MockMultipartFile fstmp = getMockMultipartFile();
 
         this.mvc.perform(multipart("/avatar/{userId}", 1L)
                 .file(fstmp)
@@ -75,5 +69,13 @@ public class AvatarIntegrationTest extends IntegrationConfigTest {
                 .accept(MediaType.ALL))
                 .andExpect(status().isNotFound());
 
+    }
+
+    private MockMultipartFile getMockMultipartFile() throws IOException {
+        byte[] b = new byte[20];
+        new Random().nextBytes(b);
+        InputStream file = new ByteArrayInputStream(b);
+
+        return new MockMultipartFile("image", AvatarUtilData.AVATAR_NAME , "multipart/form-data", file);
     }
 }

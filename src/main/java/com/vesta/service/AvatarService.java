@@ -12,5 +12,5 @@ public interface AvatarService {
 
     AvatarDto getByUserId(Long userId);
 
-//    ResponseEntity<byte[]> getAvatarByUserId(Long userId);
+    ResponseEntity getAvatarByUserId(Long userId);
 }

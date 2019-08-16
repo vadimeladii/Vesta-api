@@ -10,13 +10,14 @@ import com.vesta.service.converter.AvatarConverter;
 import com.vesta.service.dto.AvatarDto;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
 
 import static com.vesta.expression.ExpressionAsserts.verify;
@@ -66,16 +67,19 @@ public class AvatarServiceImpl implements AvatarService {
     }
 
     @Override
-    public ResponseEntity<byte[]> getAvatarByUserId(Long userId) {
+    public ResponseEntity getAvatarByUserId(Long userId) {
         log.info("method --- getAvatarByUserId");
 
         AvatarEntity entity = repository.findByUserEntity(userId).orElseThrow(
                 () -> new NotFoundException("User Avatar not found"));
 
-        File file = null;
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.add("content-disposition", "attachment; filename=" + entity.getName());
+        responseHeaders.add("Content-Type", MediaType.APPLICATION_OCTET_STREAM_VALUE);
 
-        return ResponseEntity.ok(file, MediaType.APPLICATION_OCTET_STREAM)
-                .header("Content-Disposition", "attachment; filename=\"" + entity.getName() + "\"")
-                .build();
+        ResponseEntity<byte[]> responseEntity;
+        responseEntity = new ResponseEntity<>(entity.getAvatar(), responseHeaders, HttpStatus.OK);
+
+        return responseEntity;
     }
 }

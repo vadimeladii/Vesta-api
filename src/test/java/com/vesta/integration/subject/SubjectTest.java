@@ -56,15 +56,7 @@ public class SubjectTest extends IntegrationConfigTest {
     @Test
     public void addSubjectSuccess() throws Exception {
 
-        SubjectView subjectView = new SubjectView();
-
-        subjectView.setPosition(List.of(SUBJECT_POSITION_X, SUBJECT_POSITION_Y));
-        subjectView.setScale(SUBJECT_SCALE);
-        subjectView.setRotation(SUBJECT_ROTATION);
-        subjectView.setEditable(SUBJECT_EDITABLE);
-        subjectView.setFloorId(FLOOR_ID);
-        subjectView.setAdditional(ADDITIONAL);
-        subjectView.setImage(TEMPLATE);
+        SubjectView subjectView = SubjectUtilData.subjectView();
 
         Gson gson = new Gson();
         String json = gson.toJson(subjectView);
