@@ -28,6 +28,7 @@ public class SubjectUtilData {
         entity.setEditable(SUBJECT_EDITABLE);
         entity.setFloorId(FLOOR_ID);
         entity.setSubjectTemplateEntity(SubjectTemplateUtilData.subjectTemplateEntity());
+        entity.setAdditional("{}");
 
         return entity;
     }
@@ -42,6 +43,7 @@ public class SubjectUtilData {
         subjectView.setEditable(SUBJECT_EDITABLE);
         subjectView.setFloorId(FLOOR_ID);
         subjectView.setImage(TEMPLATE);
+        subjectView.setAdditional(new Object());
 
         return subjectView;
     }
@@ -54,6 +56,7 @@ public class SubjectUtilData {
         subjectDto.setPositionY(SUBJECT_POSITION_Y);
         subjectDto.setScale(SUBJECT_SCALE);
         subjectDto.setRotation(SUBJECT_ROTATION);
+        subjectDto.setAdditional("{}");
 
         return subjectDto;
     }

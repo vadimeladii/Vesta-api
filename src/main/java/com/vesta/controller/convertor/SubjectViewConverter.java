@@ -1,14 +1,22 @@
 package com.vesta.controller.convertor;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vesta.controller.view.SubjectView;
+import com.vesta.exception.JsonException;
 import com.vesta.service.dto.SubjectDto;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.util.List;
 
 @Component
 public class SubjectViewConverter implements Converter<SubjectDto, SubjectView> {
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @Override
     public SubjectView convert(SubjectDto dto) {
@@ -21,6 +29,11 @@ public class SubjectViewConverter implements Converter<SubjectDto, SubjectView> 
         view.setEditable(dto.getEditable());
         view.setFloorId(dto.getFloorId());
         view.setImage(dto.getImage());
+        try {
+            view.setAdditional(objectMapper.readValue(dto.getAdditional(), Object.class));
+        } catch (IOException e) {
+            throw new JsonException("Can not deserialize: " + dto.getAdditional());
+        }
 
         return view;
     }
@@ -36,6 +49,11 @@ public class SubjectViewConverter implements Converter<SubjectDto, SubjectView> 
         dto.setRotation(view.getRotation());
         dto.setFloorId(view.getFloorId());
         dto.setImage(view.getImage());
+        try {
+            dto.setAdditional(objectMapper.writeValueAsString(view.getAdditional()));
+        } catch (JsonProcessingException e) {
+            throw new JsonException("Can not process:" + view.getAdditional());
+        }
 
         return dto;
     }

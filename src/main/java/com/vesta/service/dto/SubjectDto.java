@@ -13,4 +13,5 @@ public class SubjectDto {
     private Float rotation;
     private Long floorId;
     private String image;
+    private String additional;
 }
