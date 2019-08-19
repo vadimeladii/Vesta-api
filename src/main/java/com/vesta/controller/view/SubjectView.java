@@ -9,7 +9,7 @@ import java.util.List;
 @Data
 public class SubjectView implements Serializable {
 
-    private static final long serialVersionUID = 7217837176434251304L;
+    private static final long serialVersionUID = 5316459103183268359L;
 
     private Long id;
     @NotNull
@@ -24,4 +24,6 @@ public class SubjectView implements Serializable {
     private Long floorId;
     @NotNull
     private String image;
+    @NotNull
+    private Object additional;
 }
