@@ -30,6 +30,7 @@ public class SubjectUtilData {
         entity.setFloorId(FLOOR_ID);
         entity.setAdditional(ADDITIONAL);
         entity.setSubjectTemplateEntity(SubjectTemplateUtilData.subjectTemplateEntity());
+        entity.setAdditional("{}");
 
         return entity;
     }
@@ -45,6 +46,7 @@ public class SubjectUtilData {
         subjectView.setFloorId(FLOOR_ID);
         subjectView.setAdditional(ADDITIONAL);
         subjectView.setImage(TEMPLATE);
+        subjectView.setAdditional(new Object());
 
         return subjectView;
     }
@@ -58,6 +60,7 @@ public class SubjectUtilData {
         subjectDto.setScale(SUBJECT_SCALE);
         subjectDto.setAdditional(ADDITIONAL);
         subjectDto.setRotation(SUBJECT_ROTATION);
+        subjectDto.setAdditional("{}");
 
         return subjectDto;
     }

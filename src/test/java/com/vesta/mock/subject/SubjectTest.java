@@ -67,6 +67,7 @@ public class SubjectTest {
         assertThat(entity.getFloorId(), is(returnDto.getFloorId()));
         assertThat(entity.getAdditional(), is(returnDto.getAdditional()));
         assertThat(entity.getSubjectTemplateEntity().getImage(), is(returnDto.getImage()));
+        assertThat(entity.getAdditional(), is(returnDto.getAdditional()));
         verify(repository).findById(entity.getId());
     }
 
@@ -100,6 +101,7 @@ public class SubjectTest {
         assertThat(subjectEntity1.getFloorId(), is(subject.get(0).getFloorId()));
         assertThat(subjectEntity1.getAdditional(), is(subject.get(0).getAdditional()));
         assertThat(subjectEntity1.getSubjectTemplateEntity().getImage(), is(subject.get(0).getImage()));
+        assertThat(subjectEntity1.getAdditional(), is(subject.get(0).getAdditional()));
     }
 
     @Test
@@ -127,6 +129,7 @@ public class SubjectTest {
         assertThat(subjectEntity1.getFloorId(), is(subject.get(0).getFloorId()));
         assertThat(subjectEntity1.getAdditional(), is(subject.get(0).getAdditional()));
         assertThat(subjectEntity1.getSubjectTemplateEntity().getImage(), is(subject.get(0).getImage()));
+        assertThat(subjectEntity1.getAdditional(), is(subject.get(0).getAdditional()));
     }
 
     @Test

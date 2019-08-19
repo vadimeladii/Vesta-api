@@ -26,6 +26,11 @@ public class CompanyControllerImpl implements CompanyController {
     }
 
     @Override
+    public CompanyView findById(Long id) {
+        return companyViewConverter.convert(companyService.findById(id));
+    }
+
+    @Override
     public void create(CompanyView companyView) {
         companyService.create(companyViewConverter.deconvert(companyView));
     }

@@ -1,5 +1,6 @@
 package com.vesta.common;
 
+import com.vesta.controller.view.CompanyView;
 import com.vesta.repository.entity.CompanyEntity;
 import org.apache.commons.lang3.RandomStringUtils;
 
@@ -34,5 +35,14 @@ public class CompanyUtilData {
         companyEntity.setName(name);
 
         return companyEntity;
+    }
+
+    public static CompanyView companyViewWithoutFloors() {
+        CompanyView companyView = new CompanyView();
+        companyView.setId(COMPANY_ID);
+        companyView.setName(COMPANY_NAME);
+        companyView.setFloors(List.of());
+
+        return companyView;
     }
 }

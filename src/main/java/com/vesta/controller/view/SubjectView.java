@@ -3,16 +3,14 @@ package com.vesta.controller.view;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
 import java.io.Serializable;
 import java.util.List;
 
 @Data
 public class SubjectView implements Serializable {
 
-    private static final long serialVersionUID = 7217837176434251304L;
+    private static final long serialVersionUID = 5316459103183268359L;
 
-    @Null
     private Long id;
     @NotNull
     private List<Float> position;
@@ -28,4 +26,6 @@ public class SubjectView implements Serializable {
     private String additional;
     @NotNull
     private String image;
+    @NotNull
+    private Object additional;
 }
