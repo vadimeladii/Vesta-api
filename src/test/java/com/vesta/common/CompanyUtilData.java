@@ -8,7 +8,7 @@ import java.util.List;
 
 public class CompanyUtilData {
 
-    public static Long COMPANY_ID = Long.parseLong(RandomStringUtils.randomNumeric(10));
+    private static Long COMPANY_ID = Long.parseLong(RandomStringUtils.randomNumeric(10));
     public static String COMPANY_NAME = RandomStringUtils.randomAlphabetic(10);
 
 

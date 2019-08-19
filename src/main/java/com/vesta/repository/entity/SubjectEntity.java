@@ -2,8 +2,6 @@ package com.vesta.repository.entity;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.TypeDef;
-import springfox.documentation.spring.web.json.Json;
 
 import javax.persistence.*;
 

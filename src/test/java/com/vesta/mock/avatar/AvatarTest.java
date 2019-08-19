@@ -66,4 +66,9 @@ public class AvatarTest {
         assertThat(entity.getName(), is(returnDto.getName()));
         verify(repository).findByUserEntity(entity.getUserEntity().getId());
     }
+
+    @Test(expected = VestaException.class)
+    public void test_AvatarByUserId_Invalid() {
+        service.getAvatarByUserId(null);
+    }
 }

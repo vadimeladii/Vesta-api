@@ -12,13 +12,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.util.ResourceUtils;
 
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Random;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class AvatarIntegrationTest extends IntegrationConfigTest {
@@ -71,11 +71,35 @@ public class AvatarIntegrationTest extends IntegrationConfigTest {
 
     }
 
+    @Test
+    public void test_AvatarByUserId_Valid() throws Exception {
+
+        AvatarEntity entity = AvatarUtilData.avatarEntity();
+        repository.save(entity);
+
+
+        this.mvc.perform(get("/avatar/user/{userId}/avatar", entity.getId())
+                .contentType(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.ALL)
+                .accept(MediaType.ALL))
+                .andExpect(status().isOk());
+    }
+
+    @WithMockUser
+    @Test
+    public void test_AvatarByUserId_UserNotFound() throws Exception {
+
+        this.mvc.perform(get("/avatar/user/{userId}/avatar", 1L)
+                .contentType(MediaType.ALL)
+                .accept(MediaType.ALL))
+                .andExpect(status().isNotFound());
+    }
+
     private MockMultipartFile getMockMultipartFile() throws IOException {
         byte[] b = new byte[20];
         new Random().nextBytes(b);
         InputStream file = new ByteArrayInputStream(b);
 
-        return new MockMultipartFile("image", AvatarUtilData.AVATAR_NAME , "multipart/form-data", file);
+        return new MockMultipartFile("image", AvatarUtilData.AVATAR_NAME, "multipart/form-data", file);
     }
 }

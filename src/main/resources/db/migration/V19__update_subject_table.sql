@@ -1,2 +1,2 @@
 ALTER TABLE subject
-ADD COLUMN additional json;
+ADD COLUMN additional text;

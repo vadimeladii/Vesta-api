@@ -75,7 +75,8 @@ public class AvatarServiceImpl implements AvatarService {
 
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.add("content-disposition", "attachment; filename=" + entity.getName());
-        responseHeaders.add("Content-Type", MediaType.APPLICATION_OCTET_STREAM_VALUE);
+        responseHeaders.add("Content-Type", MediaType.IMAGE_JPEG_VALUE);
+        responseHeaders.add("Content-Type", MediaType.IMAGE_PNG_VALUE);
 
         ResponseEntity<byte[]> responseEntity;
         responseEntity = new ResponseEntity<>(entity.getAvatar(), responseHeaders, HttpStatus.OK);
