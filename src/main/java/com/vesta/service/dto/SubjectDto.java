@@ -14,5 +14,4 @@ public class SubjectDto {
     private Long floorId;
     private String additional;
     private String image;
-    private String additional;
 }

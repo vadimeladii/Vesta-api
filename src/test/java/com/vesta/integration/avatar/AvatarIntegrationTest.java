@@ -29,6 +29,7 @@ public class AvatarIntegrationTest extends IntegrationConfigTest {
     @Autowired
     private AvatarRepository repository;
 
+    @WithMockUser
     @Test
     public void deleteByIdSuccess() throws Exception {
 
@@ -41,6 +42,7 @@ public class AvatarIntegrationTest extends IntegrationConfigTest {
                 .andExpect(status().isOk());
     }
 
+    @WithMockUser
     @Test
     public void addSubjectSuccess() throws Exception {
 
@@ -71,6 +73,7 @@ public class AvatarIntegrationTest extends IntegrationConfigTest {
 
     }
 
+    @WithMockUser
     @Test
     public void test_AvatarByUserId_Valid() throws Exception {
 

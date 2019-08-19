@@ -27,7 +27,6 @@ public class SubjectConverter implements Converter<SubjectEntity, SubjectDto> {
         dto.setEditable(entity.getEditable());
         dto.setRotation(entity.getRotation());
         dto.setFloorId(entity.getFloorId());
-        dto.setAdditional(entity.getAdditional());
         dto.setImage(entity.getSubjectTemplateEntity().getImage());
         dto.setAdditional(entity.getAdditional());
 
@@ -42,7 +41,6 @@ public class SubjectConverter implements Converter<SubjectEntity, SubjectDto> {
         entity.setScale(dto.getScale());
         entity.setEditable(dto.getEditable());
         entity.setRotation(dto.getRotation());
-        entity.setAdditional(dto.getAdditional());
         entity.setFloorId(dto.getFloorId());
         entity.setSubjectTemplateEntity(getTemplateEntity(dto));
         entity.setAdditional(dto.getAdditional());
