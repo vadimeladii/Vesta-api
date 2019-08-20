@@ -9,6 +9,7 @@ import com.vesta.repository.entity.AvatarEntity;
 import com.vesta.repository.entity.UserEntity;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -26,7 +27,7 @@ public class AvatarIntegrationTest extends IntegrationConfigTest {
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
+    @MockBean
     private AvatarRepository repository;
 
     @WithMockUser
@@ -80,9 +81,7 @@ public class AvatarIntegrationTest extends IntegrationConfigTest {
         AvatarEntity entity = AvatarUtilData.avatarEntity();
         repository.save(entity);
 
-
         this.mvc.perform(get("/avatar/user/{userId}/avatar", entity.getId())
-                .contentType(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.ALL)
                 .accept(MediaType.ALL))
                 .andExpect(status().isOk());

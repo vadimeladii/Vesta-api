@@ -25,7 +25,7 @@ public class AvatarEntity {
     @Column(name = "image_name")
     private String name;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "users_id", referencedColumnName = "id")
     private UserEntity userEntity;
 }
