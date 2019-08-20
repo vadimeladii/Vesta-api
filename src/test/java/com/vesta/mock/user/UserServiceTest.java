@@ -17,7 +17,7 @@ import com.vesta.service.converter.UserConverter;
 import com.vesta.service.dto.AccountCredential;
 import com.vesta.service.dto.UserDto;
 import com.vesta.service.impl.UserServiceImpl;
-import com.vesta.util.Roles;
+import com.vesta.service.dto.Roles;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Before;
 import org.junit.Test;

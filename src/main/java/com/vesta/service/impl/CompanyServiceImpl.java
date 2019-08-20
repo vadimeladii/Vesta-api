@@ -69,10 +69,12 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     public CompanyDto findById(Long id) {
-        verify(!companyRepository.existsById(id),
-                () -> new NotFoundException("The company not found"));
 
-        return companyRepository.findById(id).map(companyConverter::convert).get();
+        return companyRepository
+                .findById(id)
+                .map(companyConverter::convert)
+                .orElseThrow(
+                        () -> new NotFoundException("The company not found"));
     }
 }
 

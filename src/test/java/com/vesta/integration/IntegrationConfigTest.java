@@ -25,5 +25,6 @@ public class IntegrationConfigTest {
 
     @Test
     public void contextLoads() {
+        //Context Loads case
     }
 }

@@ -17,6 +17,7 @@ public class SubjectUpdateViewConverter implements Converter<SubjectDto, Subject
         view.setPosition(List.of(dto.getPositionX(), dto.getPositionY()));
         view.setScale(dto.getScale());
         view.setRotation(dto.getRotation());
+        view.setAdditional(dto.getAdditional());
 
         return view;
     }
@@ -28,6 +29,7 @@ public class SubjectUpdateViewConverter implements Converter<SubjectDto, Subject
         dto.setPositionY(view.getPosition().get(1));
         dto.setScale(view.getScale());
         dto.setRotation(view.getRotation());
+        dto.setAdditional(view.getAdditional());
 
         return dto;
     }
