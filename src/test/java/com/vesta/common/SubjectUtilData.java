@@ -2,6 +2,7 @@ package com.vesta.common;
 
 import com.vesta.controller.view.SubjectView;
 import com.vesta.repository.entity.SubjectEntity;
+import com.vesta.repository.entity.SubjectTemplateEntity;
 import com.vesta.service.dto.SubjectDto;
 import org.apache.commons.lang3.RandomStringUtils;
 
@@ -20,6 +21,10 @@ public class SubjectUtilData {
     private static String TEMPLATE = "/img/svg/table.svg";
 
     public static SubjectEntity subjectEntity() {
+        return subjectEntityWithSubjectTemplate(SubjectTemplateUtilData.subjectTemplateEntity());
+    }
+
+    public static SubjectEntity subjectEntityWithSubjectTemplate(SubjectTemplateEntity subjectTemplateEntity) {
         SubjectEntity entity = new SubjectEntity();
         entity.setId(SUBJECT_ID);
         entity.setPositionX(SUBJECT_POSITION_X);
@@ -29,7 +34,7 @@ public class SubjectUtilData {
         entity.setEditable(SUBJECT_EDITABLE);
         entity.setFloorId(FLOOR_ID);
         entity.setAdditional(ADDITIONAL);
-        entity.setSubjectTemplateEntity(SubjectTemplateUtilData.subjectTemplateEntity());
+        entity.setSubjectTemplateEntity(subjectTemplateEntity);
         entity.setAdditional("{}");
 
         return entity;

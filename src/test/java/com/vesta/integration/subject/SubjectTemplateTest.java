@@ -7,7 +7,7 @@ import com.vesta.integration.IntegrationConfigTest;
 import com.vesta.repository.SubjectTemplateRepository;
 import com.vesta.repository.entity.SubjectTemplateEntity;
 import org.junit.Test;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 
@@ -18,17 +18,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 public class SubjectTemplateTest extends IntegrationConfigTest {
 
-    @MockBean
+    @Autowired
     private SubjectTemplateRepository repository;
 
     @WithMockUser
     @Test
     public void deleteByIdSuccess() throws Exception {
 
-        SubjectTemplateEntity entity = SubjectTemplateUtilData.subjectTemplateEntity();
-        repository.save(entity);
+        SubjectTemplateEntity entity = repository.save(SubjectTemplateUtilData.subjectTemplateEntity());
 
-        this.mvc.perform(delete("/subjectTemplate/{id}", SUBJECT_IMAGE_ID)
+        this.mvc.perform(delete("/subjectTemplate/{id}", entity.getId())
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
@@ -54,10 +53,9 @@ public class SubjectTemplateTest extends IntegrationConfigTest {
     @Test
     public void test_getById_Valid() throws Exception {
 
-        SubjectTemplateEntity entity = SubjectTemplateUtilData.subjectTemplateEntity();
-        repository.save(entity);
+        SubjectTemplateEntity entity = repository.save(SubjectTemplateUtilData.subjectTemplateEntity());
 
-        this.mvc.perform(get("/subjectTemplate/{id}", SUBJECT_IMAGE_ID)
+        this.mvc.perform(get("/subjectTemplate/{id}", entity.getId())
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
@@ -66,10 +64,8 @@ public class SubjectTemplateTest extends IntegrationConfigTest {
     @WithMockUser
     @Test
     public void test_getAll() throws Exception {
-        SubjectTemplateEntity entity = SubjectTemplateUtilData.subjectTemplateEntity();
-        repository.save(entity);
-        SubjectTemplateEntity entity1 = SubjectTemplateUtilData.subjectTemplateEntity();
-        repository.save(entity1);
+        repository.save(SubjectTemplateUtilData.subjectTemplateEntity());
+        repository.save(SubjectTemplateUtilData.subjectTemplateEntity());
 
         this.mvc.perform(get("/subjectTemplate/all")
                 .contentType(MediaType.ALL)

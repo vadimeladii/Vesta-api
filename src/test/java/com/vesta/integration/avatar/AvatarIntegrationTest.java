@@ -19,6 +19,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Random;
 
+import static com.vesta.common.AvatarUtilData.avatarEntityWithUser;
+import static com.vesta.common.UserUtilData.userEntity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -27,15 +29,14 @@ public class AvatarIntegrationTest extends IntegrationConfigTest {
     @Autowired
     private UserRepository userRepository;
 
-    @MockBean
+    @Autowired
     private AvatarRepository repository;
 
     @WithMockUser
     @Test
     public void deleteByIdSuccess() throws Exception {
 
-        AvatarEntity entity = AvatarUtilData.avatarEntity();
-        repository.save(entity);
+        AvatarEntity entity = repository.save(AvatarUtilData.avatarEntity());
 
         this.mvc.perform(delete("/avatar/{id}", entity.getId())
                 .contentType(MediaType.APPLICATION_JSON)
@@ -47,8 +48,7 @@ public class AvatarIntegrationTest extends IntegrationConfigTest {
     @Test
     public void addSubjectSuccess() throws Exception {
 
-        UserEntity entity = UserUtilData.userEntity();
-        userRepository.save(entity);
+        UserEntity entity = userRepository.save(userEntity());
 
         MockMultipartFile fstmp = getMockMultipartFile();
 
@@ -56,8 +56,7 @@ public class AvatarIntegrationTest extends IntegrationConfigTest {
                 .file(fstmp)
                 .contentType(MediaType.ALL)
                 .accept(MediaType.ALL))
-                .andExpect(status().isOk());
-
+                .andExpect(status().isCreated());
     }
 
     @WithMockUser
@@ -78,10 +77,10 @@ public class AvatarIntegrationTest extends IntegrationConfigTest {
     @Test
     public void test_AvatarByUserId_Valid() throws Exception {
 
-        AvatarEntity entity = AvatarUtilData.avatarEntity();
-        repository.save(entity);
+        UserEntity userEntity = userRepository.save(userEntity());
+        repository.save(avatarEntityWithUser(userEntity));
 
-        this.mvc.perform(get("/avatar/user/{userId}/avatar", entity.getId())
+        this.mvc.perform(get("/avatar/user/{userId}/avatar", userEntity.getId())
                 .contentType(MediaType.ALL)
                 .accept(MediaType.ALL))
                 .andExpect(status().isOk());

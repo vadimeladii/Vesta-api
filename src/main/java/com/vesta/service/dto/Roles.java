@@ -1,4 +1,4 @@
-package com.vesta.util;
+package com.vesta.service.dto;
 
 public enum Roles {
     USER

@@ -10,14 +10,17 @@ public class AvatarUtilData {
     public static Long AVATAR_ID = Long.parseLong(RandomStringUtils.randomNumeric(10));
     public static String AVATAR_NAME = RandomStringUtils.randomAlphabetic(10);
     private static byte[] AVATAR_BYTE = RandomUtils.nextBytes(20);
-    private static UserEntity USER_ID = new UserEntity();
 
     public static AvatarEntity avatarEntity() {
+        return avatarEntityWithUser(new UserEntity());
+    }
+
+    public static AvatarEntity avatarEntityWithUser(UserEntity userEntity) {
         AvatarEntity entity = new AvatarEntity();
         entity.setId(AVATAR_ID);
         entity.setName(AVATAR_NAME);
         entity.setAvatar(AVATAR_BYTE);
-        entity.setUserEntity(USER_ID);
+        entity.setUserEntity(userEntity);
 
         return entity;
     }

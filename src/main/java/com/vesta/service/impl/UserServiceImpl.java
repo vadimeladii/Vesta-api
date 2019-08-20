@@ -13,7 +13,7 @@ import com.vesta.service.UserService;
 import com.vesta.service.converter.UserConverter;
 import com.vesta.service.dto.AccountCredential;
 import com.vesta.service.dto.UserDto;
-import com.vesta.util.Roles;
+import com.vesta.service.dto.Roles;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
