@@ -4,7 +4,6 @@ import com.vesta.exception.ConflictException;
 import com.vesta.exception.NotFoundException;
 import com.vesta.repository.CompanyRepository;
 import com.vesta.repository.FloorRepository;
-import com.vesta.repository.entity.CompanyEntity;
 import com.vesta.repository.entity.FloorEntity;
 import com.vesta.service.CompanyService;
 import com.vesta.service.converter.CompanyConverter;
@@ -56,12 +55,9 @@ public class CompanyServiceImpl implements CompanyService {
         verify(companyRepository.existsByName(companyDto.getName()),
                 () -> new ConflictException("Name already exists"));
 
-        CompanyEntity dbCompany = companyRepository.save(companyConverter.deconvert(companyDto));
-
         List<FloorEntity> floorEntities = companyDto
                 .getFloors()
                 .stream()
-                .peek(dto -> dto.setCompanyId(dbCompany.getId()))
                 .map(floorConverter::deconvert)
                 .collect(Collectors.toList());
         floorRepository.saveAll(floorEntities);

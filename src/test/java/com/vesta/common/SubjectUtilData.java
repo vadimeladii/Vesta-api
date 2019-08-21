@@ -1,5 +1,6 @@
 package com.vesta.common;
 
+import com.vesta.controller.view.SubjectUpdateView;
 import com.vesta.controller.view.SubjectView;
 import com.vesta.repository.entity.SubjectEntity;
 import com.vesta.repository.entity.SubjectTemplateEntity;
@@ -10,15 +11,15 @@ import java.util.List;
 
 public class SubjectUtilData {
 
-    public static Long SUBJECT_ID = Long.parseLong(RandomStringUtils.randomNumeric(10));
+    public static Long FLOOR_ID = Long.parseLong(RandomStringUtils.randomNumeric(10));
+    private static Long SUBJECT_ID = Long.parseLong(RandomStringUtils.randomNumeric(10));
     private static Float SUBJECT_POSITION_X = Float.parseFloat(RandomStringUtils.randomNumeric(10));
     private static Float SUBJECT_POSITION_Y = Float.parseFloat(RandomStringUtils.randomNumeric(10));
     private static Float SUBJECT_SCALE = Float.parseFloat(RandomStringUtils.randomNumeric(10));
     private static Float SUBJECT_ROTATION = Float.parseFloat(RandomStringUtils.randomNumeric(10));
     private static Boolean SUBJECT_EDITABLE = Boolean.parseBoolean(RandomStringUtils.random(10));
-    public static Long FLOOR_ID = Long.parseLong(RandomStringUtils.randomNumeric(10));
     private static String ADDITIONAL = RandomStringUtils.randomAlphabetic(10);
-    private static String TEMPLATE = "/img/svg/table.svg";
+    private static String TEMPLATE = RandomStringUtils.randomAlphabetic(10);
 
     public static SubjectEntity subjectEntity() {
         return subjectEntityWithSubjectTemplate(SubjectTemplateUtilData.subjectTemplateEntity());
@@ -54,6 +55,18 @@ public class SubjectUtilData {
         subjectView.setAdditional(new Object());
 
         return subjectView;
+    }
+
+    public static SubjectUpdateView subjectUpdateView() {
+
+        SubjectUpdateView subjectUpdateView = new SubjectUpdateView();
+
+        subjectUpdateView.setPosition(List.of(SUBJECT_POSITION_X, SUBJECT_POSITION_Y));
+        subjectUpdateView.setScale(SUBJECT_SCALE);
+        subjectUpdateView.setRotation(SUBJECT_ROTATION);
+        subjectUpdateView.setAdditional(ADDITIONAL);
+
+        return subjectUpdateView;
     }
 
     public static SubjectDto subjectDto() {

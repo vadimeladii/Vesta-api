@@ -1,7 +1,8 @@
 package com.vesta.integration.avatar;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vesta.common.AvatarUtilData;
-import com.vesta.common.UserUtilData;
+import com.vesta.controller.view.AvatarView;
 import com.vesta.integration.IntegrationConfigTest;
 import com.vesta.repository.AvatarRepository;
 import com.vesta.repository.UserRepository;
@@ -9,10 +10,11 @@ import com.vesta.repository.entity.AvatarEntity;
 import com.vesta.repository.entity.UserEntity;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -21,7 +23,11 @@ import java.util.Random;
 
 import static com.vesta.common.AvatarUtilData.avatarEntityWithUser;
 import static com.vesta.common.UserUtilData.userEntity;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class AvatarIntegrationTest extends IntegrationConfigTest {
@@ -31,6 +37,9 @@ public class AvatarIntegrationTest extends IntegrationConfigTest {
 
     @Autowired
     private AvatarRepository repository;
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @WithMockUser
     @Test
@@ -78,12 +87,17 @@ public class AvatarIntegrationTest extends IntegrationConfigTest {
     public void test_AvatarByUserId_Valid() throws Exception {
 
         UserEntity userEntity = userRepository.save(userEntity());
-        repository.save(avatarEntityWithUser(userEntity));
+        AvatarEntity entity = repository.save(avatarEntityWithUser(userEntity));
 
-        this.mvc.perform(get("/avatar/user/{userId}/avatar", userEntity.getId())
-                .contentType(MediaType.ALL)
-                .accept(MediaType.ALL))
-                .andExpect(status().isOk());
+        MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.get("/avatar/user/{userId}/avatar", userEntity.getId())
+                .contentType(MediaType.ALL))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.ALL))
+                .andReturn();
+
+        assertNotNull(mvcResult.getResponse());
+        assertThat(mvcResult.getResponse().getContentAsByteArray(), is(entity.getAvatar()));
+
     }
 
     @WithMockUser
@@ -94,6 +108,28 @@ public class AvatarIntegrationTest extends IntegrationConfigTest {
                 .contentType(MediaType.ALL)
                 .accept(MediaType.ALL))
                 .andExpect(status().isNotFound());
+    }
+
+    @WithMockUser
+    @Test
+    public void test_getByUserId_Valid() throws Exception {
+
+        UserEntity userEntity = userRepository.save(userEntity());
+        AvatarEntity entity = repository.save(avatarEntityWithUser(userEntity));
+
+        MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.get("/avatar/user/{userId}", userEntity.getId())
+                .contentType(MediaType.ALL))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.ALL))
+                .andReturn();
+
+        AvatarView response = objectMapper.readValue(
+                mvcResult.getResponse().getContentAsString(), AvatarView.class);
+
+        assertNotNull(response);
+        assertThat(response.getId(), is(entity.getId()));
+        assertThat(response.getAvatar(), is(entity.getAvatar()));
+        assertThat(response.getName(), is(entity.getName()));
     }
 
     private MockMultipartFile getMockMultipartFile() throws IOException {

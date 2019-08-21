@@ -51,6 +51,10 @@ public interface SubjectController {
     List<SubjectView> getByFloorId(@PathVariable Long floorId);
 
     @ApiOperation(value = "Returns the all subjects")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Get All subjects"),
+            @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+    })
     @GetMapping
     List<SubjectView> getAll();
 
