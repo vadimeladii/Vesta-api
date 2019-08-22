@@ -28,5 +28,8 @@ public class SecurityConstants {
             "/user/refresh",
             "/user/reset/forgot/password"
     };
+    static final String[] ADMIN_PATH = {
+            "/user/admin/**",
+    };
 }
 

@@ -1,11 +1,13 @@
 package com.vesta.common;
 
+import com.vesta.controller.view.UserCreateView;
 import com.vesta.repository.entity.UserEntity;
 import com.vesta.service.dto.AccountCredential;
 import com.vesta.service.dto.UserDto;
 import org.apache.commons.lang3.RandomStringUtils;
 
 import java.util.Collections;
+import java.util.List;
 
 public class UserUtilData {
 
@@ -63,5 +65,18 @@ public class UserUtilData {
         accountCredential.setPassword(USER_PASSWORD);
 
         return accountCredential;
+    }
+
+    public static UserCreateView subjectUpdateView() {
+
+        UserCreateView subjectUpdateView = new UserCreateView();
+
+        subjectUpdateView.setFirstName(USER_FIRST_NAME);
+        subjectUpdateView.setLastName(USER_LAST_NAME);
+        subjectUpdateView.setEmail(USER_EMAIL);
+        subjectUpdateView.setUsername(USER_USERNAME);
+        subjectUpdateView.setPassword(USER_PASSWORD);
+
+        return subjectUpdateView;
     }
 }

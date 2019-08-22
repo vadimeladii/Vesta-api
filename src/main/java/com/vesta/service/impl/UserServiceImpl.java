@@ -12,10 +12,11 @@ import com.vesta.service.TokenService;
 import com.vesta.service.UserService;
 import com.vesta.service.converter.UserConverter;
 import com.vesta.service.dto.AccountCredential;
-import com.vesta.service.dto.UserDto;
 import com.vesta.service.dto.Roles;
+import com.vesta.service.dto.UserDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -75,12 +76,18 @@ public class UserServiceImpl implements UserService {
     public UserDto update(Long id, UserDto userDto) {
         log.info("method --- update");
 
+        UserDto userDB = getByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+
+        verify(!userDB.getId().equals(id),
+                () -> new UnauthorizedException("User are Unauthorized"));
+
         UserEntity userEntity = userRepository.findById(id).orElseThrow(() ->
                 new NotFoundException("The user doesn't exist"));
 
         UserEntity userUpdated = userConverter.deconvert(userDto);
         userEntity.setFirstName(userUpdated.getFirstName());
         userEntity.setLastName(userUpdated.getLastName());
+        userEntity.setEmail(userUpdated.getEmail());
         return userConverter.convert(userRepository.save(userEntity));
     }
 
@@ -110,6 +117,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public void delete(Long id) {
         log.info("method --- delete");
+
+        UserDto userDB = getByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+
+        verify(!userDB.getId().equals(id),
+                () -> new UnauthorizedException("User are Unauthorized"));
 
         userRepository.deleteById(id);
     }

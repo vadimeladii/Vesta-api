@@ -1,9 +1,6 @@
 package com.vesta.controller;
 
-import com.vesta.controller.view.Token;
-import com.vesta.controller.view.UserCreateView;
-import com.vesta.controller.view.UserResetForgotView;
-import com.vesta.controller.view.UserView;
+import com.vesta.controller.view.*;
 import com.vesta.service.dto.AccountCredential;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -44,7 +41,7 @@ public interface UserController {
             @ApiResponse(code = 404, message = "User not found")
     })
     @PutMapping("/{id}")
-    UserCreateView update(@PathVariable("id") Long id, @RequestBody UserCreateView userCreateView);
+    UserUpdateView update(@PathVariable("id") Long id, @RequestBody UserUpdateView userUpdateView);
 
     @ApiOperation(value = "Log on to the page")
     @ApiResponses(value = {

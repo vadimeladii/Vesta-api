@@ -2,11 +2,9 @@ package com.vesta.controller.impl;
 
 import com.vesta.controller.UserController;
 import com.vesta.controller.convertor.UserCreateViewConverter;
+import com.vesta.controller.convertor.UserUpdateViewConverter;
 import com.vesta.controller.convertor.UserViewConverter;
-import com.vesta.controller.view.Token;
-import com.vesta.controller.view.UserCreateView;
-import com.vesta.controller.view.UserResetForgotView;
-import com.vesta.controller.view.UserView;
+import com.vesta.controller.view.*;
 import com.vesta.service.UserService;
 import com.vesta.service.dto.AccountCredential;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +22,7 @@ public class UserControllerImpl implements UserController {
     private final UserService userService;
     private final UserCreateViewConverter userCreateViewConverter;
     private final UserViewConverter userViewConverter;
+    private final UserUpdateViewConverter userUpdateViewConverter;
 
     @Override
     public UserView getById(Long id) {
@@ -39,8 +38,8 @@ public class UserControllerImpl implements UserController {
     }
 
     @Override
-    public UserCreateView update(Long id, UserCreateView userCreateView) {
-        return userCreateViewConverter.convert(userService.update(id, userCreateViewConverter.deconvert(userCreateView)));
+    public UserUpdateView update(Long id, UserUpdateView userUpdateView) {
+        return userUpdateViewConverter.convert(userService.update(id, userUpdateViewConverter.deconvert(userUpdateView)));
     }
 
     @Override
