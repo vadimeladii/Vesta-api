@@ -10,7 +10,9 @@ public interface CompanyService {
 
     CompanyDto getByName(String name);
 
-    void create(CompanyDto companyDto);
+    void create(CompanyDto dto);
 
     CompanyDto findById(Long id);
+
+    void delete(Long id);
 }
