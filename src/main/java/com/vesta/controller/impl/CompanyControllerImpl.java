@@ -34,4 +34,9 @@ public class CompanyControllerImpl implements CompanyController {
     public void create(CompanyView companyView) {
         companyService.create(companyViewConverter.deconvert(companyView));
     }
+
+    @Override
+    public void delete(Long id) {
+        companyService.delete(id);
+    }
 }

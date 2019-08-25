@@ -76,5 +76,14 @@ public class CompanyServiceImpl implements CompanyService {
                 .orElseThrow(
                         () -> new NotFoundException("The company not found"));
     }
+
+    @Override
+    @Transactional
+    public void delete(Long id) {
+        CompanyEntity companyEntity = companyRepository.findById(id).orElseThrow(() -> new NotFoundException("The company not found"));
+        List<Long> ids = companyEntity.getFloors().stream().map(FloorEntity::getId).collect(Collectors.toList());
+        floorRepository.deleteByIds(ids);
+        companyRepository.deleteById(companyEntity.getId());
+    }
 }
 

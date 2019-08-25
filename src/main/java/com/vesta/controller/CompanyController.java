@@ -38,4 +38,11 @@ public interface CompanyController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     void create(@RequestBody CompanyView companyView);
+
+    @ApiOperation(value = "Delete company by ID")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Company was deleted successfully"),
+    })
+    @DeleteMapping("/{id}")
+    void delete(@PathVariable("id") Long id);
 }
