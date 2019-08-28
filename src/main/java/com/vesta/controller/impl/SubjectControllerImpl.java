@@ -65,7 +65,7 @@ public class SubjectControllerImpl implements SubjectController {
     }
 
     @Override
-    public SubjectUpdateView update(Long id, SubjectUpdateView subjectUpdateView) {
-        return updateViewConverter.convert(service.update(id, updateViewConverter.deconvert(subjectUpdateView)));
+    public SubjectView update(Long id, SubjectView view) {
+        return converter.convert(service.update(id, converter.deconvert(view)));
     }
 }

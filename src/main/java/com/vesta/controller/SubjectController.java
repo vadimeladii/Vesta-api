@@ -78,5 +78,5 @@ public interface SubjectController {
             @ApiResponse(code = 404, message = "Subject not found")
     })
     @PutMapping("/{id}")
-    SubjectUpdateView update(@PathVariable("id") Long id, @RequestBody SubjectUpdateView subjectUpdateView);
+    SubjectView update(@PathVariable("id") Long id, @RequestBody SubjectView view);
 }
