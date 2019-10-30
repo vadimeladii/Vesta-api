@@ -5,5 +5,5 @@ CREATE TABLE device(
     ip_address          VARCHAR(50)     NOT NULL,
     access_level        TINYINT         NOT NULL,
     processor           VARCHAR(50)     NOT NULL,
-    portable            BOOLEAN         NOT NULL,
+    is_portable            BOOLEAN         NOT NULL,
 )
