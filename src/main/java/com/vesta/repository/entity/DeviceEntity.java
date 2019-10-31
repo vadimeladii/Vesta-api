@@ -17,20 +17,20 @@ public class DeviceEntity {
     private long id;
 
     @Column(name = "device_name")
-    private String device_name;
+    private String deviceName;
 
     @Column(name = "operating_system")
-    private String operating_system;
+    private String operatingSystem;
 
     @Column(name = "ip_address")
-    private String ip_address;
+    private String ipAddress;
 
     @Column(name = "access_level")
-    private Byte access_level;
+    private Byte accessLevel;
 
     @Column(name = "processor")
     private String processor;
 
     @Column(name = "is_portable")
-    private Boolean is_portable;
+    private Boolean isPortable;
 }

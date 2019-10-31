@@ -10,6 +10,8 @@ import java.util.List;
 public interface DeviceService {
     DeviceDTO getById(Long id);
 
+    DeviceDTO getByDeviceName(String device_name);
+
     List<DeviceDTO> findAll();
 
     void create(@Valid DeviceDTO deviceDTO);
