@@ -12,7 +12,6 @@ public class DeviceConverter implements Converter<DeviceEntity, DeviceDTO> {
     public DeviceDTO convert(DeviceEntity dEntity) {
         if(dEntity == null) return null;
         DeviceDTO dto = new DeviceDTO();
-        dto.setId(dEntity.getId());
         dto.setDeviceName(dEntity.getDeviceName());
         dto.setOperatingSystem(dEntity.getOperatingSystem());
         dto.setIpAddress(dEntity.getIpAddress());
@@ -26,7 +25,6 @@ public class DeviceConverter implements Converter<DeviceEntity, DeviceDTO> {
     public DeviceEntity deconvert(DeviceDTO dto) {
         if (dto == null) return null;
         DeviceEntity dEntity = new DeviceEntity();
-        dEntity.setId(dto.getId());
         dEntity.setDeviceName(dto.getDeviceName());
         dEntity.setOperatingSystem(dto.getOperatingSystem());
         dEntity.setIpAddress(dto.getIpAddress());

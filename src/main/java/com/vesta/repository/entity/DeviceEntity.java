@@ -26,7 +26,7 @@ public class DeviceEntity {
     private String ipAddress;
 
     @Column(name = "access_level")
-    private Byte accessLevel;
+    private Integer accessLevel;
 
     @Column(name = "processor")
     private String processor;

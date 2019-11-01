@@ -43,9 +43,9 @@ public class DeviceServiceImpl implements DeviceService {
     public void create(DeviceDTO deviceDTO){
         log.info("method --- create() for device");
 
-        verify(deviceRepository.existsByDeviceName(deviceDTO.getDevice_name()),
+        verify(deviceRepository.existsByDeviceName(deviceDTO.getDeviceName()),
                 () -> new ConflictException("There is already such device name in system"));
-        verify(deviceRepository.existsByIpAddress(deviceDTO.getIp_address()),
+        verify(deviceRepository.existsByIpAddress(deviceDTO.getIpAddress()),
                 () -> new ConflictException("There is device with the same IP address in system"));
 
         DeviceEntity dEntity = deviceConverter.deconvert(deviceDTO);
@@ -60,12 +60,12 @@ public class DeviceServiceImpl implements DeviceService {
                 new NotFoundException("There is no device with such ID in system"));
 
         DeviceEntity editedDevice = deviceConverter.deconvert(deviceDTO);
-        deviceEntity.setDevice_name(editedDevice.getDevice_name());
+        deviceEntity.setDeviceName(editedDevice.getDeviceName());
         deviceEntity.setProcessor(editedDevice.getProcessor());
-        deviceEntity.setIp_address(editedDevice.getIp_address());
-        deviceEntity.setIs_portable(editedDevice.getIs_portable());
-        deviceEntity.setAccess_level(editedDevice.getAccess_level());
-        deviceEntity.setOperating_system(editedDevice.getOperating_system());
+        deviceEntity.setIpAddress(editedDevice.getIpAddress());
+        deviceEntity.setIsPortable(editedDevice.getIsPortable());
+        deviceEntity.setAccessLevel(editedDevice.getAccessLevel());
+        deviceEntity.setOperatingSystem(editedDevice.getOperatingSystem());
 
         return deviceConverter.convert(deviceRepository.save(deviceEntity));
     }

@@ -24,8 +24,7 @@ public class DeviceDTO implements Serializable {
     @Size(min = 8, max = 15, message = "IP address can't be less than 8 characters and bigger than 15 characters")
     private String ipAddress;
 
-    @NotEmpty(message = "Access level for device is required")
-    private Byte accessLevel;
+    private Integer accessLevel;
 
     @NotEmpty(message = "Name of processor is required")
     @Size(max = 50, message = "Processor name should be less than 50 characters")
