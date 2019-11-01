@@ -12,15 +12,8 @@ public interface TeamRepository extends JpaRepository<TeamEntity, Long> {
 
     Optional<TeamEntity> findById (Long id);
 
-//    Optional<TeamEntity> findByProjectName (String projectName);
-//
-//    Optional<TeamEntity> findByOffice (String office);
-
     List<TeamEntity> findAll();
 
     void deleteById(Long id);
 
-//    boolean existsByProjectName (String projectName);
-//
-//    boolean existsByOffice(String office);
 }
