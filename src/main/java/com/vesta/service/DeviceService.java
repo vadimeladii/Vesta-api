@@ -2,7 +2,6 @@ package com.vesta.service;
 
 import com.vesta.service.dto.DeviceDTO;
 import org.springframework.validation.annotation.Validated;
-
 import javax.validation.Valid;
 import java.util.List;
 
@@ -12,6 +11,8 @@ public interface DeviceService {
 
     DeviceDTO getByDeviceName(String device_name);
 
+    DeviceDTO getByIpAddress(String ipAddress);
+
     List<DeviceDTO> findAll();
 
     void create(@Valid DeviceDTO deviceDTO);
@@ -19,4 +20,8 @@ public interface DeviceService {
     DeviceDTO update(Long id, @Valid DeviceDTO deviceDTO);
 
     void delete(Long id);
+
+    void deleteByDeviceName(String deviceName);
+
+    void deleteByIpAddress(String ipAddress);
 }

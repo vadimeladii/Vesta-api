@@ -4,12 +4,11 @@ import lombok.Data;
 import java.io.Serializable;
 
 @Data
-public class DeviceView implements Serializable {
-    private Long id;
+public class DeviceCreateView implements Serializable {
     private String deviceName;
-    private String operatingSystem;
     private String ipAddress;
     private String processor;
+    private String operatingSystem;
+    private boolean isPortable;
     private Integer accessLevel;
-    private Boolean isPortable;
 }

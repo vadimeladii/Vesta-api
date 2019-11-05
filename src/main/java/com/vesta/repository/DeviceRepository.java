@@ -9,20 +9,15 @@ import java.util.Optional;
 
 @Repository
 public interface DeviceRepository extends JpaRepository<DeviceEntity, Long> {
-
-
     Optional<DeviceEntity> findByDeviceName(String deviceName);
 
     Optional<DeviceEntity> findByIpAddress(String ipAddress);
 
-    List<DeviceEntity> findByOperatingSystem(String operatingSystem);
-
-    List<DeviceEntity> findByAccessLevel(Byte accessLevel);
-
-
     void deleteById(Long id);
 
     void deleteByIpAddress(String ipAddress);
+
+    void deleteByDeviceName(String deviceName);
 
     boolean existsByDeviceName(String deviceName);
 

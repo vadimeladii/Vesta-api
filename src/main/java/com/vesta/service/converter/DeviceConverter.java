@@ -7,11 +7,11 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class DeviceConverter implements Converter<DeviceEntity, DeviceDTO> {
-
     @Override
     public DeviceDTO convert(DeviceEntity dEntity) {
         if(dEntity == null) return null;
         DeviceDTO dto = new DeviceDTO();
+        dto.setId(dEntity.getId());
         dto.setDeviceName(dEntity.getDeviceName());
         dto.setOperatingSystem(dEntity.getOperatingSystem());
         dto.setIpAddress(dEntity.getIpAddress());

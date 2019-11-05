@@ -2,14 +2,11 @@ package com.vesta.service.dto;
 
 import lombok.Data;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.io.Serializable;
 
 @Data
 public class DeviceDTO implements Serializable {
-
     private Long id;
 
     @NotEmpty(message = "Name of device is required")
@@ -24,6 +21,9 @@ public class DeviceDTO implements Serializable {
     @Size(min = 8, max = 15, message = "IP address can't be less than 8 characters and bigger than 15 characters")
     private String ipAddress;
 
+    @NotNull(message = "Access level is required")
+    @Min(0)
+    @Max(20)
     private Integer accessLevel;
 
     @NotEmpty(message = "Name of processor is required")

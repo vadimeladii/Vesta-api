@@ -10,13 +10,15 @@ import com.vesta.service.dto.DeviceDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
+import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
+
 import static com.vesta.expression.ExpressionAsserts.verify;
 
 @Slf4j
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class DeviceServiceImpl implements DeviceService {
     private final DeviceRepository deviceRepository;
@@ -24,18 +26,28 @@ public class DeviceServiceImpl implements DeviceService {
 
     @Override
     public DeviceDTO getById(Long id){
-
         log.info("method --- getByID() for device");
+        return deviceConverter.convert(deviceRepository.findById(id).orElseThrow(() ->
+                new NotFoundException("There is no device with such ID")));
+    }
 
-        DeviceEntity deviceEntity = deviceRepository.findById(id).orElseThrow(() ->
-                new NotFoundException("There is no such device"));
-        return deviceConverter.convert(deviceEntity);
+    @Override
+    public DeviceDTO getByDeviceName(String device_name){
+        log.info("method --- getByDeviceName() for device");
+        return deviceConverter.convert(deviceRepository.findByDeviceName(device_name).orElseThrow( () ->
+                new NotFoundException("There is no such device in system")));
+    }
+
+    @Override
+    public DeviceDTO getByIpAddress(String ipAddress) {
+        log.info("method --- getByIpAddress() for device");
+        return deviceConverter.convert(deviceRepository.findByIpAddress(ipAddress).orElseThrow(() ->
+                new NotFoundException("There is no device with such IP address")));
     }
 
     @Override
     public List<DeviceDTO> findAll(){
         log.info("method --- findAll() for device");
-
         return deviceRepository.findAll().stream().map(deviceConverter::convert).collect(Collectors.toList());
     }
 
@@ -71,17 +83,20 @@ public class DeviceServiceImpl implements DeviceService {
     }
 
     @Override
-    public DeviceDTO getByDeviceName(String device_name){
-        log.info("method --- getByDeviceName() for device");
-
-        return deviceConverter.convert(deviceRepository.findByDeviceName(device_name).orElseThrow( () ->
-                new NotFoundException("There is no such device in system")));
+    public void delete(Long id) {
+        log.info("method --- delete() for device");
+        deviceRepository.deleteById(id);
     }
 
     @Override
-    public void delete(Long id) {
-        log.info("method --- delete() for device");
+    public void deleteByDeviceName(String deviceName) {
+        log.info("method --- deleteByDeviceName() for device");
+        deviceRepository.deleteByDeviceName(deviceName);
+    }
 
-        deviceRepository.deleteById(id);
+    @Override
+    public void deleteByIpAddress(String ipAddress) {
+        log.info("method --- deleteByIpAddress() for device");
+        deviceRepository.deleteByIpAddress(ipAddress);
     }
 }
