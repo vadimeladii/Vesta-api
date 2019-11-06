@@ -13,7 +13,4 @@ public interface TeamRepository extends JpaRepository<TeamEntity, Long> {
     Optional<TeamEntity> findById (Long id);
 
     List<TeamEntity> findAll();
-
-    void deleteById(Long id);
-
 }

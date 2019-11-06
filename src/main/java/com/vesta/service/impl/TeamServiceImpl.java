@@ -1,6 +1,5 @@
 package com.vesta.service.impl;
 
-
 import com.vesta.exception.NotFoundException;
 import com.vesta.repository.TeamRepository;
 import com.vesta.repository.entity.TeamEntity;
@@ -15,7 +14,6 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
 @Service
 @RequiredArgsConstructor
 public class TeamServiceImpl implements TeamService {
@@ -28,6 +26,7 @@ public class TeamServiceImpl implements TeamService {
     public TeamDto getById(Long id) {
         TeamEntity teamEntity = repository.findById(id).orElseThrow(() ->
                 new NotFoundException("The team doesn't exist"));
+
         return converter.convert(teamEntity);
     }
 
