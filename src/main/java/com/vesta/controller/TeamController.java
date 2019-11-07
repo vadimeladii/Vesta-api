@@ -12,7 +12,6 @@ import java.util.List;
 
 @RequestMapping("/team")
 @Api(value = "Team Controller REST Endpoint")
-
 public interface TeamController {
 
     @ApiOperation(value = "Returns the team by ID")
