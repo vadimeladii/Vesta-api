@@ -21,7 +21,6 @@ public interface TeamController {
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "Team not found")
     })
-
     @ResponseBody
     @GetMapping("/{id}")
     TeamView getById(@PathVariable Long id);
@@ -43,8 +42,7 @@ public interface TeamController {
     @PutMapping("/{id}")
     TeamCreateView update(@PathVariable("id") Long id, @RequestBody TeamCreateView teamCreateView);
 
-    @ApiOperation(value = "Create a new team" +
-            "")
+    @ApiOperation(value = "Create a new team")
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Team was created"),
             @ApiResponse(code = 409, message = "Conflict team already exists"),
@@ -61,6 +59,4 @@ public interface TeamController {
     })
     @DeleteMapping("/{id}")
     void delete(@PathVariable("id") Long id);
-
-
 }

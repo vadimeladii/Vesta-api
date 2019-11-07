@@ -17,6 +17,4 @@ public interface TeamService {
     TeamDto update (Long id, @Valid TeamDto teamDto);
 
     void delete (Long id);
-
-
 }

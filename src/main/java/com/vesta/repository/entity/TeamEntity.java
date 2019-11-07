@@ -1,18 +1,15 @@
 package com.vesta.repository.entity;
 
-
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Arrays;
 
 @Entity
 @Table(name = "team", uniqueConstraints = @UniqueConstraint(columnNames = "id"))
 @Getter
 @Setter
 public class TeamEntity {
-
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,6 +42,4 @@ public class TeamEntity {
 
     @Column(name = "date_of_birth")
     private String dateOfBirth;
-
-
 }

@@ -10,8 +10,7 @@ public class TeamViewConverter implements Converter<TeamDto, TeamView> {
 
     @Override
     public TeamView convert(TeamDto dto) {
-        if (dto == null)
-        return null;
+        if (dto == null) return null;
 
         TeamView view = new TeamView();
         view.setId(dto.getId());

@@ -1,6 +1,5 @@
 package com.vesta.service.dto;
 
-
 import lombok.Data;
 
 import javax.validation.constraints.NotEmpty;
@@ -46,5 +45,4 @@ public class TeamDto {
     @NotEmpty(message = "Date of birth is required")
     @Size(max = 11, message = "Date of birth should be less then 11 characters")
     private String dateOfBirth;
-
 }

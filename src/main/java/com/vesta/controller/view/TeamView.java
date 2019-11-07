@@ -1,13 +1,10 @@
 package com.vesta.controller.view;
 
-
 import lombok.Data;
-
 import java.io.Serializable;
 
 @Data
 public class TeamView implements Serializable {
-
 
     private static final long serialVersionUID = 1007083335317362570L;
 

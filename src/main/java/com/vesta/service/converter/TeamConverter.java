@@ -1,6 +1,5 @@
 package com.vesta.service.converter;
 
-
 import com.vesta.repository.entity.TeamEntity;
 import com.vesta.service.dto.TeamDto;
 import org.springframework.core.convert.converter.Converter;
@@ -23,7 +22,6 @@ public class TeamConverter implements Converter<TeamEntity, TeamDto>{
         dto.setHasOfficeKeys(entity.getHasOfficeKeys());
         dto.setWorkAtPentalogSince(entity.getWorkAtPentalogSince());
         dto.setDateOfBirth(entity.getDateOfBirth());
-
 
         return dto;
     }

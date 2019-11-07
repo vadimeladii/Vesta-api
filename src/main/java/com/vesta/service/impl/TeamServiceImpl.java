@@ -21,7 +21,6 @@ public class TeamServiceImpl implements TeamService {
     private final TeamRepository repository;
     private final TeamConverter converter;
 
-
     @Override
     public TeamDto getById(Long id) {
         TeamEntity teamEntity = repository.findById(id).orElseThrow(() ->
@@ -32,7 +31,8 @@ public class TeamServiceImpl implements TeamService {
 
     @Override
     public List<TeamDto> findAll() {
-        return repository.findAll().stream().map(converter::convert)
+        return repository.findAll().stream()
+                .map(converter::convert)
                 .collect(Collectors.toList());
     }
 
@@ -43,7 +43,7 @@ public class TeamServiceImpl implements TeamService {
 
     @Transactional
     @Override
-    public TeamDto update(Long id, @Valid TeamDto teamDto) {
+    public TeamDto update(Long id, TeamDto teamDto) {
         TeamEntity teamEntity = repository.findById(id).orElseThrow(() ->
                 new NotFoundException("The team doesn't exist"));
 
@@ -64,5 +64,4 @@ public class TeamServiceImpl implements TeamService {
     public void delete(Long id) {
         repository.deleteById(id);
     }
-
 }

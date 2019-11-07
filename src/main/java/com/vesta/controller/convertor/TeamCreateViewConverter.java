@@ -24,7 +24,6 @@ public class TeamCreateViewConverter implements Converter<TeamDto, TeamCreateVie
         return view;
     }
 
-
     public TeamDto deconvert(TeamCreateView view) {
         if (view == null) return null;
         TeamDto dto = new TeamDto();
@@ -39,5 +38,4 @@ public class TeamCreateViewConverter implements Converter<TeamDto, TeamCreateVie
         dto.setDateOfBirth(view.getDateOfBirth());
         return dto;
     }
-
 }
