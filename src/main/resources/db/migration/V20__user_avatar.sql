@@ -7,5 +7,5 @@ CREATE TABLE avatar
 
     CONSTRAINT avatar_users_id_fkey FOREIGN KEY (users_id)
         REFERENCES users (id) MATCH SIMPLE
-            ON UPDATE NO ACTION ON DELETE CASCADE
+            ON UPDATE NO ACTION ON DELETE NO ACTION
 );
