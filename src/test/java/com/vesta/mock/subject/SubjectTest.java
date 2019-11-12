@@ -14,7 +14,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +24,7 @@ import static com.vesta.common.SubjectUtilData.FLOOR_ID;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @Transactional
 @RunWith(MockitoJUnitRunner.class)
@@ -51,7 +51,7 @@ public class SubjectTest {
         SubjectEntity entity = SubjectUtilData.subjectEntity();
 
         // when
-        Mockito.when(repository.findById(entity.getId()))
+        when(repository.findById(entity.getId()))
                 .thenReturn(Optional.of(entity));
 
         // then
@@ -83,7 +83,7 @@ public class SubjectTest {
         SubjectEntity subjectEntity2 = SubjectUtilData.subjectEntity();
 
         // when
-        Mockito.when(repository.findAll())
+        when(repository.findAll())
                 .thenReturn(List.of(subjectEntity1, subjectEntity2));
 
         // then
@@ -111,7 +111,7 @@ public class SubjectTest {
         SubjectEntity subjectEntity2 = SubjectUtilData.subjectEntity();
 
         // when
-        Mockito.when(repository.findByFloorId(FLOOR_ID))
+        when(repository.findByFloorId(FLOOR_ID))
                 .thenReturn(List.of(subjectEntity1, subjectEntity2));
 
         // then
@@ -148,7 +148,7 @@ public class SubjectTest {
         SubjectDto dto = SubjectUtilData.subjectDto();
 
         // when
-        Mockito.when(repository.findById(dto.getId()))
+        when(repository.findById(dto.getId()))
                 .thenReturn(Optional.empty());
 
         // then
@@ -161,7 +161,7 @@ public class SubjectTest {
         SubjectDto dto = SubjectUtilData.subjectDto();
 
         // when
-        Mockito.when(repository.findById(dto.getId()))
+        when(repository.findById(dto.getId()))
                 .thenReturn(Optional.of(SubjectUtilData.subjectEntity()));
 
         // then

@@ -24,6 +24,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 
 public class  CompanyIntegrationTest extends IntegrationConfigTest {
 
@@ -105,4 +106,54 @@ public class  CompanyIntegrationTest extends IntegrationConfigTest {
                 .andReturn();
     }
 
+    @WithMockUser
+    @Test
+    public void deleteCompanyByID_Success () throws Exception{
+
+        CompanyEntity companyEntity = companyRepository.save(companyEntityWithoutFloors());
+
+        this.mvc.perform(delete("/company/{id}", companyEntity.getId())
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
+
+    @WithMockUser
+    @Test
+    public void deleteCompanyByID_NotFound() throws Exception {
+        mvc.perform(MockMvcRequestBuilders.get("/company/" + RandomStringUtils.randomNumeric(10))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
+    }
+
+    @WithMockUser
+    @Test
+    public void getCompanyByName_Success() throws Exception {
+        // given
+        CompanyEntity companyEntity = companyRepository.save(companyEntityWithoutFloors());
+
+        // when
+        MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.get("/company/name/" + companyEntity.getName())
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andReturn();
+
+        // then
+        CompanyView companyView = objectMapper.readValue(
+                mvcResult.getResponse().getContentAsString(), CompanyView.class);
+
+        assertNotNull(companyView);
+//        assertThat(companyView.getId(), is(companyEntity.getId()));
+        assertThat(companyView.getName(), is(companyEntity.getName()));
+    }
+
+    @WithMockUser
+    @Test
+    public void getCompanyByName_NotFound() throws Exception {
+        // when
+        mvc.perform(MockMvcRequestBuilders.get("/company/name/" + RandomStringUtils.randomAlphabetic(10))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
+    }
 }

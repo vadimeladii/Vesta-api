@@ -86,4 +86,3 @@ public class CompanyServiceImpl implements CompanyService {
         companyRepository.deleteById(companyEntity.getId());
     }
 }
-

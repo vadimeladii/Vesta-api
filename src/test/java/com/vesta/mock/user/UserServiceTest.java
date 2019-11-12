@@ -23,7 +23,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -36,6 +35,7 @@ import java.util.Optional;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @Transactional
 @RunWith(MockitoJUnitRunner.class)
@@ -70,7 +70,7 @@ public class UserServiceTest {
         UserEntity userEntity = UserUtilData.userEntity();
 
         // when
-        Mockito.when(userRepository.findByUsername(userEntity.getUsername()))
+        when(userRepository.findByUsername(userEntity.getUsername()))
                 .thenReturn(Optional.of(userEntity));
 
         // then
@@ -95,7 +95,7 @@ public class UserServiceTest {
         UserEntity userEntity = UserUtilData.userEntity();
 
         // when
-        Mockito.when(userRepository.findById(userEntity.getId()))
+        when(userRepository.findById(userEntity.getId()))
                 .thenReturn(Optional.of(userEntity));
 
         // then
@@ -122,7 +122,7 @@ public class UserServiceTest {
         UserEntity userEntity2 = UserUtilData.userEntity();
 
         // when
-        Mockito.when(userRepository.findAll())
+        when(userRepository.findAll())
                 .thenReturn(List.of(userEntity1, userEntity2));
 
         // then
@@ -136,6 +136,12 @@ public class UserServiceTest {
         assertThat(userEntity1.getLastName(), is(users.get(0).getLastName()));
         assertThat(userEntity1.getUsername(), is(users.get(0).getUsername()));
         assertThat(userEntity1.getEmail(), is(users.get(0).getEmail()));
+
+        assertThat(userEntity1.getId(), is(users.get(1).getId()));
+        assertThat(userEntity1.getFirstName(), is(users.get(1).getFirstName()));
+        assertThat(userEntity1.getLastName(), is(users.get(1).getLastName()));
+        assertThat(userEntity1.getUsername(), is(users.get(1).getUsername()));
+        assertThat(userEntity1.getEmail(), is(users.get(1).getEmail()));
     }
 
     @Test(expected = ConflictException.class)
@@ -144,7 +150,7 @@ public class UserServiceTest {
         UserDto userDto = UserUtilData.userDto();
 
         // when
-        Mockito.when(userRepository.existsByUsername(userDto.getUsername()))
+        when(userRepository.existsByUsername(userDto.getUsername()))
                 .thenReturn(Boolean.TRUE);
 
         // then
@@ -157,9 +163,9 @@ public class UserServiceTest {
         UserDto userDto = UserUtilData.userDto();
 
         // when
-        Mockito.when(userRepository.existsByUsername(userDto.getUsername()))
+        when(userRepository.existsByUsername(userDto.getUsername()))
                 .thenReturn(Boolean.FALSE);
-        Mockito.when(userRepository.existsByEmail(userDto.getEmail()))
+        when(userRepository.existsByEmail(userDto.getEmail()))
                 .thenReturn(Boolean.TRUE);
         // then
         userService.create(userDto);
@@ -171,11 +177,11 @@ public class UserServiceTest {
         UserDto userDto = UserUtilData.userDto();
 
         // when
-        Mockito.when(userRepository.existsByUsername(userDto.getUsername()))
+        when(userRepository.existsByUsername(userDto.getUsername()))
                 .thenReturn(Boolean.FALSE);
-        Mockito.when(userRepository.existsByEmail(userDto.getEmail()))
+        when(userRepository.existsByEmail(userDto.getEmail()))
                 .thenReturn(Boolean.FALSE);
-        Mockito.when(rolesService.findByName(Roles.USER.name()))
+        when(rolesService.findByName(Roles.USER.name()))
                 .thenReturn(RoleUtilData.roleEntity());
 
         // then
@@ -188,7 +194,7 @@ public class UserServiceTest {
         UserDto userDto = UserUtilData.userDto();
 
         // when
-        Mockito.when(userRepository.findById(userDto.getId()))
+        when(userRepository.findById(userDto.getId()))
                 .thenReturn(Optional.empty());
 
         // then
@@ -201,7 +207,7 @@ public class UserServiceTest {
         UserDto userDto = UserUtilData.userDto();
 
         // when
-        Mockito.when(userRepository.findById(userDto.getId()))
+        when(userRepository.findById(userDto.getId()))
                 .thenReturn(Optional.of(UserUtilData.userEntity()));
 
         // then
@@ -214,7 +220,7 @@ public class UserServiceTest {
         AccountCredential accountCredential = UserUtilData.accountCredential();
 
         // when
-        Mockito.when(userRepository.findByUsername(accountCredential.getUsername()))
+        when(userRepository.findByUsername(accountCredential.getUsername()))
                 .thenReturn(Optional.empty());
 
         // then
@@ -228,7 +234,7 @@ public class UserServiceTest {
         UserEntity userEntity = UserUtilData.userEntity(passwordEncoder.encode(RandomStringUtils.randomAlphabetic(10)));
 
         // when
-        Mockito.when(userRepository.findByUsername(accountCredential.getUsername()))
+        when(userRepository.findByUsername(accountCredential.getUsername()))
                 .thenReturn(Optional.of(userEntity));
 
         // then
@@ -244,13 +250,13 @@ public class UserServiceTest {
         UserEntity userEntity = UserUtilData.userEntity(passwordEncoder.encode(UserUtilData.USER_PASSWORD));
 
         // when
-        Mockito.when(userRepository.findByUsername(accountCredential.getUsername()))
+        when(userRepository.findByUsername(accountCredential.getUsername()))
                 .thenReturn(Optional.of(userEntity));
 
-        Mockito.when(tokenService.generatedAccessToken(accountCredential.getUsername()))
+        when(tokenService.generatedAccessToken(accountCredential.getUsername()))
                 .thenReturn(new Token(accessToken));
 
-        Mockito.when(tokenService.generatedRefreshToken(accountCredential.getUsername()))
+        when(tokenService.generatedRefreshToken(accountCredential.getUsername()))
                 .thenReturn(new Token(refreshToken));
 
         // then
@@ -268,13 +274,13 @@ public class UserServiceTest {
         UserEntity userEntity = UserUtilData.userEntity(passwordEncoder.encode(UserUtilData.USER_PASSWORD));
 
         // when
-        Mockito.when(userRepository.findByUsername(accountCredential.getUsername()))
+        when(userRepository.findByUsername(accountCredential.getUsername()))
                 .thenReturn(Optional.of(userEntity));
 
-        Mockito.when(tokenService.generatedAccessToken(accountCredential.getUsername()))
+        when(tokenService.generatedAccessToken(accountCredential.getUsername()))
                 .thenReturn(new Token(accessToken));
 
-        Mockito.when(tokenService.generatedRefreshToken(accountCredential.getUsername()))
+        when(tokenService.generatedRefreshToken(accountCredential.getUsername()))
                 .thenReturn(new Token(refreshToken));
 
         // then

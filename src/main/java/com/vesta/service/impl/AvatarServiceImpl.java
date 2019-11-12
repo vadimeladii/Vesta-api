@@ -50,9 +50,12 @@ public class AvatarServiceImpl implements AvatarService {
         repository.save(entity);
     }
 
+    @Transactional
     @Override
     public void delete(Long id) {
         log.info("method --- delete");
+
+        verify(!repository.existsById(id), () -> new NotFoundException("Avatar not found"));
 
         repository.deleteById(id);
     }

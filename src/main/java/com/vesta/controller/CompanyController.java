@@ -45,4 +45,12 @@ public interface CompanyController {
     })
     @DeleteMapping("/{id}")
     void delete(@PathVariable("id") Long id);
+
+    @ApiOperation(value = "Return company by name")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Get company by name has succeeded"),
+            @ApiResponse(code = 404, message = "Company not found")
+    })
+    @GetMapping("/name/{name}")
+    CompanyView findByName(@PathVariable("name") String name);
 }
