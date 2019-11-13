@@ -13,8 +13,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 import javax.transaction.Transactional;
 import java.util.Optional;
@@ -23,6 +25,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @Transactional
 @RunWith(MockitoJUnitRunner.class)
@@ -54,7 +57,7 @@ public class AvatarTest {
         AvatarEntity entity = AvatarUtilData.avatarEntity();
 
         // when
-        Mockito.when(repository.findByUserEntity(entity.getUserEntity().getId()))
+        when(repository.findByUserEntity(entity.getUserEntity().getId()))
                 .thenReturn(Optional.of(entity));
 
         // then
@@ -70,5 +73,29 @@ public class AvatarTest {
     @Test(expected = VestaException.class)
     public void test_AvatarByUserId_Invalid() {
         service.getAvatarByUserId(null);
+    }
+
+    @Test
+    public void test_AvatarByUserId_Valid() {
+        // given
+        AvatarEntity entity = AvatarUtilData.avatarEntity();
+
+        //when
+        when((repository.findByUserEntity
+                (entity.getUserEntity().getId())))
+                .thenReturn(Optional.of(entity));
+
+        //then
+        ResponseEntity responseEntity = service.getAvatarByUserId(entity.getUserEntity().getId());
+
+        HttpStatus statusCode = responseEntity.getStatusCode();
+        HttpHeaders headers = responseEntity.getHeaders();
+        byte[] avatar = (byte[]) responseEntity.getBody();
+
+        assertNotNull(responseEntity);
+        assertNotNull(statusCode);
+        assertNotNull(headers);
+        assertThat(statusCode, is(HttpStatus.OK));
+        assertThat(avatar, is(entity.getAvatar()));
     }
 }

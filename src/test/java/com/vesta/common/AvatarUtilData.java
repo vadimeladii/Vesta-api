@@ -15,6 +15,10 @@ public class AvatarUtilData {
         return avatarEntityWithUser(new UserEntity());
     }
 
+    public static AvatarEntity avatarEntityWithoutUser() {
+        return avatarEntityWithUser(null);
+    }
+
     public static AvatarEntity avatarEntityWithUser(UserEntity userEntity) {
         AvatarEntity entity = new AvatarEntity();
         entity.setId(AVATAR_ID);

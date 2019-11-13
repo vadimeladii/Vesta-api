@@ -1,15 +1,14 @@
 package com.vesta.integration.avatar;
 
 import com.vesta.common.AvatarUtilData;
-import com.vesta.common.UserUtilData;
 import com.vesta.integration.IntegrationConfigTest;
 import com.vesta.repository.AvatarRepository;
 import com.vesta.repository.UserRepository;
 import com.vesta.repository.entity.AvatarEntity;
 import com.vesta.repository.entity.UserEntity;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -36,12 +35,20 @@ public class AvatarIntegrationTest extends IntegrationConfigTest {
     @Test
     public void deleteByIdSuccess() throws Exception {
 
-        AvatarEntity entity = repository.save(AvatarUtilData.avatarEntity());
+        AvatarEntity entity = repository.save(AvatarUtilData.avatarEntityWithoutUser());
 
         this.mvc.perform(delete("/avatar/{id}", entity.getId())
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
+    }
+
+    @WithMockUser
+    @Test
+    public void deleteByIdNotFound() throws Exception {
+        mvc.perform(delete("/avatar/" + RandomStringUtils.randomNumeric(10))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
     }
 
     @WithMockUser
@@ -70,7 +77,6 @@ public class AvatarIntegrationTest extends IntegrationConfigTest {
                 .contentType(MediaType.ALL)
                 .accept(MediaType.ALL))
                 .andExpect(status().isNotFound());
-
     }
 
     @WithMockUser

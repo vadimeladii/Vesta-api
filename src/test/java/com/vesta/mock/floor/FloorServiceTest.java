@@ -1,7 +1,7 @@
 package com.vesta.mock.floor;
 
 import com.vesta.common.FloorUtilData;
-import com.vesta.exception.VestaException;
+import com.vesta.exception.NotFoundException;
 import com.vesta.repository.FloorRepository;
 import com.vesta.repository.entity.FloorEntity;
 import com.vesta.service.FloorService;
@@ -12,16 +12,15 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import javax.transaction.Transactional;
 import java.util.Optional;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @Transactional
 @RunWith(MockitoJUnitRunner.class)
@@ -45,7 +44,7 @@ public class FloorServiceTest {
         FloorEntity floorEntity = FloorUtilData.floorEntity();
 
         // when
-        Mockito.when(floorRepository.findById(floorEntity.getId()))
+        when(floorRepository.findById(floorEntity.getId()))
                 .thenReturn(Optional.of(floorEntity));
 
         // then
@@ -58,8 +57,25 @@ public class FloorServiceTest {
         verify(floorRepository).findById(floorEntity.getId());
     }
 
-    @Test(expected = VestaException.class)
+    @Test(expected = NotFoundException.class)
     public void test_findById_invalidId() {
         floorService.getById(null);
+    }
+
+    @Test
+    public void findAllID_valid() {
+        //given
+        FloorEntity floorEntity = FloorUtilData.floorEntity();
+
+        //when
+        when(floorRepository.findById(floorEntity.getId()))
+                .thenReturn(Optional.of(floorEntity));
+
+        //then
+        FloorDto dto = floorService.getById(floorEntity.getId());
+
+        verify(floorRepository).findById(floorEntity.getId());
+        assertEquals(dto.getName(), floorEntity.getName());
+        assertEquals(dto.getCompanyId(), floorEntity.getCompanyId());
     }
 }

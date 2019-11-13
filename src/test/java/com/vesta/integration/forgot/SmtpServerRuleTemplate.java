@@ -15,7 +15,6 @@ public class SmtpServerRuleTemplate extends ExternalResource {
     private GreenMail mailServer;
     private int port;
 
-
     SmtpServerRuleTemplate(String mailUsername, String mailPassword, int port) {
         this.mailUsername = mailUsername;
         this.mailPassword = mailPassword;

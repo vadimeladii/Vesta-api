@@ -13,7 +13,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +20,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @Transactional
 @RunWith(MockitoJUnitRunner.class)
@@ -44,7 +44,7 @@ public class SubjectTemplateTest {
         SubjectTemplateEntity subjectTemplateEntity = SubjectTemplateUtilData.subjectTemplateEntity();
 
         // when
-        Mockito.when(repository.findById(subjectTemplateEntity.getId()))
+        when(repository.findById(subjectTemplateEntity.getId()))
                 .thenReturn(Optional.of(subjectTemplateEntity));
 
         // then
@@ -81,7 +81,7 @@ public class SubjectTemplateTest {
         // given
         SubjectTemplateEntity subjectTemplateEntity = SubjectTemplateUtilData.subjectTemplateEntity();
         // when
-        Mockito.when(repository.findAll())
+        when(repository.findAll())
                 .thenReturn(List.of(subjectTemplateEntity));
         List<SubjectTemplateDto> subjectTemplates = service.getAll();
 

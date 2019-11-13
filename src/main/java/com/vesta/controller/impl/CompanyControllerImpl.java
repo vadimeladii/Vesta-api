@@ -39,4 +39,9 @@ public class CompanyControllerImpl implements CompanyController {
     public void delete(Long id) {
         companyService.delete(id);
     }
+
+    @Override
+    public CompanyView findByName(String name) {
+        return companyViewConverter.convert((companyService.getByName(name)));
+    }
 }
