@@ -9,6 +9,6 @@ public class DeviceCreateView implements Serializable {
     private String ipAddress;
     private String processor;
     private String operatingSystem;
-    private boolean isPortable;
+    private Boolean isPortable;
     private Integer accessLevel;
 }

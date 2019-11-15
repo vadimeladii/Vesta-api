@@ -1,12 +1,12 @@
 package com.vesta.service.dto;
 
 import lombok.Data;
-
 import javax.validation.constraints.*;
 import java.io.Serializable;
 
 @Data
 public class DeviceDTO implements Serializable {
+    @NotNull
     private Long id;
 
     @NotEmpty(message = "Name of device is required")
@@ -31,5 +31,5 @@ public class DeviceDTO implements Serializable {
     private String processor;
 
     @NotNull
-    private boolean isPortable;
+    private Boolean isPortable;
 }

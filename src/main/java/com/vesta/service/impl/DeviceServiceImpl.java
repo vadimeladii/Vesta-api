@@ -32,9 +32,9 @@ public class DeviceServiceImpl implements DeviceService {
     }
 
     @Override
-    public DeviceDTO getByDeviceName(String device_name){
+    public DeviceDTO getByDeviceName(String deviceName){
         log.info("method --- getByDeviceName() for device");
-        return deviceConverter.convert(deviceRepository.findByDeviceName(device_name).orElseThrow( () ->
+        return deviceConverter.convert(deviceRepository.findByDeviceName(deviceName).orElseThrow( () ->
                 new NotFoundException("There is no such device in system")));
     }
 
@@ -78,7 +78,6 @@ public class DeviceServiceImpl implements DeviceService {
         deviceEntity.setIsPortable(editedDevice.getIsPortable());
         deviceEntity.setAccessLevel(editedDevice.getAccessLevel());
         deviceEntity.setOperatingSystem(editedDevice.getOperatingSystem());
-
         return deviceConverter.convert(deviceRepository.save(deviceEntity));
     }
 

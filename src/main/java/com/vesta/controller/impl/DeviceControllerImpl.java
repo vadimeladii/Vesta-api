@@ -48,10 +48,9 @@ public class DeviceControllerImpl implements DeviceController {
 
     @Override
     public DeviceCreateView update(Long id, DeviceCreateView deviceCreateView) {
-        return deviceCreateViewConverter.
-                convert(deviceService.
-                        update(id, deviceCreateViewConverter.
-                                deconvert(deviceCreateView)));
+        return deviceCreateViewConverter.convert(deviceService
+                                        .update(id, deviceCreateViewConverter
+                                        .deconvert(deviceCreateView)));
     }
 
     @Override

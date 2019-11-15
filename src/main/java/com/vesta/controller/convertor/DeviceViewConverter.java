@@ -10,6 +10,7 @@ public class DeviceViewConverter implements Converter<DeviceDTO, DeviceView> {
     @Override
     public DeviceView convert(DeviceDTO dto) {
         if (dto == null) return null;
+
         DeviceView view = new DeviceView();
         view.setId(dto.getId());
         view.setDeviceName(dto.getDeviceName());
@@ -17,7 +18,7 @@ public class DeviceViewConverter implements Converter<DeviceDTO, DeviceView> {
         view.setOperatingSystem(dto.getOperatingSystem());
         view.setProcessor(dto.getProcessor());
         view.setAccessLevel(dto.getAccessLevel());
-        view.setIsPortable(dto.isPortable());
+        view.setIsPortable(dto.getIsPortable());
 
         return view;
     }

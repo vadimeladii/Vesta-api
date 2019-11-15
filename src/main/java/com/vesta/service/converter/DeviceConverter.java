@@ -10,6 +10,7 @@ public class DeviceConverter implements Converter<DeviceEntity, DeviceDTO> {
     @Override
     public DeviceDTO convert(DeviceEntity dEntity) {
         if(dEntity == null) return null;
+
         DeviceDTO dto = new DeviceDTO();
         dto.setId(dEntity.getId());
         dto.setDeviceName(dEntity.getDeviceName());
@@ -17,20 +18,21 @@ public class DeviceConverter implements Converter<DeviceEntity, DeviceDTO> {
         dto.setIpAddress(dEntity.getIpAddress());
         dto.setAccessLevel(dEntity.getAccessLevel());
         dto.setProcessor(dEntity.getProcessor());
-        dto.setPortable(dEntity.getIsPortable());
+        dto.setIsPortable(dEntity.getIsPortable());
 
         return dto;
     }
 
     public DeviceEntity deconvert(DeviceDTO dto) {
         if (dto == null) return null;
+
         DeviceEntity dEntity = new DeviceEntity();
         dEntity.setDeviceName(dto.getDeviceName());
         dEntity.setOperatingSystem(dto.getOperatingSystem());
         dEntity.setIpAddress(dto.getIpAddress());
         dEntity.setAccessLevel(dto.getAccessLevel());
         dEntity.setProcessor(dto.getProcessor());
-        dEntity.setIsPortable(dto.isPortable());
+        dEntity.setIsPortable(dto.getIsPortable());
 
         return dEntity;
     }

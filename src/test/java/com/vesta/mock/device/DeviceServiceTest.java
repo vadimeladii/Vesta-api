@@ -23,6 +23,7 @@ import java.util.Optional;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.verify;
 
 @Transactional
 @RunWith(MockitoJUnitRunner.class)
@@ -32,8 +33,7 @@ public class DeviceServiceTest {
     @Mock
     private DeviceRepository deviceRepository;
 
-    @Mock
-    private DeviceConverter deviceConverter;
+    private DeviceConverter deviceConverter = new DeviceConverter();
 
     @Before
     public void setUp(){ deviceService = new DeviceServiceImpl(deviceRepository, deviceConverter); }
@@ -41,8 +41,8 @@ public class DeviceServiceTest {
     @Test
     public void test_findByDeviceName_validDeviceName(){
         DeviceEntity deviceEntity = DeviceUtilData.deviceEntity();
-        Mockito.when(deviceRepository.findByDeviceName(deviceEntity.getDeviceName())).
-                thenReturn(Optional.of(deviceEntity));
+        Mockito.when(deviceRepository.findByDeviceName(deviceEntity.getDeviceName()))
+                .thenReturn(Optional.of(deviceEntity));
         DeviceDTO deviceDTO = deviceService.getByDeviceName(deviceEntity.getDeviceName());
 
         assertNotNull(deviceDTO);
@@ -52,7 +52,8 @@ public class DeviceServiceTest {
         assertThat(deviceEntity.getOperatingSystem(), is(deviceDTO.getOperatingSystem()));
         assertThat(deviceEntity.getProcessor(), is(deviceDTO.getProcessor()));
         assertThat(deviceEntity.getAccessLevel(), is(deviceDTO.getAccessLevel()));
-        assertThat(deviceEntity.getIsPortable(), is(deviceDTO.isPortable()));
+        assertThat(deviceEntity.getIsPortable(), is(deviceDTO.getIsPortable()));
+        verify(deviceRepository).findByDeviceName(deviceEntity.getDeviceName());
     }
 
     @Test(expected = VestaException.class)
@@ -60,11 +61,12 @@ public class DeviceServiceTest {
         deviceService.getByDeviceName(RandomStringUtils.randomAlphabetic(15));
     }
 
-    @Test(expected = VestaException.class)
+    @Test
     public void test_findByIpAddress_validIpAddress(){
         DeviceEntity deviceEntity = DeviceUtilData.deviceEntity();
-        Mockito.when(deviceRepository.findByDeviceName(deviceEntity.getDeviceName())).
-                thenReturn(Optional.of(deviceEntity));
+        Mockito.when(deviceRepository.findByDeviceName(deviceEntity.getDeviceName()))
+                .thenReturn(Optional.of(deviceEntity));
+
         DeviceDTO deviceDTO = deviceService.getByDeviceName(deviceEntity.getDeviceName());
 
         assertNotNull(deviceDTO);
@@ -74,7 +76,8 @@ public class DeviceServiceTest {
         assertThat(deviceEntity.getOperatingSystem(), is(deviceDTO.getOperatingSystem()));
         assertThat(deviceEntity.getProcessor(), is(deviceDTO.getProcessor()));
         assertThat(deviceEntity.getAccessLevel(), is(deviceDTO.getAccessLevel()));
-        assertThat(deviceEntity.getIsPortable(), is(deviceDTO.isPortable()));
+        assertThat(deviceEntity.getIsPortable(), is(deviceDTO.getIsPortable()));
+        verify(deviceRepository).findByDeviceName(deviceEntity.getDeviceName());
     }
 
     @Test(expected = VestaException.class)
@@ -85,8 +88,8 @@ public class DeviceServiceTest {
     @Test
     public void test_findById_validId(){
         DeviceEntity deviceEntity = DeviceUtilData.deviceEntity();
-        Mockito.when(deviceRepository.findByDeviceName(deviceEntity.getDeviceName())).
-                thenReturn(Optional.of(deviceEntity));
+        Mockito.when(deviceRepository.findByDeviceName(deviceEntity.getDeviceName()))
+                .thenReturn(Optional.of(deviceEntity));
         DeviceDTO deviceDTO = deviceService.getByDeviceName(deviceEntity.getDeviceName());
 
         assertNotNull(deviceDTO);
@@ -96,7 +99,8 @@ public class DeviceServiceTest {
         assertThat(deviceEntity.getOperatingSystem(), is(deviceDTO.getOperatingSystem()));
         assertThat(deviceEntity.getProcessor(), is(deviceDTO.getProcessor()));
         assertThat(deviceEntity.getAccessLevel(), is(deviceDTO.getAccessLevel()));
-        assertThat(deviceEntity.getIsPortable(), is(deviceDTO.isPortable()));
+        assertThat(deviceEntity.getIsPortable(), is(deviceDTO.getIsPortable()));
+        verify(deviceRepository).findByDeviceName(deviceEntity.getDeviceName());
     }
 
     @Test(expected = VestaException.class)
@@ -119,35 +123,40 @@ public class DeviceServiceTest {
         assertThat(deviceEntityFirst.getProcessor(), is(devices.get(0).getProcessor()));
         assertThat(deviceEntityFirst.getIpAddress(), is(devices.get(0).getIpAddress()));
         assertThat(deviceEntityFirst.getAccessLevel(), is(devices.get(0).getAccessLevel()));
-        assertThat(deviceEntityFirst.getIsPortable(), is(devices.get(0).isPortable()));
+        assertThat(deviceEntityFirst.getIsPortable(), is(devices.get(0).getIsPortable()));
     }
 
     @Test(expected = ConflictException.class)
     public void test_create_invalidDeviceName() {
         DeviceDTO deviceDTO = DeviceUtilData.deviceDTO();
-        Mockito.when(deviceRepository.existsByDeviceName(deviceDTO.getDeviceName())).thenReturn(Boolean.TRUE);
+        Mockito.when(deviceRepository.existsByDeviceName(deviceDTO.getDeviceName()))
+                .thenReturn(Boolean.TRUE);
         deviceService.create(deviceDTO);
     }
 
     @Test
     public void test_create_valid(){
         DeviceDTO deviceDTO = DeviceUtilData.deviceDTO();
-        Mockito.when(deviceRepository.existsByDeviceName(deviceDTO.getDeviceName())).thenReturn(Boolean.FALSE);
-        Mockito.when(deviceRepository.existsByIpAddress(deviceDTO.getIpAddress())).thenReturn(Boolean.TRUE);
+        Mockito.when(deviceRepository.existsByDeviceName(deviceDTO.getDeviceName()))
+                .thenReturn(Boolean.FALSE);
+        Mockito.when(deviceRepository.existsByIpAddress(deviceDTO.getIpAddress()))
+                .thenReturn(Boolean.FALSE);
         deviceService.create(deviceDTO);
     }
 
     @Test(expected = NotFoundException.class)
     public void test_update_invalidId(){
         DeviceDTO deviceDTO = DeviceUtilData.deviceDTO();
-        Mockito.when(deviceRepository.findById(deviceDTO.getId())).thenReturn(Optional.empty());
+        Mockito.when(deviceRepository.findById(deviceDTO.getId()))
+                .thenReturn(Optional.empty());
         deviceService.update(deviceDTO.getId(), deviceDTO);
     }
 
     @Test
     public void test_update_valid(){
         DeviceDTO deviceDTO = DeviceUtilData.deviceDTO();
-        Mockito.when(deviceRepository.findById(deviceDTO.getId())).thenReturn(Optional.of(DeviceUtilData.deviceEntity()));
+        Mockito.when(deviceRepository.findById(deviceDTO.getId()))
+                .thenReturn(Optional.of(DeviceUtilData.deviceEntity()));
         deviceService.update(deviceDTO.getId(), deviceDTO);
     }
 }
