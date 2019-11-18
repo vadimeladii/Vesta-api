@@ -167,6 +167,8 @@ public class  CompanyIntegrationTest extends IntegrationConfigTest {
         String json = gson.toJson(companyView);
 
         mvc.perform(MockMvcRequestBuilders.put("/company/update/" + companyView.getId())
-                .contentTyoe(MediaType.APPLICATION_JSON).content(json));
+                .contentType(MediaType.APPLICATION_JSON).content(json))
+                .andExpect(status().isOk())
+                .andReturn();
     }
 }

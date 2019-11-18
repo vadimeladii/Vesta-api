@@ -99,4 +99,16 @@ public class CompanyServiceTest {
         assertThat(companyDB1.getFloors().size(), is(1));
         assertThat(companyDB2.getFloors().size(), is(1));
     }
+
+    @Test
+    public void test_update_valid(){
+        //given
+        CompanyDto companyDto = CompanyUtilData.companyEntity();
+
+        //when
+        when(companyRepository.findById(companyDto.getId())).thenReturn(Optional.of(CompanyUtilData.companyEntity()));
+
+        //then
+        companyService.update(companyDto.getId(), companyDto);
+    }
 }

@@ -42,6 +42,7 @@ public interface CompanyController {
     @ApiOperation(value = "Delete company by ID")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Company was deleted successfully"),
+            @ApiResponse(code = 404, message = "Company not found")
     })
     @DeleteMapping("/{id}")
     void delete(@PathVariable("id") Long id);
@@ -60,6 +61,6 @@ public interface CompanyController {
             @ApiResponse(code = 200, message = "Company was successfully updated"),
             @ApiResponse(code = 404, message = "There is no company with such ID")
     })
-    @PutMapping("/{id}")
+    @PutMapping("/update/{id}")
     CompanyView update(@PathVariable Long id, @RequestBody CompanyView companyView);
 }
