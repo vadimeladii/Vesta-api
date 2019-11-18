@@ -55,4 +55,15 @@ public class FloorServiceImpl implements FloorService {
 
         floorRepository.deleteById(id);
     }
+
+    @Override
+    public FloorDto update(Long id, FloorDto floorDto) {
+        FloorEntity floorEntity = floorRepository.findById(id).orElseThrow(() ->
+        new NotFoundException("The floor doesn't exist"));
+
+        floorEntity.setCompanyId(floorDto.getCompanyId());
+        floorEntity.setName(floorDto.getName());
+
+        return floorConverter.convert(floorRepository.save(floorEntity));
+    }
 }
