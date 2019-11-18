@@ -68,6 +68,21 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
+    public CompanyDto update (Long id, CompanyDto companyDto) {
+        log.info("method --- update");
+
+        CompanyEntity companyEntity = companyRepository.findById(id).orElseThrow(() ->
+                new NotFoundException("This company doesn't exist"));
+
+        CompanyEntity companyUpdated = companyConverter.deconvert(companyDto);
+        companyEntity.setName(companyUpdated.getName());
+        companyEntity.setFloors(companyUpdated.getFloors());
+        companyEntity.setId(companyUpdated.getId());
+
+        return companyConverter.convert(companyRepository.save(companyEntity));
+    }
+
+    @Override
     public CompanyDto findById(Long id) {
 
         return companyRepository

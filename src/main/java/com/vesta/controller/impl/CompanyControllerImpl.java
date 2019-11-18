@@ -44,4 +44,10 @@ public class CompanyControllerImpl implements CompanyController {
     public CompanyView findByName(String name) {
         return companyViewConverter.convert((companyService.getByName(name)));
     }
+
+    //needs implementation of update() function in 'Service' class
+    @Override
+    public CompanyView update(Long id, CompanyView companyView){
+        return companyViewConverter.convert(companyService.update(id, companyViewConverter.deconvert(companyView)));
+    }
 }

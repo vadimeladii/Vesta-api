@@ -7,6 +7,7 @@ import com.vesta.controller.view.CompanyView;
 import com.vesta.integration.IntegrationConfigTest;
 import com.vesta.repository.CompanyRepository;
 import com.vesta.repository.entity.CompanyEntity;
+import com.vesta.service.dto.CompanyDto;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -155,5 +156,17 @@ public class  CompanyIntegrationTest extends IntegrationConfigTest {
         mvc.perform(MockMvcRequestBuilders.get("/company/name/" + RandomStringUtils.randomAlphabetic(10))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
+    }
+
+    @WithMockUser
+    @Test
+    public CompanyDto updateCompany_Success() throws Exception {
+        CompanyView companyView = companyViewWithoutFloors();
+
+        Gson gson = new Gson();
+        String json = gson.toJson(companyView);
+
+        mvc.perform(MockMvcRequestBuilders.put("/company/update/" + companyView.getId())
+                .contentTyoe(MediaType.APPLICATION_JSON).content(json));
     }
 }
