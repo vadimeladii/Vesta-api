@@ -1,5 +1,6 @@
 package com.vesta.common;
 
+import com.vesta.controller.view.FloorView;
 import com.vesta.repository.entity.FloorEntity;
 import org.apache.commons.lang3.RandomStringUtils;
 
@@ -23,5 +24,15 @@ public class FloorUtilData {
         floorEntity.setCompanyId(companyId);
 
         return floorEntity;
+    }
+
+    public static FloorView floorView(){
+        FloorView floorView = new FloorView();
+
+        floorView.setId(FLOOR_ID);
+        floorView.setName(FLOOR_NAME);
+        floorView.setCompanyId(FLOOR_COMPANY_ID);
+
+        return floorView;
     }
 }
