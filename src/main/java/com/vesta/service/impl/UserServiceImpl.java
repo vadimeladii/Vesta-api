@@ -102,7 +102,7 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new UnauthorizedException("The username not found"));
 
         verify(passwordEncoder.matches(password, userEntity.getPassword()),
-                () -> new ConflictException("New Password do not must match with Old Password"));
+                () -> new ConflictException("New password match with old password. Please try again..."));
         userEntity.setPassword(passwordEncoder.encode(password));
         userRepository.save(userEntity);
     }
