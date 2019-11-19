@@ -13,7 +13,21 @@
     <style>
         body {
             font-family: 'Roboto', sans-serif;
-            font-size: 48px;
+            font-size: 48px;,
+            color: #000000
+        }
+
+        .button {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
         }
     </style>
 </head>
@@ -22,20 +36,50 @@
 <table align="center" border="0" cellpadding="0" cellspacing="0" width="600" style="border-collapse: collapse;">
     <tr>
         <td align="center" bgcolor="#78ab46" style="padding: 40px 0 30px 0;">
-            <p>Vesta-Api</p>
+            <form id="Vesta-Api">
+            <h1>Vesta-Api</h1>
+            </form>
         </td>
     </tr>
     <tr>
         <td bgcolor="#eaeaea" style="padding: 40px 30px 40px 30px;">
             <p>
-                You've requested a password reset.
-                <a href="${base_url}/reset/password?token=${token}">reset your password</a>
+                Hi ${name},
+            </p>
+            <p>
+                You recently requested to reset your password for your Vesta account.
+                Click the button below to reset it.
+            </p>
+                <button>
+                    <b>
+                        <a href="C/reset/password?token=${token}">Reset your password</a>
+                    </b>
+                </button>
+            <p>
+            If you did not requested a password reset, please ignore this email or reply to let us know.
+                This password reset is only valid for next 30 minutes.
+
+                Thanks,
+                Vesta Team.
             </p>
             <p>Thanks</p>
         </td>
     </tr>
     <tr>
         <td bgcolor="#777777" style="padding: 30px 30px 30px 30px;">
+            <p>
+                Pentalog Romania | Complex Diplomat, Str.Sevastopol, N° 13-17, ap.305, Bucuresti, Romania
+            </p>
+            <p>
+                <a href="tel:+0311013013" title="phone">Tel. : +0311 013 013</a>
+                | Email :
+                <a href="mailto:jobs@pentalog.md" title="email">jobs@pentalog.md</a>
+            </p>
+            <p>
+                Copyright © 1993 -
+                2019 - Pentalog SA -All Rights Reserved. |
+                <a href="https://www.pentalog.ro/legal-statement">Legal Terms</a>
+            </p>
         </td>
     </tr>
 </table>
