@@ -58,11 +58,9 @@
             <p>
             If you did not requested a password reset, please ignore this email or reply to let us know.
                 This password reset is only valid for next 30 minutes.
-
-                Thanks,
-                Vesta Team.
             </p>
-            <p>Thanks</p>
+            <p>Thanks,</p>
+            <p>Vesta Team.</p>
         </td>
     </tr>
     <tr>
