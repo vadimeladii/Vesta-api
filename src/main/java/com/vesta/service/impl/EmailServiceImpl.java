@@ -81,6 +81,7 @@ public class EmailServiceImpl implements EmailService {
         Map<String, String> model = new HashMap<>();
         model.put("base_url", baseUrl);
         model.put("token", tokenService.generatedEmailToken(username).getJwtToken());
+        model.put("name", username);
         return buildText("ForgotPasswordTemplate.ftl", model);
     }
 
