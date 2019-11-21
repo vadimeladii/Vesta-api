@@ -21,4 +21,8 @@ public interface FloorRepository extends JpaRepository<FloorEntity, Long> {
     @Modifying
     @Query("delete from FloorEntity f where f.id in :ids")
     void deleteByIds(List<Long> ids);
+
+    @Modifying
+    @Query("update FloorEntity f set f.name = :name where f.id in :ids")
+    void update(List<Long> ids, String name);
 }

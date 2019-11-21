@@ -51,4 +51,12 @@ public interface FloorController {
     })
     @DeleteMapping("/{id}")
     void delete(@PathVariable("id") Long id);
+
+    @ApiOperation(value = "Modify floor data by ID")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Floor was updates successfully"),
+            @ApiResponse(code = 404, message = "Floor not found")
+    })
+    @PutMapping("/{id}")
+    FloorView update(@PathVariable("id") Long id, @RequestBody FloorView floorView);
 }

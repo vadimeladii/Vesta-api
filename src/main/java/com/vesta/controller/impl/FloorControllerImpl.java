@@ -41,4 +41,8 @@ public class FloorControllerImpl implements FloorController {
         floorService.delete(id);
     }
 
+    @Override
+    public FloorView update(Long id, FloorView floorView) {
+        return floorViewConverter.convert(floorService.update(id, floorViewConverter.deconvert((floorView))));
+    }
 }
