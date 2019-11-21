@@ -5,7 +5,6 @@ import com.vesta.service.dto.CompanyDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
-
 import java.util.stream.Collectors;
 
 @Component

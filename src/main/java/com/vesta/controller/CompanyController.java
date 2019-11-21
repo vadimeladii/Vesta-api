@@ -55,11 +55,12 @@ public interface CompanyController {
     @GetMapping("/name/{name}")
     CompanyView findByName(@PathVariable("name") String name);
 
-    //adding update for company
+    //adding update
     @ApiOperation(value = "Modify company by ID")
-    @ApiResponses(value ={
-            @ApiResponse(code = 200, message = "Company was successfully updated"),
-            @ApiResponse(code = 404, message = "There is no company with such ID")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Modified successfully"),
+            @ApiResponse(code = 404, message = "Company not found"),
+            @ApiResponse(code = 500, message = "Server error")
     })
     @PutMapping("/update/{id}")
     CompanyView update(@PathVariable Long id, @RequestBody CompanyView companyView);

@@ -55,7 +55,6 @@ public class CompanyServiceImpl implements CompanyService {
 
         verify(companyRepository.existsByName(companyDto.getName()),
                 () -> new ConflictException("Name already exists"));
-
         CompanyEntity dbCompany = companyRepository.save(companyConverter.deconvert(companyDto));
 
         List<FloorEntity> floorEntities = companyDto
@@ -70,14 +69,19 @@ public class CompanyServiceImpl implements CompanyService {
     @Override
     public CompanyDto update (Long id, CompanyDto companyDto) {
         log.info("method --- update");
-
         CompanyEntity companyEntity = companyRepository.findById(id).orElseThrow(() ->
-                new NotFoundException("This company doesn't exist"));
+                new NotFoundException("Company not found"));
+//        CompanyEntity companyUpdated = companyConverter.deconvert(companyDto);
+//        companyEntity.setName(companyUpdated.getName());
+//        companyEntity.setFloors(companyUpdated.getFloors());
+//        companyEntity.setId(companyUpdated.getId());
 
-        CompanyEntity companyUpdated = companyConverter.deconvert(companyDto);
-        companyEntity.setName(companyUpdated.getName());
-        companyEntity.setFloors(companyUpdated.getFloors());
-        companyEntity.setId(companyUpdated.getId());
+//        return companyConverter.convert(companyRepository.save(companyEntity));
+        companyEntity.setId(companyDto.getId());
+        companyEntity.setName(companyDto.getName());
+        companyEntity.setFloors(companyDto.getFloors()
+                .stream().map(floorConverter::deconvert)
+                .collect(Collectors.toList()));
 
         return companyConverter.convert(companyRepository.save(companyEntity));
     }
@@ -95,7 +99,8 @@ public class CompanyServiceImpl implements CompanyService {
     @Override
     @Transactional
     public void delete(Long id) {
-        CompanyEntity companyEntity = companyRepository.findById(id).orElseThrow(() -> new NotFoundException("The company not found"));
+        CompanyEntity companyEntity = companyRepository.findById(id).orElseThrow(()
+                -> new NotFoundException("The company not found"));
         List<Long> ids = companyEntity.getFloors().stream().map(FloorEntity::getId).collect(Collectors.toList());
         floorRepository.deleteByIds(ids);
         companyRepository.deleteById(companyEntity.getId());

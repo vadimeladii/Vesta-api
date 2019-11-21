@@ -3,10 +3,14 @@ package com.vesta.integration.company;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
+import com.vesta.common.CompanyUtilData;
+import com.vesta.common.FloorUtilData;
 import com.vesta.controller.view.CompanyView;
 import com.vesta.integration.IntegrationConfigTest;
 import com.vesta.repository.CompanyRepository;
+import com.vesta.repository.FloorRepository;
 import com.vesta.repository.entity.CompanyEntity;
+import com.vesta.repository.entity.FloorEntity;
 import com.vesta.service.dto.CompanyDto;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Test;
@@ -34,6 +38,9 @@ public class  CompanyIntegrationTest extends IntegrationConfigTest {
 
     @Autowired
     private ObjectMapper objectMapper;
+
+    @Autowired
+    private FloorRepository floorRepository;
 
     @WithMockUser
     @Test
@@ -160,15 +167,26 @@ public class  CompanyIntegrationTest extends IntegrationConfigTest {
 
     @WithMockUser
     @Test
-    public CompanyDto updateCompany_Success() throws Exception {
-        CompanyView companyView = companyViewWithoutFloors();
+    public void updateCompanyById_Success() throws Exception {
+        CompanyEntity companyEntity = companyRepository.save(CompanyUtilData.companyEntityWithoutFloors());
+        FloorEntity floorEntity = floorRepository.save(FloorUtilData.floorEntity(companyEntity.getId()));
+
+        String updateCompanyName = "Company Test";
+        CompanyView view = companyViewWithoutFloors();
+        view.setName(updateCompanyName);
 
         Gson gson = new Gson();
-        String json = gson.toJson(companyView);
+        String json = gson.toJson(view);
 
-        mvc.perform(MockMvcRequestBuilders.put("/company/update/" + companyView.getId())
+        MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.put("/company/update/" + companyEntity.getId())
                 .contentType(MediaType.APPLICATION_JSON).content(json))
                 .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andReturn();
+
+        CompanyView companyView = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), CompanyView.class);
+
+        assertNotNull(companyView);
+        assertThat(companyView.getName(), is(updateCompanyName));
     }
 }

@@ -1,12 +1,10 @@
 package com.vesta.service;
 
 import com.vesta.service.dto.CompanyDto;
-
 import javax.validation.Valid;
 import java.util.List;
 
 public interface CompanyService {
-
     List<CompanyDto> findAll();
 
     CompanyDto getByName(String name);

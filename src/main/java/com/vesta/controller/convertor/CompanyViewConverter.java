@@ -5,7 +5,6 @@ import com.vesta.service.dto.CompanyDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
-
 import java.util.stream.Collectors;
 
 @Component
@@ -21,6 +20,7 @@ public class CompanyViewConverter implements Converter<CompanyDto, CompanyView> 
         view.setId(dto.getId());
         view.setName(dto.getName());
         view.setFloors(dto.getFloors().stream().map(floorViewConverter::convert).collect(Collectors.toList()));
+
         return view;
     }
 
@@ -29,6 +29,7 @@ public class CompanyViewConverter implements Converter<CompanyDto, CompanyView> 
         CompanyDto dto = new CompanyDto();
         dto.setName(view.getName());
         dto.setFloors(view.getFloors().stream().map(floorViewConverter::deconvert).collect(Collectors.toList()));
+
         return dto;
     }
 }

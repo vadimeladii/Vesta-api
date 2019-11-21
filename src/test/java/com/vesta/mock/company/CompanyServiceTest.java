@@ -35,19 +35,19 @@ public class CompanyServiceTest {
     private CompanyService companyService;
 
     @Mock
-    private FloorConverter converter;
-
-    @Mock
-    private FloorRepository repository;
-
-    @Mock
     private CompanyRepository companyRepository;
 
     private CompanyConverter companyConverter = new CompanyConverter(new FloorConverter());
 
+    @Mock
+    private FloorConverter floorConverter;
+
+    @Mock
+    private FloorRepository floorRepository;
+
     @Before
     public void setUp() {
-        companyService = new CompanyServiceImpl(companyRepository, companyConverter, converter, repository);
+        companyService = new CompanyServiceImpl(companyRepository, companyConverter, floorConverter, floorRepository);
     }
 
     @Test
@@ -103,7 +103,8 @@ public class CompanyServiceTest {
     @Test
     public void test_update_valid(){
         //given
-        CompanyDto companyDto = CompanyUtilData.companyEntity();
+        CompanyDto companyDto = Optional.of(companyConverter.convert(CompanyUtilData.companyEntity()))
+                .orElseThrow(() -> new NullPointerException("There is no such company"));
 
         //when
         when(companyRepository.findById(companyDto.getId())).thenReturn(Optional.of(CompanyUtilData.companyEntity()));
