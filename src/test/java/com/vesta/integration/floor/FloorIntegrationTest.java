@@ -47,8 +47,7 @@ public class  FloorIntegrationTest extends IntegrationConfigTest {
         CompanyEntity companyEntity = companyEntityWithoutFloors();
         CompanyEntity companyDB = companyRepository.save(companyEntity);
 
-        FloorEntity floorEntity = FloorUtilData.floorEntity(companyDB.getId());
-        floorRepository.save(floorEntity);
+        FloorEntity floorEntity = floorRepository.save(FloorUtilData.floorEntity(companyDB.getId()));
 
         // when
         MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.get("/floor")
@@ -65,7 +64,7 @@ public class  FloorIntegrationTest extends IntegrationConfigTest {
         // then
         assertNotNull(response);
         assertNotNull(response.get(0));
-        assertThat(response.get(0).getId(), is(1L));
+        assertThat(response.get(0).getId(), is(floorEntity.getId()));
         assertThat(response.get(0).getName(), is(floorEntity.getName()));
         assertThat(response.get(0).getCompanyId(), is(floorEntity.getCompanyId()));
     }
