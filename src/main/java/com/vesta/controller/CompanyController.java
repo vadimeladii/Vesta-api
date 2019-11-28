@@ -1,5 +1,6 @@
 package com.vesta.controller;
 
+import com.vesta.controller.view.CompanyUpdateView;
 import com.vesta.controller.view.CompanyView;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -63,5 +64,5 @@ public interface CompanyController {
             @ApiResponse(code = 500, message = "Server error")
     })
     @PutMapping("/update/{id}")
-    CompanyView update(@PathVariable Long id, @RequestBody CompanyView companyView);
+    CompanyView update(@PathVariable Long id, @RequestBody CompanyUpdateView companyView);
 }

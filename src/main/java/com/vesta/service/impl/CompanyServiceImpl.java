@@ -71,17 +71,8 @@ public class CompanyServiceImpl implements CompanyService {
         log.info("method --- update");
         CompanyEntity companyEntity = companyRepository.findById(id).orElseThrow(() ->
                 new NotFoundException("Company not found"));
-//        CompanyEntity companyUpdated = companyConverter.deconvert(companyDto);
-//        companyEntity.setName(companyUpdated.getName());
-//        companyEntity.setFloors(companyUpdated.getFloors());
-//        companyEntity.setId(companyUpdated.getId());
 
-//        return companyConverter.convert(companyRepository.save(companyEntity));
-        companyEntity.setId(companyDto.getId());
         companyEntity.setName(companyDto.getName());
-        companyEntity.setFloors(companyDto.getFloors()
-                .stream().map(floorConverter::deconvert)
-                .collect(Collectors.toList()));
 
         return companyConverter.convert(companyRepository.save(companyEntity));
     }
