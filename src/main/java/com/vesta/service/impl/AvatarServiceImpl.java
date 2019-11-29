@@ -19,6 +19,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.vesta.expression.ExpressionAsserts.verify;
 
@@ -85,5 +87,15 @@ public class AvatarServiceImpl implements AvatarService {
         responseEntity = new ResponseEntity<>(entity.getAvatar(), responseHeaders, HttpStatus.OK);
 
         return responseEntity;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<AvatarDto> findAll() {
+        log.debug("Request to get all Avatars");
+        return repository.findAll()
+                .stream()
+                .map(converter::convert)
+                .collect(Collectors.toList());
     }
 }

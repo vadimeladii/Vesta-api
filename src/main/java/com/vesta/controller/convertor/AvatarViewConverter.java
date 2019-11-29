@@ -2,10 +2,12 @@ package com.vesta.controller.convertor;
 
 import com.vesta.controller.view.AvatarView;
 import com.vesta.service.dto.AvatarDto;
+import lombok.RequiredArgsConstructor;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class AvatarViewConverter implements Converter<AvatarDto, AvatarView> {
 
     @Override
@@ -15,7 +17,6 @@ public class AvatarViewConverter implements Converter<AvatarDto, AvatarView> {
         view.setId(dto.getId());
         view.setAvatar(dto.getAvatar());
         view.setName(dto.getName());
-
         return view;
     }
 }

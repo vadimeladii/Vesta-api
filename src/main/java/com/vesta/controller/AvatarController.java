@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 @RequestMapping("/avatar")
 @Api(value = "User Avatar Controller REST Endpoint")
 public interface AvatarController {
@@ -43,4 +45,13 @@ public interface AvatarController {
     @ResponseBody
     @GetMapping("/user/{userId}/avatar")
     ResponseEntity getAvatarByUserId(@PathVariable Long userId);
+
+    @ApiOperation(value = "Get all avatars")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "All users avatars successfully received"),
+            @ApiResponse(code = 404, message = "Avatar not found")
+    })
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
+    List<AvatarView> findAll();
 }

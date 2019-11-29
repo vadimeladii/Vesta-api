@@ -13,5 +13,3 @@ public class AvatarView implements Serializable {
     private byte[] avatar;
     private String name;
 }
-
-

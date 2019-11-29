@@ -1,6 +1,9 @@
 package com.vesta.integration.avatar;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vesta.common.AvatarUtilData;
+import com.vesta.controller.view.AvatarView;
 import com.vesta.integration.IntegrationConfigTest;
 import com.vesta.repository.AvatarRepository;
 import com.vesta.repository.UserRepository;
@@ -12,16 +15,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 import java.util.Random;
 
-import static com.vesta.common.AvatarUtilData.avatarEntityWithUser;
-import static com.vesta.common.UserUtilData.userEntity;
+import static com.vesta.common.AvatarUtilData.*;
+import static com.vesta.common.UserUtilData.*;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 public class AvatarIntegrationTest extends IntegrationConfigTest {
 
@@ -30,6 +39,9 @@ public class AvatarIntegrationTest extends IntegrationConfigTest {
 
     @Autowired
     private AvatarRepository repository;
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @WithMockUser
     @Test
@@ -108,5 +120,32 @@ public class AvatarIntegrationTest extends IntegrationConfigTest {
         InputStream file = new ByteArrayInputStream(b);
 
         return new MockMultipartFile("image", AvatarUtilData.AVATAR_NAME, "multipart/form-data", file);
+    }
+
+    @WithMockUser
+    @Test
+    public void test_GetAllUsersWithAvatars_Success() throws Exception {
+
+        UserEntity userEntity = userRepository.save(userEntityWithoutAvatar());
+        AvatarEntity avatarEntity = repository.save(AvatarUtilData.avatarEntityWithUser(userEntity));
+
+        // when
+        MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.get("/avatar")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andReturn();
+
+        // then
+        List<AvatarView> response = objectMapper.readValue(
+                mvcResult.getResponse().getContentAsString(),
+                new TypeReference<List<AvatarView>>() {
+                });
+
+        assertNotNull(response);
+        assertNotNull(response.get(0));
+        assertThat(response.get(0).getId(), is(avatarEntity.getId()));
+        assertThat(response.get(0).getName(), is(avatarEntity.getName()));
+        assertThat(response.get(0).getAvatar(), is(avatarEntity.getAvatar()));
     }
 }
