@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,7 +30,6 @@ public interface FloorController {
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "Floor not found")
     })
-
     @ResponseBody
     @GetMapping("/{id}")
     FloorView getById(@PathVariable Long id);
@@ -44,6 +44,7 @@ public interface FloorController {
     @ResponseStatus(HttpStatus.CREATED)
     void create(@RequestBody FloorView floorView);
 
+    @PreAuthorize("hasRole('ADMIN')")
     @ApiOperation(value = "Delete floor by ID")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Floor was deleted successfully"),
@@ -52,6 +53,7 @@ public interface FloorController {
     @DeleteMapping("/{id}")
     void delete(@PathVariable("id") Long id);
 
+    @PreAuthorize ("hasRole('ADMIN')")
     @ApiOperation(value = "Modify floor data by ID")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Floor was updates successfully"),
