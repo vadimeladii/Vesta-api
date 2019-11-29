@@ -101,7 +101,6 @@ public interface UserController {
     @PostMapping("reset/forgot/password")
     void resetForgotPassword(@RequestBody UserResetForgotView userResetForgotView);
 
-    @PreAuthorize("hasRole('USER')")
     @ApiOperation(value = "Return current authenticated user")
     @GetMapping(value = "/me")
     @ResponseBody
