@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.vesta.config.security.SecurityConstants.*;
 
@@ -90,6 +92,16 @@ public class TokenServiceImpl implements TokenService {
             }
         }
         return null;
+    }
+
+    private Token buildToken(String username, List<String> roles, Long expirationTime, String secret, String prefix) {
+        String jwt = Jwts.builder()
+                .setPayload(username)
+                .setPayload(String.join(",", roles))
+                .setExpiration(new Date(System.currentTimeMillis() + expirationTime))
+                .signWith(SignatureAlgorithm.HS512, secret)
+                .compact();
+        return new Token(prefix + jwt);
     }
 
     private Token buildToken(String username, Long expirationTime, String secret, String prefix) {

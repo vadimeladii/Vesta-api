@@ -5,6 +5,7 @@ import com.vesta.exception.ConflictException;
 import com.vesta.exception.NotFoundException;
 import com.vesta.exception.UnauthorizedException;
 import com.vesta.repository.UserRepository;
+import com.vesta.repository.entity.RoleEntity;
 import com.vesta.repository.entity.UserEntity;
 import com.vesta.service.EmailService;
 import com.vesta.service.RolesService;
@@ -133,6 +134,8 @@ public class UserServiceImpl implements UserService {
                 () -> new UnauthorizedException("The password doesn't correct"));
 
         Map<String, String> tokens = new HashMap<>();
+//Add roles userEntiry.getRoles
+        List<String> roles = userEntity.getRoles().stream().map(RoleEntity::getName).collect(Collectors.toList());
         tokens.put("accessToken", tokenService.generatedAccessToken(accountCredential.getUsername()).getJwtToken());
         tokens.put("refreshToken", tokenService.generatedRefreshToken(accountCredential.getUsername()).getJwtToken());
         return tokens;
