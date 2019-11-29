@@ -13,6 +13,4 @@ public interface AvatarRepository extends JpaRepository<AvatarEntity, Long> {
 
     @Query("select s from AvatarEntity s where s.userEntity.id = :userId")
     Optional<AvatarEntity> findByUserEntity(Long userId);
-
-    List<AvatarEntity> findAll();
 }

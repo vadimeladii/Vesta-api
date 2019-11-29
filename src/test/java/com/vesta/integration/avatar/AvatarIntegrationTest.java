@@ -126,7 +126,7 @@ public class AvatarIntegrationTest extends IntegrationConfigTest {
     @Test
     public void test_GetAllUsersWithAvatars_Success() throws Exception {
 
-        UserEntity userEntity = userRepository.save(userEntityWithoutAvatar());
+        UserEntity userEntity = userRepository.save(userEntity());
         AvatarEntity avatarEntity = repository.save(AvatarUtilData.avatarEntityWithUser(userEntity));
 
         // when

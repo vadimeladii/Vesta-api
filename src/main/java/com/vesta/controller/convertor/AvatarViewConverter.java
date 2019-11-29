@@ -7,7 +7,6 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
 @Component
-@RequiredArgsConstructor
 public class AvatarViewConverter implements Converter<AvatarDto, AvatarView> {
 
     @Override

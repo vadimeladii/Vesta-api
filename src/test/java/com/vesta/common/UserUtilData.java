@@ -64,11 +64,4 @@ public class UserUtilData {
 
         return accountCredential;
     }
-
-    public static UserEntity userEntityWithoutAvatar() {
-        UserEntity userEntity = new UserEntity();
-        userEntity.setId(USER_ID);
-
-        return userEntity;
-    }
 }
