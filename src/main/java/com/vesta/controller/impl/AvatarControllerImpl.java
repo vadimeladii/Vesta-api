@@ -9,6 +9,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @RestController
 @RequiredArgsConstructor
 public class AvatarControllerImpl implements AvatarController {
@@ -34,5 +37,13 @@ public class AvatarControllerImpl implements AvatarController {
     @Override
     public ResponseEntity getAvatarByUserId(Long userId) {
         return service.getAvatarByUserId(userId);
+    }
+
+    @Override
+    public List<AvatarView> findAll() {
+        return service.findAll()
+                .stream()
+                .map(converter::convert)
+                .collect(Collectors.toList());
     }
 }
