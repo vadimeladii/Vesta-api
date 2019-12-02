@@ -46,12 +46,12 @@ public interface AvatarController {
     @GetMapping("/user/{userId}/avatar")
     ResponseEntity getAvatarByUserId(@PathVariable Long userId);
 
-    @ApiOperation(value = "Get all avatars")
+    @ApiOperation(value = "Return all avatars")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "All users avatars successfully received"),
             @ApiResponse(code = 404, message = "Avatar not found")
     })
+    @ResponseBody
     @GetMapping
-    @ResponseStatus(HttpStatus.OK)
     List<AvatarView> findAll();
 }
