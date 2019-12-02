@@ -14,6 +14,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Map;
 
 @Component
 public class JWTFilter extends OncePerRequestFilter {
@@ -37,6 +38,8 @@ public class JWTFilter extends OncePerRequestFilter {
                     .setAuthentication(converter(userDto));
         }
         filterChain.doFilter(request, response);
+
+        Map<String, String> payload = tokenService.getPayload(request);
     }
 
     private AuthenticationCredential converter(UserDto userDto) {
