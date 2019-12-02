@@ -20,7 +20,6 @@ import java.util.stream.Collectors;
 public class FloorServiceImpl implements FloorService {
 
     private final FloorRepository floorRepository;
-
     private final FloorConverter floorConverter;
 
     @Override
