@@ -9,6 +9,7 @@ import com.vesta.service.dto.SubjectTemplateDto;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -53,5 +54,17 @@ public class SubjectTemplateServiceImpl implements SubjectTemplateService {
                 .stream()
                 .map(converter::convert)
                 .collect(Collectors.toList());
+    }
+
+    @Transactional
+    @Override
+    public SubjectTemplateDto update(Long id, SubjectTemplateDto subjectTemplateDto) {
+        SubjectTemplateEntity subjectTemplateEntity = subjectTemplateRepository.findById(id).orElseThrow(() ->
+        new NotFoundException("The image doesn't exist"));
+
+        subjectTemplateEntity.setId(subjectTemplateDto.getId());
+        subjectTemplateEntity.setImage(subjectTemplateDto.getImage());
+
+        return converter.convert(subjectTemplateRepository.save(subjectTemplateEntity));
     }
 }

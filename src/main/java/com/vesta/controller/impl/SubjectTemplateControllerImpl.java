@@ -40,4 +40,9 @@ public class SubjectTemplateControllerImpl implements SubjectTemplateController 
                 .map(converter::convert)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public SubjectTemplateView update(Long id, SubjectTemplateView subjectTemplateView) {
+        return converter.convert(subjectTemplateService.update(id, converter.deconvert(subjectTemplateView)));
+    }
 }

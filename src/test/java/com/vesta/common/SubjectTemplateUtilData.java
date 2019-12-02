@@ -1,5 +1,6 @@
 package com.vesta.common;
 
+import com.vesta.controller.view.SubjectTemplateView;
 import com.vesta.repository.entity.SubjectTemplateEntity;
 import org.apache.commons.lang3.RandomStringUtils;
 
@@ -14,5 +15,14 @@ public class SubjectTemplateUtilData {
         subjectTemplateEntity.setImage(SUBJECT_IMAGE);
 
         return subjectTemplateEntity;
+    }
+
+    public static SubjectTemplateView subjectTemplateView(){
+        SubjectTemplateView subjectTemplateView = new SubjectTemplateView();
+
+        subjectTemplateView.setId(SUBJECT_IMAGE_ID);
+        subjectTemplateView.setImage(SUBJECT_IMAGE);
+
+        return subjectTemplateView;
     }
 }

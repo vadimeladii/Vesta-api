@@ -14,7 +14,4 @@ public class SubjectUpdateView implements Serializable {
     private Float scale;
     private Float rotation;
     private String additional;
-
 }
-
-

@@ -42,4 +42,12 @@ public interface SubjectTemplateController {
     })
     @DeleteMapping("/{id}")
     void delete(@PathVariable("id") Long id);
+
+    @ApiOperation(value = "Modify the image by ID")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Image was updated successfully"),
+            @ApiResponse(code = 404, message = "Image not found")
+    })
+    @PutMapping("/{id}")
+    SubjectTemplateView update(@PathVariable("id") Long id, @RequestBody SubjectTemplateView subjectTemplateView);
 }
