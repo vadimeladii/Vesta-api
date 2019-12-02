@@ -10,6 +10,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,6 +30,7 @@ public interface UserController {
     @GetMapping("/{id}")
     UserView getById(@PathVariable Long id);
 
+    @PreAuthorize("hasRole('ADMIN')")
     @ApiOperation(value = "Returns all users in the database")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Get all users has succeeded"),
@@ -65,6 +67,7 @@ public interface UserController {
     @ResponseStatus(HttpStatus.CREATED)
     void create(@RequestBody UserCreateView userCreateView);
 
+    @PreAuthorize("hasRole('ADMIN')")
     @ApiOperation(value = "Delete user by ID")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "User was deleted successfully"),

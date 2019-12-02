@@ -7,7 +7,6 @@ import java.util.List;
 
 @Data
 public class CompanyView implements Serializable {
-
     private static final long serialVersionUID = -5440952051091845682L;
 
     private Long id;
