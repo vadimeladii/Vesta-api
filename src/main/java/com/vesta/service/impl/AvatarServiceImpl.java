@@ -90,7 +90,6 @@ public class AvatarServiceImpl implements AvatarService {
     }
 
     @Override
-    @Transactional(readOnly = true)
     public List<AvatarDto> findAll() {
         log.debug("Request to get all Avatars");
         return repository.findAll()
