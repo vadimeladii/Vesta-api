@@ -55,7 +55,6 @@ public class CompanyServiceImpl implements CompanyService {
 
         verify(companyRepository.existsByName(companyDto.getName()),
                 () -> new ConflictException("Name already exists"));
-
         CompanyEntity dbCompany = companyRepository.save(companyConverter.deconvert(companyDto));
 
         List<FloorEntity> floorEntities = companyDto
@@ -65,6 +64,17 @@ public class CompanyServiceImpl implements CompanyService {
                 .map(floorConverter::deconvert)
                 .collect(Collectors.toList());
         floorRepository.saveAll(floorEntities);
+    }
+
+    @Override
+    public CompanyDto update (Long id, CompanyDto companyDto) {
+        log.info("method --- update");
+        CompanyEntity companyEntity = companyRepository.findById(id).orElseThrow(() ->
+                new NotFoundException("Company not found"));
+
+        companyEntity.setName(companyDto.getName());
+
+        return companyConverter.convert(companyRepository.save(companyEntity));
     }
 
     @Override
@@ -80,7 +90,8 @@ public class CompanyServiceImpl implements CompanyService {
     @Override
     @Transactional
     public void delete(Long id) {
-        CompanyEntity companyEntity = companyRepository.findById(id).orElseThrow(() -> new NotFoundException("The company not found"));
+        CompanyEntity companyEntity = companyRepository.findById(id).orElseThrow(()
+                -> new NotFoundException("The company not found"));
         List<Long> ids = companyEntity.getFloors().stream().map(FloorEntity::getId).collect(Collectors.toList());
         floorRepository.deleteByIds(ids);
         companyRepository.deleteById(companyEntity.getId());

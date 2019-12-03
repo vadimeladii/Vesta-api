@@ -1,12 +1,12 @@
 package com.vesta.controller;
 
-import com.vesta.controller.view.SubjectUpdateView;
 import com.vesta.controller.view.SubjectView;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -50,6 +50,7 @@ public interface SubjectController {
     @GetMapping("/floor/{floorId}")
     List<SubjectView> getByFloorId(@PathVariable Long floorId);
 
+    @PreAuthorize("hasRole('ADMIN')")
     @ApiOperation(value = "Returns the all subjects")
     @GetMapping
     List<SubjectView> getAll();

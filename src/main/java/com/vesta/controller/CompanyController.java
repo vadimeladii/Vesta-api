@@ -1,11 +1,13 @@
 package com.vesta.controller;
 
+import com.vesta.controller.view.CompanyUpdateView;
 import com.vesta.controller.view.CompanyView;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -39,9 +41,11 @@ public interface CompanyController {
     @ResponseStatus(HttpStatus.CREATED)
     void create(@RequestBody CompanyView companyView);
 
+    @PreAuthorize("hasRole('ADMIN')")
     @ApiOperation(value = "Delete company by ID")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Company was deleted successfully"),
+            @ApiResponse(code = 404, message = "Company not found")
     })
     @DeleteMapping("/{id}")
     void delete(@PathVariable("id") Long id);
@@ -51,6 +55,15 @@ public interface CompanyController {
             @ApiResponse(code = 200, message = "Get company by name has succeeded"),
             @ApiResponse(code = 404, message = "Company not found")
     })
-    @GetMapping("/name/{name}")
+    @GetMapping("/{name}")
     CompanyView findByName(@PathVariable("name") String name);
+
+    @ApiOperation(value = "Modify company by ID")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Modified successfully"),
+            @ApiResponse(code = 404, message = "Company not found"),
+            @ApiResponse(code = 500, message = "Server error")
+    })
+    @PutMapping("/{id}")
+    CompanyView update(@PathVariable Long id, @RequestBody CompanyUpdateView companyView);
 }

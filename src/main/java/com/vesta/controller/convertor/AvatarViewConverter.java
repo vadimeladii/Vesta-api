@@ -15,7 +15,6 @@ public class AvatarViewConverter implements Converter<AvatarDto, AvatarView> {
         view.setId(dto.getId());
         view.setAvatar(dto.getAvatar());
         view.setName(dto.getName());
-
         return view;
     }
 }
