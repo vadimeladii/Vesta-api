@@ -4,6 +4,7 @@ import com.vesta.common.RoleUtilData;
 import com.vesta.repository.RoleRepository;
 import com.vesta.repository.entity.RoleEntity;
 import com.vesta.service.RolesService;
+import com.vesta.service.converter.RoleConverter;
 import com.vesta.service.impl.RolesServiceImpl;
 import org.junit.Before;
 import org.junit.Test;
@@ -29,9 +30,12 @@ public class RoleServiceTest {
     @Mock
     private RoleRepository roleRepository;
 
+    @Mock
+    private RoleConverter roleConverter;
+
     @Before
     public void setUp() {
-        rolesService = new RolesServiceImpl(roleRepository);
+        rolesService = new RolesServiceImpl(roleRepository, roleConverter);
     }
 
     @Test

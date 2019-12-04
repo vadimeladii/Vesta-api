@@ -3,8 +3,10 @@ package com.vesta.service.converter;
 import com.vesta.repository.entity.RoleEntity;
 import com.vesta.service.dto.RoleDto;
 import org.springframework.core.convert.converter.Converter;
+import org.springframework.stereotype.Component;
 
 //used for authentification process
+@Component
 public class RoleConverter implements Converter<RoleEntity, RoleDto> {
     @Override
     public RoleDto convert(RoleEntity entity) {

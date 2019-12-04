@@ -1,11 +1,13 @@
 package com.vesta.service;
 
 import com.vesta.controller.view.Token;
+import com.vesta.repository.entity.RoleEntity;
 import com.vesta.service.dto.AccountCredential;
 import com.vesta.service.dto.UserDto;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Valid;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -31,4 +33,6 @@ public interface UserService {
     Token refreshToken(String refreshToken);
 
     void forgotPasswordMail(String email);
+
+    List<String> convertRolesToString(List<RoleEntity> roles);
 }

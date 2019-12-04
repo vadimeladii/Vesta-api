@@ -20,9 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.vesta.expression.ExpressionAsserts.verify;
@@ -134,10 +132,12 @@ public class UserServiceImpl implements UserService {
                 () -> new UnauthorizedException("The password doesn't correct"));
 
         Map<String, String> tokens = new HashMap<>();
-//Add roles userEntiry.getRoles
+//Add roles userEntity.getRoles
         List<String> roles = userEntity.getRoles().stream().map(RoleEntity::getName).collect(Collectors.toList());
-        tokens.put("accessToken", tokenService.generatedAccessToken(accountCredential.getUsername()).getJwtToken());
-        tokens.put("refreshToken", tokenService.generatedRefreshToken(accountCredential.getUsername()).getJwtToken());
+        tokens.put("accessToken", tokenService.generatePayloadAccessToken(accountCredential.getUsername(),
+                convertRolesToString((List<RoleEntity>) userEntity.getRoles())).getJwtToken());
+        tokens.put("refreshToken", tokenService.generatePayloadRefreshToken(accountCredential.getUsername(),
+                convertRolesToString((List<RoleEntity>) userEntity.getRoles())).getJwtToken());
         return tokens;
     }
 
@@ -146,5 +146,14 @@ public class UserServiceImpl implements UserService {
         log.info("method --- refreshToken");
 
         return tokenService.generatedAccessToken(tokenService.getRefreshSubject(refreshToken));
+    }
+
+    @Override
+    public List<String> convertRolesToString(List<RoleEntity> roles) {
+        List<String> rolesAsStrings = new ArrayList<>();
+        for(int i = 0; i < roles.size(); i++)
+            rolesAsStrings.add(roles.get(i).getName());
+
+        return rolesAsStrings;
     }
 }

@@ -6,17 +6,19 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @AllArgsConstructor
 public class AuthenticationCredential implements Authentication {
 
-    private UserDto dto;
+    private String username;
+    private List<String> roles;
     private boolean isAuthenticated;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return dto.getRoles()
+        return roles
                 .stream()
                 .map(role -> new SimpleGrantedAuthority("ROLE_".concat(role)))
                 .collect(Collectors.toList());
@@ -29,13 +31,11 @@ public class AuthenticationCredential implements Authentication {
 
     @Override
     public Object getDetails() {
-        return this.dto;
+        return this.username;
     }
 
     @Override
-    public Object getPrincipal() {
-        return this.dto;
-    }
+    public Object getPrincipal() { return this.username; }
 
     @Override
     public boolean isAuthenticated() {
@@ -49,6 +49,6 @@ public class AuthenticationCredential implements Authentication {
 
     @Override
     public String getName() {
-        return this.dto.getUsername();
+        return this.username;
     }
 }

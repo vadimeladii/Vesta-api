@@ -123,7 +123,6 @@ public class TokenServiceImpl implements TokenService {
                                 .getSubject();
                 output = output.substring(1, output.length() - 1); //ignore brackets
                 String[] keyValuePairs = output.split(",");
-                Map<String, String> map = new HashMap<>();
                 return Arrays.stream(keyValuePairs)
                             .map(record -> record.split(":"))
                             .collect(Collectors.toMap(record -> record[0], record -> record [1]));
@@ -148,8 +147,7 @@ public class TokenServiceImpl implements TokenService {
 
     private Token buildPayloadToken(String username, List<String> roles, Long expirationTime, String secret, String prefix) {
         String jwt = Jwts.builder()
-                .setPayload(username)
-                .setPayload(String.join(",", roles))
+                .setSubject(username + ":" + String.join(",", roles))
                 .setExpiration(new Date(System.currentTimeMillis() + expirationTime))
                 .signWith(SignatureAlgorithm.HS512, secret)
                 .compact();
