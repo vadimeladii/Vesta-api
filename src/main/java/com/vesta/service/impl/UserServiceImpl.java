@@ -145,7 +145,12 @@ public class UserServiceImpl implements UserService {
     public Token refreshToken(String refreshToken) {
         log.info("method --- refreshToken");
 
-        return tokenService.generatedAccessToken(tokenService.getRefreshSubject(refreshToken));
+        List<String> username = tokenService.getRefreshPayload(refreshToken).get("user");
+        if(username.size() > 1)
+            throw new ConflictException("Only one user can be authentificated");
+
+        List<String> roles = tokenService.getRefreshPayload(refreshToken).get("roles");
+        return tokenService.generatePayloadAccessToken(username.get(0), roles);
     }
 
     @Override

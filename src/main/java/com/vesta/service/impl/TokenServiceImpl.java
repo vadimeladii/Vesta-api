@@ -40,6 +40,13 @@ public class TokenServiceImpl implements TokenService {
 
         return buildToken(username, refreshExpiration, REFRESH_SECRET, TOKEN_PREFIX);
     }
+
+    @Override
+    public Token generatedEmailToken(String username) {
+        log.info("method --- generatedEmailToken");
+
+        return buildToken(username, emailExpiration, EMAIL_SECRET, "");
+    }
     //////////////////////////////////////////////////
 
     //-------------------------- my methods ---------------------------------------
@@ -56,14 +63,14 @@ public class TokenServiceImpl implements TokenService {
 
         return buildPayloadToken(username, roles, refreshExpiration, REFRESH_SECRET, TOKEN_PREFIX);
     }
-    //-----------------------------------------------------------------------------
 
     @Override
-    public Token generatedEmailToken(String username) {
-        log.info("method --- generatedEmailToken");
+    public Token generatePayloadEmailToken(String username, List<String> roles) {
+        log.info("method --- generatePayloadEmailToken");
 
-        return buildToken(username, emailExpiration, EMAIL_SECRET, "");
+        return buildPayloadToken(username, roles, emailExpiration, EMAIL_SECRET, "");
     }
+    //-----------------------------------------------------------------------------
 
     //standard token getter///////////////////////////////////////////////////
     @Override
@@ -89,21 +96,21 @@ public class TokenServiceImpl implements TokenService {
     //-------------------- my methods --------------------------------------
 
     @Override
-    public Map<String, String> getPayload(HttpServletRequest request) {
+    public Map<String, List<String>> getPayload(HttpServletRequest request) {
         String token = request.getHeader(TOKEN_HEADER);
 
         return buildPayload(token, JWT_SECRET);
     }
 
     @Override
-    public Map<String, String> getPayload(String token) {
+    public Map<String, List<String>> getPayload(String token) {
         log.info("method --- getPayload");
 
         return buildPayload(token, EMAIL_SECRET);
     }
 
     @Override
-    public Map<String, String> getRefreshPayload (String token) {
+    public Map<String, List<String>> getRefreshPayload (String token) {
         log.info("method --- getRefreshPayload");
 
         return buildPayload(token, REFRESH_SECRET);
@@ -112,47 +119,39 @@ public class TokenServiceImpl implements TokenService {
     ////////////////////////////////////////////////////////////////
 
     //possible working prototype for creation of payload for token. Check how we can decode it.
-    private Map<String, String> buildPayload(String token, String secret) {
+    private Map<String, List<String>> buildPayload(String token, String secret) {
         //if there is any token to check from
         if(token != null) {
             try{
-                String output = Jwts.parser()
+                String[] output = Jwts.parser()
                                 .setSigningKey(secret)
                                 .parseClaimsJws(token.replace(TOKEN_PREFIX, ""))
                                 .getBody()
-                                .getSubject();
-                output = output.substring(1, output.length() - 1); //ignore brackets
-                String[] keyValuePairs = output.split(",");
-                return Arrays.stream(keyValuePairs)
-                            .map(record -> record.split(":"))
-                            .collect(Collectors.toMap(record -> record[0], record -> record [1]));
-            } catch (SignatureException e) {
+                                .getSubject()
+                                .split(":");
+
+                Map<String, List<String>> credentials = new HashMap<String, List<String>>();
+                credentials.put("user", Arrays.asList(output[0]));
+                credentials.put("roles", Arrays.asList(output[1].split(",")));
+                return credentials;
+            }
+            catch (SignatureException e) {
                 log.error("signature exception" + e);
-
-            } catch (MalformedJwtException e) {
+            }
+            catch (MalformedJwtException e) {
                 log.error("token malformed" + e);
-
-            } catch (ExpiredJwtException e) {
+            }
+            catch (ExpiredJwtException e) {
                 log.error("token expired" + e);
-
-            } catch (UnsupportedJwtException e) {
+            }
+            catch (UnsupportedJwtException e) {
                 log.error("unsupported" + e);
-
-            } catch (IllegalArgumentException e) {
+            }
+            catch (IllegalArgumentException e) {
                 log.error("Illegal" + e);
             }
         }
         return null;
-    }
-
-    private Token buildPayloadToken(String username, List<String> roles, Long expirationTime, String secret, String prefix) {
-        String jwt = Jwts.builder()
-                .setSubject(username + ":" + String.join(",", roles))
-                .setExpiration(new Date(System.currentTimeMillis() + expirationTime))
-                .signWith(SignatureAlgorithm.HS512, secret)
-                .compact();
-
-        return new Token(prefix + jwt);
     }
 
     private String buildSubject(String token, String secret) {
@@ -163,23 +162,38 @@ public class TokenServiceImpl implements TokenService {
                         .parseClaimsJws(token.replace(TOKEN_PREFIX, ""))
                         .getBody()
                         .getSubject();
-            } catch (SignatureException e) {
+            }
+            catch (SignatureException e) {
                 log.error("signature exception" + e);
-
-            } catch (MalformedJwtException e) {
+            }
+            catch (MalformedJwtException e) {
                 log.error("token malformed" + e);
-
-            } catch (ExpiredJwtException e) {
+            }
+            catch (ExpiredJwtException e) {
                 log.error("token expired" + e);
-
-            } catch (UnsupportedJwtException e) {
+            }
+            catch (UnsupportedJwtException e) {
                 log.error("unsupported" + e);
-
-            } catch (IllegalArgumentException e) {
+            }
+            catch (IllegalArgumentException e) {
                 log.error("Illegal" + e);
             }
         }
         return null;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    // building tokens
+
+    private Token buildPayloadToken(String username, List<String> roles, Long expirationTime, String secret, String prefix) {
+        String jwt = Jwts.builder()
+                .setSubject(username + ":" + String.join(",", roles))
+                .setExpiration(new Date(System.currentTimeMillis() + expirationTime))
+                .signWith(SignatureAlgorithm.HS512, secret)
+                .compact();
+
+        return new Token(prefix + jwt);
     }
 
     private Token buildToken(String username, Long expirationTime, String secret, String prefix) {

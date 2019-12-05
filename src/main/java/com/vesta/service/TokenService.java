@@ -20,13 +20,17 @@ public interface TokenService {
 
     String getSubject(String token);
 
-    Map<String, String> getPayload(HttpServletRequest request);
+    // methods for payload. After delete of previous version, their names will be changed
 
-    Map<String, String> getPayload(String token);
+    Map<String, List<String>> getPayload(HttpServletRequest request);
 
-    Map<String, String> getRefreshPayload(String token);
+    Map<String, List<String>> getPayload(String token);
+
+    Map<String, List<String>> getRefreshPayload(String token);
 
     Token generatePayloadAccessToken(String username, List<String> roles);
 
     Token generatePayloadRefreshToken(String username, List<String> roles);
+
+    Token generatePayloadEmailToken(String username, List<String> roles);
 }
