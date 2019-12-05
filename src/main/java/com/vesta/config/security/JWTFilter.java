@@ -1,5 +1,6 @@
 package com.vesta.config.security;
 
+import com.vesta.exception.ConflictException;
 import com.vesta.service.dto.AuthenticationCredential;
 import com.vesta.service.impl.TokenServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 @Component
 public class JWTFilter extends OncePerRequestFilter {
@@ -24,12 +26,14 @@ public class JWTFilter extends OncePerRequestFilter {
     public void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws IOException, ServletException {
 
-        String subject = tokenService.getSubject(request);
+        Map<String, List<String>> subject = tokenService.getPayload(request);
 
         if (subject != null) {
-            String[] lines = subject.split(":");
-            String username = lines[0];
-            String[] roles = lines[1].split(",");
+            if(subject.get("user").size() > 1)
+                throw new ConflictException("There can't be more than one user");
+
+            String username = subject.get("user").get(0);
+            List<String> roles = subject.get("roles");
 
             SecurityContextHolder
                     .getContext()
@@ -38,11 +42,11 @@ public class JWTFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
-    private AuthenticationCredential converter(String username, String[] roles) {
+    private AuthenticationCredential converter(String username, List<String> roles) {
         if (username == null)
             return null;
         if (roles == null)
             return null;
-        return new AuthenticationCredential(username, Arrays.asList(roles), true);
+        return new AuthenticationCredential(username, roles, true);
     }
 }

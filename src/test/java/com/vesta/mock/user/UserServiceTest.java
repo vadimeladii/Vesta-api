@@ -8,6 +8,7 @@ import com.vesta.exception.NotFoundException;
 import com.vesta.exception.UnauthorizedException;
 import com.vesta.exception.VestaException;
 import com.vesta.repository.UserRepository;
+import com.vesta.repository.entity.RoleEntity;
 import com.vesta.repository.entity.UserEntity;
 import com.vesta.service.EmailService;
 import com.vesta.service.RolesService;
@@ -29,6 +30,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -242,15 +244,16 @@ public class UserServiceTest {
         var refreshToken = RandomStringUtils.randomAlphabetic(10);
         AccountCredential accountCredential = UserUtilData.accountCredential();
         UserEntity userEntity = UserUtilData.userEntity(passwordEncoder.encode(UserUtilData.USER_PASSWORD));
+        List<String> roles = convertRolesToString((List<RoleEntity>) userEntity.getRoles());
 
         // when
         Mockito.when(userRepository.findByUsername(accountCredential.getUsername()))
                 .thenReturn(Optional.of(userEntity));
 
-        Mockito.when(tokenService.generatedAccessToken(accountCredential.getUsername()))
+        Mockito.when(tokenService.generatePayloadAccessToken(accountCredential.getUsername(), roles))
                 .thenReturn(new Token(accessToken));
 
-        Mockito.when(tokenService.generatedRefreshToken(accountCredential.getUsername()))
+        Mockito.when(tokenService.generatePayloadRefreshToken(accountCredential.getUsername(), roles))
                 .thenReturn(new Token(refreshToken));
 
         // then
@@ -266,20 +269,29 @@ public class UserServiceTest {
         var refreshToken = RandomStringUtils.randomAlphabetic(10);
         AccountCredential accountCredential = UserUtilData.accountCredential();
         UserEntity userEntity = UserUtilData.userEntity(passwordEncoder.encode(UserUtilData.USER_PASSWORD));
+        List<String> roles = convertRolesToString((List<RoleEntity>) userEntity.getRoles());
 
         // when
         Mockito.when(userRepository.findByUsername(accountCredential.getUsername()))
                 .thenReturn(Optional.of(userEntity));
 
-        Mockito.when(tokenService.generatedAccessToken(accountCredential.getUsername()))
+        Mockito.when(tokenService.generatePayloadAccessToken(accountCredential.getUsername(), roles))
                 .thenReturn(new Token(accessToken));
 
-        Mockito.when(tokenService.generatedRefreshToken(accountCredential.getUsername()))
+        Mockito.when(tokenService.generatePayloadRefreshToken(accountCredential.getUsername(), roles))
                 .thenReturn(new Token(refreshToken));
 
         // then
         Map<String, String> login = userService.login(accountCredential);
         assertEquals(login.get("accessToken"), accessToken);
         assertEquals(login.get("refreshToken"), refreshToken);
+    }
+
+    public List<String> convertRolesToString(List<RoleEntity> roles) {
+        List<String> rolesAsStrings = new ArrayList<>();
+        for(int i = 0; i < roles.size(); i++)
+            rolesAsStrings.add(roles.get(i).getName());
+
+        return rolesAsStrings;
     }
 }

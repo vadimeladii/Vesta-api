@@ -96,8 +96,11 @@ public class UserServiceImpl implements UserService {
     public void resetForgotPassword(String token, String password) {
         log.info("method --- resetForgotPassword");
 
-        String subject = tokenService.getSubject(token);
-        UserEntity userEntity = userRepository.findByUsername(subject)
+        List<String> username = tokenService.getPayload(token).get("user");
+        if(username.size() > 1)
+            throw new ConflictException("Only one user can make request");
+
+        UserEntity userEntity = userRepository.findByUsername(username.get(0))
                 .orElseThrow(() -> new UnauthorizedException("The username not found"));
 
         verify(passwordEncoder.matches(password, userEntity.getPassword()),
@@ -132,8 +135,7 @@ public class UserServiceImpl implements UserService {
                 () -> new UnauthorizedException("The password doesn't correct"));
 
         Map<String, String> tokens = new HashMap<>();
-//Add roles userEntity.getRoles
-        List<String> roles = userEntity.getRoles().stream().map(RoleEntity::getName).collect(Collectors.toList());
+
         tokens.put("accessToken", tokenService.generatePayloadAccessToken(accountCredential.getUsername(),
                 convertRolesToString((List<RoleEntity>) userEntity.getRoles())).getJwtToken());
         tokens.put("refreshToken", tokenService.generatePayloadRefreshToken(accountCredential.getUsername(),

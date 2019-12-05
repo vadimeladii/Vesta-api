@@ -7,21 +7,6 @@ import java.util.List;
 import java.util.Map;
 
 public interface TokenService {
-
-    Token generatedAccessToken(String username);
-
-    String getSubject(HttpServletRequest request);
-
-    Token generatedRefreshToken(String username);
-
-    String getRefreshSubject(String token);
-
-    Token generatedEmailToken(String username);
-
-    String getSubject(String token);
-
-    // methods for payload. After delete of previous version, their names will be changed
-
     Map<String, List<String>> getPayload(HttpServletRequest request);
 
     Map<String, List<String>> getPayload(String token);
@@ -33,4 +18,6 @@ public interface TokenService {
     Token generatePayloadRefreshToken(String username, List<String> roles);
 
     Token generatePayloadEmailToken(String username, List<String> roles);
+
+    Token generateEmailToken(String username);
 }
