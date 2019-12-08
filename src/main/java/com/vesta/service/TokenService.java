@@ -13,11 +13,9 @@ public interface TokenService {
 
     Map<String, List<String>> getRefreshPayload(String token);
 
-    Token generatePayloadAccessToken(String username, List<String> roles);
+    Token generateAccessToken(String username, List<String> roles);
 
-    Token generatePayloadRefreshToken(String username, List<String> roles);
-
-    Token generatePayloadEmailToken(String username, List<String> roles);
-
+    Token generateRefreshToken(String username, List<String> roles);
+    
     Token generateEmailToken(String username);
 }

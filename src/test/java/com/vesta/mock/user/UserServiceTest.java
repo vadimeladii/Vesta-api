@@ -250,10 +250,10 @@ public class UserServiceTest {
         Mockito.when(userRepository.findByUsername(accountCredential.getUsername()))
                 .thenReturn(Optional.of(userEntity));
 
-        Mockito.when(tokenService.generatePayloadAccessToken(accountCredential.getUsername(), roles))
+        Mockito.when(tokenService.generateAccessToken(accountCredential.getUsername(), roles))
                 .thenReturn(new Token(accessToken));
 
-        Mockito.when(tokenService.generatePayloadRefreshToken(accountCredential.getUsername(), roles))
+        Mockito.when(tokenService.generateRefreshToken(accountCredential.getUsername(), roles))
                 .thenReturn(new Token(refreshToken));
 
         // then
@@ -275,10 +275,10 @@ public class UserServiceTest {
         Mockito.when(userRepository.findByUsername(accountCredential.getUsername()))
                 .thenReturn(Optional.of(userEntity));
 
-        Mockito.when(tokenService.generatePayloadAccessToken(accountCredential.getUsername(), roles))
+        Mockito.when(tokenService.generateAccessToken(accountCredential.getUsername(), roles))
                 .thenReturn(new Token(accessToken));
 
-        Mockito.when(tokenService.generatePayloadRefreshToken(accountCredential.getUsername(), roles))
+        Mockito.when(tokenService.generateRefreshToken(accountCredential.getUsername(), roles))
                 .thenReturn(new Token(refreshToken));
 
         // then

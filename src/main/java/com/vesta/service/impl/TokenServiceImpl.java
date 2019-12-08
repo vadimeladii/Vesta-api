@@ -27,24 +27,17 @@ public class TokenServiceImpl implements TokenService {
 
     //-------------------------- my methods ---------------------------------------
     @Override
-    public Token generatePayloadAccessToken(String username, List<String> roles) {
+    public Token generateAccessToken(String username, List<String> roles) {
         log.info("method --- generatePayloadAccessToken");
 
         return buildPayloadToken(username, roles, accessExpiration, JWT_SECRET, TOKEN_PREFIX);
     }
 
     @Override
-    public Token generatePayloadRefreshToken(String username, List<String> roles) {
+    public Token generateRefreshToken(String username, List<String> roles) {
         log.info("method --- generatePayloadRefreshToken");
 
         return buildPayloadToken(username, roles, refreshExpiration, REFRESH_SECRET, TOKEN_PREFIX);
-    }
-
-    @Override
-    public Token generatePayloadEmailToken(String username, List<String> roles) {
-        log.info("method --- generatePayloadEmailToken");
-
-        return buildPayloadToken(username, roles, emailExpiration, EMAIL_SECRET, "");
     }
 
     @Override

@@ -136,9 +136,9 @@ public class UserServiceImpl implements UserService {
 
         Map<String, String> tokens = new HashMap<>();
 
-        tokens.put("accessToken", tokenService.generatePayloadAccessToken(accountCredential.getUsername(),
+        tokens.put("accessToken", tokenService.generateAccessToken(accountCredential.getUsername(),
                 convertRolesToString((List<RoleEntity>) userEntity.getRoles())).getJwtToken());
-        tokens.put("refreshToken", tokenService.generatePayloadRefreshToken(accountCredential.getUsername(),
+        tokens.put("refreshToken", tokenService.generateRefreshToken(accountCredential.getUsername(),
                 convertRolesToString((List<RoleEntity>) userEntity.getRoles())).getJwtToken());
         return tokens;
     }
@@ -152,7 +152,7 @@ public class UserServiceImpl implements UserService {
             throw new ConflictException("Only one user can be authentificated");
 
         List<String> roles = tokenService.getRefreshPayload(refreshToken).get("roles");
-        return tokenService.generatePayloadAccessToken(username.get(0), roles);
+        return tokenService.generateAccessToken(username.get(0), roles);
     }
 
     @Override
