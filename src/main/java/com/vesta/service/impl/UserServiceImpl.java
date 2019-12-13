@@ -142,6 +142,11 @@ public class UserServiceImpl implements UserService {
     public Token refreshToken(String refreshToken) {
         log.info("method --- refreshToken");
 
+        String username = tokenService.getRefreshSubject(refreshToken);
+
+        verify(!userRepository.existsByUsername(username),
+                () -> new ConflictException("The username doesn't exist"));
+
         return tokenService.generatedAccessToken(tokenService.getRefreshSubject(refreshToken));
     }
 }
